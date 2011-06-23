@@ -1,0 +1,106 @@
+Hello Opa
+---------
+
+What is Opa?
+~~~~~~~~~~~~
+
+Quoting the http://opalang.org/resources/book/index.html[manual of Opa]:
+
+_Opa is a new generation of web development platform. It is a new programming language,
+a new web server, a new database and a new distributed execution engine, all of them
+tightly integrated to provide a great experience for web developers._
+
+Opa just became http://opalang.org[open source]. It offers unmatched security
+(_no more security nightmares!_). It's fully distributed (_no more scalability nightmares!_).
+And if offers everything you need for developing rich web application in one uniform package
+(_no more glue! no more mismatched technologies nightmares!_).
+
+Why do we need yet another language?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Glad you asked! If I were to say what is the biggest problem of the web development today
+I would answer without much thinking: a *bunch of technologies piled on top of one another*
+(programming language, web server, database, web framework, ...), that you need to harness
+to work together (sometimes against their will). That generates all sorts of problems:
+
+* Communication between those technologies creates all sorts of *security vulnerabilities*
+  (think: XSS, SQL injections).
+* *Configuring* all of them to work together can easily become a full time job (and not much
+  fun either).
+* Achieving *scalability* is difficult, as it involves scaling all of those components and
+  making sure that nothing breaks along the way.
+* Finally, forget about *flexibility*: if you want to move some code from server to client
+  (or vice versa) or from memory to database, you have to cross technology boundaries and,
+  typically, re-write your code.
+
+I could go on enumerating the problems but instead I'll point you to an excellent
+http://dutherenverseauborddelatable.wordpress.com/2011/04/18/rant-web-development-is-just-broken[post]
+by my colleague, http://dutherenverseauborddelatable.wordpress.com/[David Rajchenbach-Teller],
+who nicely presents this issue in more depth.
+
+How is Opa going to help solve these problems?
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+For one, Opa was designed from the ground up with web development in mind. And it shows.
+http://mlstate.com[MLstate], the creators of Opa (and the company I work for), invested a lot of
+time & effort to leverage the research in many different areas of computer science, to create a new,
+unique language that would be well suited for the web. Mind you though, that it's not yet another
+academical toy language that will never make it out of the small circle of university enthusiast
+-- Opa is designed by an industrial company for the industry and we hope it will make lives of many
+web developers easier.
+
+Secondly, Opa tries to address the technology mismatch mentioned above, by offering a comprehensive
+solution. A typical (non-trival) web project would involve:
+
+* server-side code (in YourFavoriteLanguage);
+* client-side code (typically, JavaScript);
+* database code (typically, SQL);
+* glue code between those components;
+* configuration of the database, http server, etc.
+
+Opa offers you all of the above components under the umbrella of a single technology. This means that:
+
+* if a project is developed in Opa, you get for free: distribution, client-side code, database management,
+  all the glue in-between, etc.;
+* all the components are tightly coupled and will understand each other (even without your help :);
+* no more sleepless nights after realizing that version X of component A works great with version Y of
+  component B, but has some problems with version Z of components C...;
+* this comprehensive approach means that many things now become feasible, such as:
+  - automated security analysis;
+  - various optimizations;
+  - various transformations (for instance to ensure cross-browser compatibility).
+
+Hmm, I'm still skeptical.
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you are like me, then reading all this praise for Opa probably made you skeptical -- after all, if
+it's such a wonderful language why no one has ever heard about it? Well, the answer to that question
+is quite simple: it's a very new language that has just been released and will take some time to catch
+on and become popular.
+
+But I fully understand your skepticism; after all I'm one of the creators of Opa, so quite naturally
+I'm biased. But I'm not asking you to take my word on any of it. By all means, try it out and see for
+yourself! Where? How?
+
+* The first place to start your journey with Opa would be its http://opalang.org[official homepage]
+  -- you can download Opa there, see many examples, tutorials, the user manual etc;
+* Need help? Try our irc://irc.freenode.net/#opalang[IRC support channel] (+#opalang+ channel on
+  +irc.freenode.net+). You can also send us an email to mailto:support@opalang.org[support@opalang.org] or
+  leave a message on our http://www.facebook.com/pages/Opalang/196987260339043[Facebook wall];
+
+Finally, I will try to post regularly on this blog with tutorial-style posts introducing different
+features of Opa. I will try to keep the posts practical, with each one of them introducing a certain
+feature and/or answering a certain ``How to ...'' question. I'll try to post regularly (2-3 posts
+per week?).
+
+I'm also currently working on https://github.com/MLstate/Twopenny[twopenny] -
+a micro-blogging site written in Opa - and once it's finished, I'm planning a series of posts with a
+walk-through of the development process. So if you want to learn more about Opa and help you get
+started you may want to follow this blog.
+
+'''
+{nbsp}
+
+My name is Adam Koprowski and I'm an addict. I'm addicted to Opa. I cannot use any other technology
+for writing web-apps. Now you may try it too. It's free. It's easily available. But beware: it is
+highly addictive. *You've been warned*.

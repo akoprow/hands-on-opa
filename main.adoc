@@ -1,0 +1,20 @@
+Hands-on experience with Opa
+============================
+:author:Adam Koprowski <Adam.Koprowski@mlstate.com>:
+:toc:
+:toclevels: 1
+
+include::hello_opa.adoc[]
+// include::first_steps.adoc[]
+
+Pending posts
+-------------
+* Opa records
+* URL dispatching
+* Embedding resources
+* Parsing
+* Interactivity
+* Internationalization
+* Sessions: the core of Opa's communication
+* Dates (+ Date printing/parsing?)
+* Opa widgets: Date printer
