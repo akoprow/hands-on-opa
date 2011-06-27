@@ -1,0 +1,20 @@
+#!/bin/bash
+
+function replace {
+  from=${1//\//\\/}
+  to=${2//\//\\/}
+  sed -i "s/$from/$to/g" index.html
+}
+
+for link in `cat link.subst`
+do
+  from=${link%%\,*}
+  to=${link#*\,}
+  replace "<a href=\"$from\">" "<a href=\"$to\">"
+done
+for img in `cat img.subst`
+do
+  from=${img%%\,*}
+  to=${img#*\,}
+  replace "<img src=\"$from\"" "<img src=\"$to\""
+done
