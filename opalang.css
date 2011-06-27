@@ -18,6 +18,9 @@
   div.admonitionblock {
       margin-top: 15px;
   }
+  .imageblock img {
+      border: 1px dotted black;
+  }
   div.listingblock div.title {
       font-weight:bold
   }
