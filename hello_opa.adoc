@@ -84,8 +84,10 @@ yourself! Where? How?
 
 * The first place to start your journey with Opa would be its http://opalang.org[official homepage]
   -- you can download Opa there, see many examples, tutorials, the user manual etc;
-* Need help? Try our irc://irc.freenode.net/#opalang[IRC support channel] (+#opalang+ channel on
-  +irc.freenode.net+). You can also send us an email to mailto:support@opalang.org[support@opalang.org] or
+* Need help? http://stackoverflow.com[Stack Overflow] is a great service to get answers to your (programming)
+  questions (if you ask about Opa, don't forget to mark it with the http://stackoverflow.com/questions/tagged/opa[``Opa'' tag]).
+  You can also try our irc://irc.freenode.net/#opalang[IRC support channel] (+#opalang+ channel on
+  +irc.freenode.net+), send an email to mailto:support@opalang.org[support@opalang.org] or
   leave a message on our http://www.facebook.com/pages/Opalang/196987260339043[Facebook wall];
 
 Finally, I will try to post regularly on this blog with tutorial-style posts introducing different

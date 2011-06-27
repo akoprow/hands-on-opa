@@ -5,7 +5,8 @@ Hands-on experience with Opa
 :toclevels: 1
 
 include::hello_opa.adoc[]
-// include::first_steps.adoc[]
+
+include::first_steps.adoc[]
 
 Pending posts
 -------------

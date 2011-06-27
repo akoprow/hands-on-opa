@@ -15,6 +15,9 @@
       margin: 0;
       padding: 0;
   }
+  div.admonitionblock {
+      margin-top: 15px;
+  }
   div.listingblock div.title {
       font-weight:bold
   }
@@ -50,7 +53,7 @@ table td.icon:after {border:none;}
 table td.content {padding-left:10px;}
 table td.content .title {font-variant:small-caps;font-size:1.2em;color:#B30A0A;}
 table td:after {border-bottom: 1px solid #FFF;content:"";position:relative;top:5px;display:block;}
-p {margin: 0 0 1.5em 0;}
+p {margin: 1em 0;}
 li p, td p {display:inline;}
 h1 {color:#000; font-size: 3em; line-height:1.5em; margin: 0.7em 0; }
 h2 {color:#B30A0A; font-size: 2.5em; line-height:1.4em; margin: 1em 0 0.5em 0;}
