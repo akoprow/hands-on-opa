@@ -1,0 +1,53 @@
+Interactivity, event handling
+-----------------------------
+
+[icons=None, caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* How to handle event in Opa and write interactive apps.
+* How application distribution works in Opa.
+=======================
+
+Let's start with a goal for this tutorial.
+
+[icons=None, caption="Goal"]
+[NOTE]
+=======================
+Write a web page showing: current time (updated every second)
+and a button. Upon pressing the button a message should show
+saying how many times this button was pressed *ever* (in total,
+by all users, not only in this session).
+=======================
+
+I know this ``project'' sounds rather artificial, but it
+has exactly the characteristics I'm looking for, as:
+
+* it involves interactivity (time-triggered changes to the page),
+* it involves user interaction (response to pressing the button),
+* it involves server state (to keep count of all button presses),
+* while still being simple enough for this tutorial :).
+
+[icons=None, caption="Exercise"]
+[NOTE]
+=======================
+If you are a web developer, write such an app in
+_YourFavoriteLanguage_. No, seriously, I mean it.
+No worries, I'll wait.
+=======================
+
+Why is it important? I want you to be able to *really*
+compare Opa with the solution you were using up till now.
+And if your excuse is that you don't have time then you
+should *seriously* consider Opa where the complete solution
+looks like this:
+
+[source, opa]
+------------------------
+include::interactivity.opa[]
+------------------------
+
+and it took me 4 minutes to write it (yup, honestly).
+
+Ok, fasten your seat belts.
