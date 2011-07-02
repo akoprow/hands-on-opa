@@ -1,0 +1,87 @@
+Weekend chat about Opa: Matthieu Guffroy
+----------------------------------------
+
+Welcome to ``the weekend chat about Opa''. I'm planning to
+make it into a regular (weekly?) column on the blog.
+The idea is simple: let people who tried Opa speak
+about their experience. What they liked, what they
+did not etc. Clearly, I'm biased, so I hope it will be
+refreshing to hear what others (not associated with MLstate)
+have to say on the subject. So if anyone out there
+did some Opa coding and wants to share his/her
+experience, mailto:Adam.Koprowski@mlstate.com[let me know]!
+
+:guest: Matthieu Guffroy
+:g: MG
+Today's guest: Matthieu Guffroy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+image::mattgu74.jpg[float="left", link="http://mattgu.com"]
+
+*me*: _Can you tell us a bit about yourself?_ +
+*http://mattgu.com[{guest}]*: I'm a 19 years old student
+in computer science at the University of Technology of
+Compiègne in France. I have started a http://www.mattgu.com[blog], in which
+I will talk about my various projects in Opa.
+When I'm not behind a computer, I like to play Rugby!
+
+*me*: _How did you learn about Opa?_ +
+*{g}*: First time I heard about it in 2009 when I met
+Cedric Soulas at the Prologin Final (a French algorithmic
+contest). Cedric made a presentation about Opa and I liked
+the idea. Afterwords I briefly worked at MLstate (1 month,
+kind of an internship).
+
+*me*: _Can you tell a bit about the app that you developed?
+Was it an university project? Or did you do it just for fun?_ +
+*{g}*: First I wrote https://github.com/mattgu74/OpaTetris[OpaTetris].
+That was just for fun, because I believe that doing things
+yourself is a best way to learn :). Now I wrote
+https://github.com/mattgu74/OpaCms[OpaCms]. For the moment
+also just for fun, but I hope to use it for a website of an
+association at my school and my personal website.
+
+*me*: _What other technologies are you familiar with?_ +
+*{g}*: Unfortunately none if you look at my school's
+curriculum. But I started playing with web development
+since I was 8 years old. I discovered PHP when I was
+13-14 and since then am familiar with web technologies
+(HTML/CSS/PHP/MySQL/Javascript). +
+I also know C, C++, some Java (I made an Android game
+for a university project). I'm also a sys-admin for
+the server of an association of my school (Bash, Python).
+
+*me*: _What do you like about Opa? Compared to them?
+What's better? What's worse?_ +
+*{g}*: When coding with Opa, I think more about what I
+want and less about how to do that... Also when your
+Opa program compiles you can be pretty sure it will
+work for all cases. With Opa, I have the impression
+I am more productive. +
+A new thing for me is that Opa is a functional language.
+I think it can be quite disconcerting at first, but
+after I understood how it works, I like that ;)
+
+*me*: _Do you think Opa has a chance of becoming a
+popular language for web development?_ +
+*{g}*: I hope that Opa has more than just a chance.
+I think all developers must try Opa, if just for a little.
+It's a real pleasure to work with Opa. Afterward you
+just can't go back to an ugly technology like PHP.
+And thinking about configuring Apache, PHP, MySQL on a
+server is just a nightmare... With Opa apps, you just
+have to upload your .exe and launch it...
+
+*me*: _Anything else you'd like to say? :)_ +
+*{g}* Don't hesitate to take a look on OpaCms:
+http://opacmsdemo.mattgu.com[demo],
+https://github.com/mattgu74/OpaCms[code].
+Your help will be very welcome :).
+
+*me*: _Ok, thank you very much for your time and
+for being so positive about Opa!_
+
+'''
+
+A new interactive tutorial is just around the corner,
+stay tuned!
