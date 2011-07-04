@@ -50,7 +50,7 @@ include::interactivity.opa[]
 
 and it took me 4 minutes to write it (yup, no kidding).
 
-In fact, it's always a good idea to try to do those tutorials in
+_(In fact, it's always a good idea to try to do those tutorials in
 the tools that you are using currently (if any), to be able to compare
 them better with Opa. Side note: I recently decided to learn a bit
 about Ruby on Rails. I started reading
@@ -61,12 +61,13 @@ apart form having to deal with versioning hell, anyone working with
 Rails will have to deal with around 20 files to write a simple
 ``Hello web'' (if  you missed the previous post, in Opa it takes
 <<chapter_hello_web, 1 file & 1 line>>). I mean, *seriously*?
+Btw. this is not a personal attack on Ruby on Rails; this seems
+to be a generally accepted situation. I'm only asking: why?
 Would you ever use a language where writing ``Hello world'' would
-require setting up a project with 20 files?
+require setting up a project with 20 files? I didn't think so...)_
 
 As you could see the program we will arrive at is rather short but
-I'll go over it in great detail, so I'll split this post into two
-parts. In part one, let's just write an automatically-updated timer.
+I'll now break it down and go over all its parts in detail.
 
 Ok, fasten your seat belts. Let's rock with Opa.
 
@@ -135,3 +136,44 @@ with this model, we effectively change the visual presentation
 of the page. See http://www.w3schools.com/dom/default.asp[this page]
 for more details.
 =======================
+
+Ok, we now have all the needed parts to write a web-page displaying
+the current date, updated every second.
+
+[source, opa]
+------------------------
+include::watch.opa[]
+------------------------
+
+So far so good. But if you read it carefully you probably have some
+questions. One would be: ``Is it a server or a client date that I see
+on the page?''. Or more generally: ``How is this Opa program executed?''.
+
+This bring us to the subject of _slicing_. Slicing involves distributing
+the program between the client and the server and involves:
+
+* deciding which parts of the program should be executed where (client
+  VS server),
+* automatically generating Javascript for the client parts,
+* ensuring behind-the-scenes communication between the two, which let's
+  the devoper (that's us) concentrate on getting things done and the
+  compiler (that's Opa) on providing the boring, error prone communication
+  facilities.
+
+We will not go into the details of the slicer here (interested readers
+are referred to the
+http://opalang.org/resources/book/index.html#_client_server_distribution[relevant part]
+of the manual). Let us just make a few remarks here:
+
+* The slicer works on the level of top-level functions; that is every
+  function ends up either on the server or on the client (or on both sides)
+  but will not be split between the two.
+* Some primitives can exist only on the server (like data-base
+  manipulation) and some only on the client (like Dom manipulation).
+* There exist annotations (+@server+, +@client+, +@both+ and +@both_implem+;
+  details in the
+  http://opalang.org/resources/book/index.html#_client_server_distribution[manual])
+  to instruct the slicer about the required location for any function.
+* There also exist annotations for visibility (+@public+, +@server_private+),
+  i.e. to differentiate between server functions that are visible to the
+  client and those that are not (for security reasons).
