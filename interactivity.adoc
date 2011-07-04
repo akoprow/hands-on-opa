@@ -15,40 +15,38 @@ Let's start with a goal for this tutorial.
 [icons=None, caption="Goal"]
 [NOTE]
 =======================
-Write a web page showing: current time (updated every second)
-and a button. Upon pressing the button a message should show
-saying how many times this button was pressed *ever* (in total,
-by all users, since the creation of the application).
+We will write two very simple applications:
+
+* The first one will be a page showing current time
+  (updated every second).
+* The second one will consist of a button. Upon pressing
+  the button a message should show saying how many times
+  this button was pressed *ever* (in total, by all users,
+  since the creation of the application).
 =======================
 
-I know this ``project'' sounds rather artificial, but it
-has exactly the characteristics I'm looking for, as:
+They may not sounds much like realistic projects but
+they have exactly the characteristics I'm looking for, as:
 
-* it involves interactivity (time-triggered changes to the page),
-* it involves user interaction (response to pressing the button),
-* it involves persistance on the server (to keep count of all button presses),
-* while still being simple enough for this tutorial :).
+* we will need to tackle interactivity (time-triggered changes to the page),
+* as well as user interaction (response to pressing the button),
+* we will need persistence on the server (to keep count of all button presses),
+* while the apps are simple enough for this tutorial :).
 
 [icons=None, caption="Exercise"]
 [NOTE]
 =======================
-If you are a web developer write such an app in _YourFavoriteLanguage_,
-before continuing with this tutorioal. No, seriously, I mean it.
+If you are a web developer write such apps in _YourFavoriteLanguage_,
+before continuing with this tutorial. No, seriously, I mean it.
 No worries, I'll wait.
 =======================
 
 Why is it important? I want you to be able to *really*
 compare Opa with the solution you were using up till now.
 And if your excuse is that you don't have time then you
-should *seriously* consider Opa where the complete solution
-looks like this:
-
-[source, opa]
-------------------------
-include::interactivity.opa[]
-------------------------
-
-and it took me 4 minutes to write it (yup, no kidding).
+should *seriously* consider Opa where solutions to both
+exercises consist of around 10 LOC (as we will see)
+and can be coded in 5 minutes maximum (yup, no kidding).
 
 _(In fact, it's always a good idea to try to do those tutorials in
 the tools that you are using currently (if any), to be able to compare
@@ -66,10 +64,8 @@ to be a generally accepted situation. I'm only asking: why?
 Would you ever use a language where writing ``Hello world'' would
 require setting up a project with 20 files? I didn't think so...)_
 
-As you could see the program we will arrive at is rather short but
-I'll now break it down and go over all its parts in detail.
-
-Ok, fasten your seat belts. Let's rock with Opa.
+Ok, we will begin with the timer app. Fasten your seat belts.
+Let's rock with Opa!
 
 Event scheduling
 ~~~~~~~~~~~~~~~~
@@ -154,9 +150,9 @@ the program between the client and the server and involves:
 
 * deciding which parts of the program should be executed where (client
   VS server),
-* automatically generating Javascript for the client parts,
+* automatically generating JavaScript for the client parts,
 * ensuring behind-the-scenes communication between the two, which let's
-  the devoper (that's us) concentrate on getting things done and the
+  the developer (that's us) concentrate on getting things done and the
   compiler (that's Opa) on providing the boring, error prone communication
   facilities.
 
@@ -177,3 +173,36 @@ of the manual). Let us just make a few remarks here:
 * There also exist annotations for visibility (+@public+, +@server_private+),
   i.e. to differentiate between server functions that are visible to the
   client and those that are not (for security reasons).
+
+This is where the magic starts to happen, so let's just stop for a moment to
+contemplate the implications of this Opa feature. It means we write code in one
+language, pretty much as we would do developing a desktop application, but here
+as a result we obtain a fully distributed application with all the communication
+glue provided behind the scenes by Opa.
+
+This also means that moving some app functionality from the client to the
+server or vice-versa is as simple as adding a small annotation. So one can easily
+prototype without thinking much about what goes where and only later on add
+few annotations to optimize the amount of client-server communication. Ain't
+that cool?
+
+Few minor remarks concerning our timer program. Suppose that we moved the
+above +show_time()+ function to be local in the +page()+ function, as here:
+
+[source, opa]
+------------------------
+include::watch2.opa[]
+------------------------
+
+Does that change anything? Well, it's still a perfectly valid Opa program, but
+note what I said earlier that slicing is done on a per-function basis. Where
+will the +page()+ function go? It's used by the server to prepare the page to
+serve and hence must be on the server and therefore so will be its local +show_time()+
+function. That means that this variant of our program... yes, will display
+server time and will call the server every second. Therefore to get efficiently
+running applications one needs to think a bit about the client/server separation
+and proper decomposition of the program into functions (don't worry, though,
+it's easy enough to change things if you don't get them perfect at first).
+
+Ok, this is growing into a monsterous post so let me stop here and I will continue
+in the next post (coming tomorrow, or in 2 days tops). Happy coding!
