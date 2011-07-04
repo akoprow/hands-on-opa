@@ -1,3 +1,4 @@
+[[chapter_hello_web]]
 First steps: ``Hello web'' in Opa
 ----------------------------------
 

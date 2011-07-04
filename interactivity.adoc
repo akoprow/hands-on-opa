@@ -6,7 +6,7 @@ Interactivity, event handling
 =======================
 You will learn:
 
-* How to handle event in Opa and write interactive apps.
+* How to handle events in Opa and write interactive apps.
 * How application distribution works in Opa.
 =======================
 
@@ -18,7 +18,7 @@ Let's start with a goal for this tutorial.
 Write a web page showing: current time (updated every second)
 and a button. Upon pressing the button a message should show
 saying how many times this button was pressed *ever* (in total,
-by all users, not only in this session).
+by all users, since the creation of the application).
 =======================
 
 I know this ``project'' sounds rather artificial, but it
@@ -26,14 +26,14 @@ has exactly the characteristics I'm looking for, as:
 
 * it involves interactivity (time-triggered changes to the page),
 * it involves user interaction (response to pressing the button),
-* it involves server state (to keep count of all button presses),
+* it involves persistance on the server (to keep count of all button presses),
 * while still being simple enough for this tutorial :).
 
 [icons=None, caption="Exercise"]
 [NOTE]
 =======================
-If you are a web developer, write such an app in
-_YourFavoriteLanguage_. No, seriously, I mean it.
+If you are a web developer write such an app in _YourFavoriteLanguage_,
+before continuing with this tutorioal. No, seriously, I mean it.
 No worries, I'll wait.
 =======================
 
@@ -48,6 +48,90 @@ looks like this:
 include::interactivity.opa[]
 ------------------------
 
-and it took me 4 minutes to write it (yup, honestly).
+and it took me 4 minutes to write it (yup, no kidding).
 
-Ok, fasten your seat belts.
+In fact, it's always a good idea to try to do those tutorials in
+the tools that you are using currently (if any), to be able to compare
+them better with Opa. Side note: I recently decided to learn a bit
+about Ruby on Rails. I started reading
+http://ruby.railstutorial.org/ruby-on-rails-tutorial-book#sec:up_and_running[this tutorial]
+and, quite frankly, after reading the first chapter I'm rather horrified.
+I do hope that this tutorial is outdated but it strongly suggests that,
+apart form having to deal with versioning hell, anyone working with
+Rails will have to deal with around 20 files to write a simple
+``Hello web'' (if  you missed the previous post, in Opa it takes
+<<chapter_hello_web, 1 file & 1 line>>). I mean, *seriously*?
+Would you ever use a language where writing ``Hello world'' would
+require setting up a project with 20 files?
+
+As you could see the program we will arrive at is rather short but
+I'll go over it in great detail, so I'll split this post into two
+parts. In part one, let's just write an automatically-updated timer.
+
+Ok, fasten your seat belts. Let's rock with Opa.
+
+Event scheduling
+~~~~~~~~~~~~~~~~
+
+Let's first see how we can display the present date in Opa. I'll try
+to cover in more detail the subject of dealing with dates in some
+later tutorial, but for now we will only need two functions from
+the http://opalang.org/resources/doc/index.html#date.opa.html/!/value_stdlib.core.date.Date[+Date+]
+module:
+
+[source, opa]
+------------------------
+Date.now() : Date.date
+------------------------
+
+function which returns the current date/time and the
+
+[source, opa]
+------------------------
+to_string(date : Date.date) : string
+------------------------
+
+which converts such a date to a string (using default formatting;
+there are other functions which allow extensive customization, but
+we will leave them for later, too).
+
+Ok, we know how to display the date but how to update it every
+second? This is where the
+http://opalang.org/resources/doc/index.html#scheduler.opa.html/!/value_stdlib.core.rpc.core.Scheduler[+Scheduler+]
+module comes in hand and, in particular, its +timer+ function
+
+[source, opa]
+------------------------
+Scheduler.timer(delay_ms : int, callback : -> void) : void
+------------------------
+
+which calls the +callback+ function in the intervals of +delay_ms+
+milliseconds.
+
+We know how to display current time and how to perform some task
+in regular time intervals. The last piece of the puzzle that
+we need is a way to transform a web-page dynamically. For this
+we will use the
+http://opalang.org/resources/doc/index.html#dom.opa.html/!/value_stdlib.core.xhtml.Dom[+Dom+]
+module and it's function
+
+[source, opa]
+------------------------
+Dom.transform(l : list(Dom.transformation)) : void
+------------------------
+
+which takes a list of transformations to apply as its single
+argument. One variant of a transformation comes with a special
+syntax +#id <- xhtml+, which replaces the node with +id+ with
+a given +xhtml+ in the DOM.
+
+[TIP]
+=======================
+If you're a web developer probably you eat DOM for breakfast.
+If you're an aspiring web developer then you will need to become
+friends with this concept. DOM stands for Document Object Model
+and is a way to represent the structure of a web page. By interacting
+with this model, we effectively change the visual presentation
+of the page. See http://www.w3schools.com/dom/default.asp[this page]
+for more details.
+=======================
