@@ -133,8 +133,74 @@ of the page. See http://www.w3schools.com/dom/default.asp[this page]
 for more details.
 =======================
 
-Ok, we now have all the needed parts to write a web-page displaying
-the current date, updated every second.
+Ok, we now are ready to write a function that will update the
+page element displaying time:
+
+[source, opa]
+------------------------
+show_time() =
+  now_string = Date.to_string(Date.now())
+  Dom.transform([#time <- <>{now_string}</>])
+------------------------
+
+It assigns the string representation of the current date on +now_string+
+and then puts it as a new content of the DOM element with id +time+.
+
+The main page would look something like this:
+
+[source, opa]
+------------------------
+do_onready(_) = Scheduler.timer(1000, show_time)
+page() = <span id=#time onready={do_onready} />
+------------------------
+
+The +do_onready+ function registers a callback to +show_time+ every second.
+Then the page itself is just a single span with id +time+. We invoke
+the aforementioned function in the +onready+ callback (i.e. when the page
+is loaded). Every DOM action is of type:
+
+[source, opa]
+------------------------
+action : Dom.event -> void
+------------------------
+
+so it's a function with a single argument containing information about the
+generated event. In our case we do not need to inspect this argument so we
+replace it with a hole +_+, which can be understood as a special argument
+name indicating we will not use it (otherwise just having an unused function
+argument generates a compilation warning). If you don't like the underscore
+you can use any name starting with it, so for instance.
+
+[source, opa]
+------------------------
+do_onready(_event) = Scheduler.timer(1000, show_time)
+page() = <span id=#time onready={do_onready} />
+------------------------
+
+Finally, we already learned about anonymous functions and the above can
+be rewritten into the equivalent:
+
+[source, opa]
+------------------------
+page() = <span id=#time onready={_ -> Scheduler.timer(1000, show_time)} />
+------------------------
+
+Final remark: we used the DOM id +time+ twice in this code. If we changed
+one occurrence of the identifier and forgot about the other, then the
+program would stop working as expected. Therefore it is a good practice
+to declare all DOM ids used on a given page as constant and then only
+refer to them (which means the above scenarion cannot happen anymore).
+The above would become:
+
+[source, opa]
+------------------------
+Id = {{ time="time" }}
+page() = <span id=#{Id.time} onready={_ -> Scheduler.timer(1000, show_time)} />
+------------------------
+
+The +Id+ above is a module (indicated by double curly braces). We will
+learn more about modules later on, but here we use it merely as a
+name-space. Finally, the complete code of our simple app becomes:
 
 [source, opa]
 ------------------------
@@ -191,7 +257,7 @@ above +show_time()+ function to be local in the +page()+ function, as here:
 
 [source, opa]
 ------------------------
-include::watch2.opa[]
+include::watch_slow.opa[]
 ------------------------
 
 Does that change anything? Well, it's still a perfectly valid Opa program, but
