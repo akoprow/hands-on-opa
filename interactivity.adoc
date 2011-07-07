@@ -25,7 +25,7 @@ We will write two very simple applications:
   since the creation of the application).
 =======================
 
-They may not sounds much like realistic projects but
+They may not sound much like realistic projects but
 they have exactly the characteristics I'm looking for, as:
 
 * we will need to tackle interactivity (time-triggered changes to the page),
@@ -211,7 +211,7 @@ name-space. Finally, the complete code of our simple app becomes:
 include::watch.opa[]
 ------------------------
 ++++
-<span class="run"><A target="_blank" href="http://94.23.204.210:5000">Run</A></span>
+<span class="run"><A target="_blank" href="http://timer.opalang.org">Run</A></span>
 ++++
 ////
 The code below would be nicer, but I have no clue how to make it open in a new window
@@ -222,12 +222,6 @@ The code below would be nicer, but I have no clue how to make it open in a new w
 Notice this green box in the right bottom corner of the code? Yup,
 that's the live demo running this exact code; you can click and play
 with it (ok, not much possible playing yet, but we will get there).
-
-[NOTE]
-=======================
-For now the address of the demo is a bit scary (unless you like IP
-addresses in your address bar). I'm working on improving it.
-=======================
 
 So far so good. But if you read it carefully you probably have some
 questions. One would be: ``Is it a server or a client date that I see
@@ -282,7 +276,7 @@ above +show_time()+ function to be local in the +page()+ function, as here:
 include::watch_slow.opa[]
 ------------------------
 ++++
-<span class="run"><A target="_blank" href="http://94.23.204.210:5001">Run</A></span>
+<span class="run"><A target="_blank" href="http://timer-slow.opalang.org">Run</A></span>
 ++++
 
 Does that change anything? Well, it's still a perfectly valid Opa program, but
@@ -299,7 +293,7 @@ the client/server separation and proper decomposition of the program into functi
 at first try).
 
 Ok, I still have one final remark (or two?) about slicing but this is growing into
-a monsterous post so let me stop here and I will continue in the next post
+a monstrous post so let me stop here and I will continue in the next post
 (coming no later than in 2 days, I promise). Happy coding!
 
 _To be continued..._
