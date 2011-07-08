@@ -1,3 +1,4 @@
+[[chapter_interactivity]]
 Interactivity, event handling
 -----------------------------
 

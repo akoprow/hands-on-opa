@@ -1,0 +1,135 @@
+Reader's questions #1
+---------------------
+
+[icons=None, caption="Teaser"]
+[NOTE]
+=======================
+There is an ``Opa Developer Challenge'' coming very soon.
+There will be serious prizes to be won so in the end, learning
+Opa may pay off, quite literally :D. Stay tuned for details.
+=======================
+
+[icons=None, caption="Update"]
+[NOTE]
+=======================
+As you can see I changed the theme of the blog to something
+lighter -- I hope this is more suitable for most readers.
+I also heard that the blog does not show very well in
+the http://reader.google.com[Google Reader]; I'll try to
+address that but it may take a while so please bear with me :).
+=======================
+
+I know that I promised continuation of the <<chapter_interactivity, previous post>>
+and I promise to post it tomorrow but there is something that I'd like address first.
+People start talking about Opa (just taking http://www.reddit.com/[reddit]:
+http://www.reddit.com/r/programming/comments/hidsa/opa_one_language_for_all_the_stack_forget/[here] &
+http://www.reddit.com/r/programming/comments/icp4u/yet_another_webscale_language_that_is_full_of/[here] &
+http://www.reddit.com/r/web_design/comments/ii73j/[here] & ...). There are some
+misconceptions forming slowly so I'd like to address them before they sink in.
+
+It's interesting to see that people usually show very strong opinions (``Love it or hate
+it'', ahh, those young at heart :)). The first group is very enthusiastic
+and says that this is the language they were waiting for and they hope
+it will really catch on. Well, thank you, we do too :).
+
+The second group essentially says that, for various reasons, Opa will never
+become mainstream. That it lacks this and that. Frankly, it's also great to
+hear those comments. We're aware Opa is not perfect (yet? ;)) and we're
+happy to hear feedback (especially constructive). Now, some of the criticism
+is very accurate and we will have to face it. But there are some
+comments floating around about Opa that stem from the lack of information about
+the language (which is understandable given its ``freshness''). And it's
+especially those that I'd like to discuss here.
+
+So it seems I'll be starting a new series: ``Reader's questions''. Btw. if
+you have some then it's best to leave them in the comments of this blog.
+Then you can be sure I'll see them. I'm also trying to canvas different
+fora etc. but there is only as much as I can do in that regard. This
+installment will mainly address concerns raised in
+http://www.reddit.com/r/web_design/comments/ii73j/hello_world_in_opa_the_web_development_language/[this discussion].
+Ok, let's get started. Technically, some of those are statements not
+questions but I'll answer them nonetheless :).
+
+==== Q: _Opa? What a strange name_...
+A: Apparently Opa means ``grandpa'' in http://translate.google.com/#de|en|opa[German]
+(I also heard it means ``mentally slow'' in http://translate.google.com/#es|en|opa[Spanish], but Google does not http://translate.google.com/#es|en|opa[confirm that]).
+Ok, the grandpa analogy was really not intended (although we do hope that
+one day Opa will be full of wisdom and well respected ;)). Why Opa? It started
+off as +++OPA+++, standing for ``One Pot Application'', which reflects the
+philosophy of the language. Ok, so now grandpa it is :).
+
+==== Q: _The syntax is really painful, not only to read but also to write_
+A: This comment seems to be coming quite frequently. Indeed, we were even
+at some point seriously thinking of taking drastic measures and
+http://dutherenverseauborddelatable.wordpress.com/2011/05/30/crowdsourcing-the-syntax/[re-designing the syntax]. So far it didn't happen.
+It's true that Opa's syntax is rather unusual but, frankly, once one get
+used to it, it really works. At least it does for me. Or maybe it's just
+that one can get used to just about anything? In any case, this isn't a
+simple problem. People come from different backgrounds, are used to different
+languages, have different tastes... It's impossible to please everyone.
+I'll try to collect the most common complains and see whether we can
+improve things (changing syntax is of course a delicate matter). So if there
+is something particularly annoying syntax-wise, please let me know in the comments.
+
+==== Q: _Lack of 32-bit and Windows versions of the compiler_
+A: Yup, we're guilty here. We're working on the 32-bit version and
+hope to have it ready within a couple of weeks. Windows version is
+slightly more tricky but we did have a working Windows version and we
+will have it again without a doubt. We could use some help, by the way.
+Now that Opa is open-source. Any volunteers?
+
+==== Q: _It doesn't have support in any common IDE_
+A: Again, guilty of charge (and it's true that working with Opa without
+syntax highlighting is, well, challenging at best). We do have support
+for http://www.gnu.org/software/emacs/[Emacs] and http://www.vim.org/[VIM]
+but that's it for now. We've started working on a simple plug-in for
+http://eclipse.org/[Eclipse], will release it soon and then we really
+hope for some support from the Eclipse community to improve it (again,
+any volunteers?).
+
+==== Q: _The tutorials do not open with syntax explanations [...]_
+A: There are certainly different ways to introduce things. One is to
+start with formal definitions of syntax, semantics etc. The other one
+is to go by examples and introduce things as we go along. The former
+one bores me to death. And I guess it's not only me, as the
+latter one is almost universally used nowadays in all sorts of tutorials.
+So I'd rather stick to this style (now, if you have any questions
+please do ask in comments and I'll be happy to try to clarify things).
+
+==== Q: _There are a ton of JS libs/plugins that devs will need to use (rewriting everything into Opa would be silly)_
+A: Fully agreed, that's why we provide an ability to bind
+http://opalang.org/resources/book/index.html#_bindings_with_other_languages[JS code]
+(and C and Ocaml, too). The main disadvantage is that such code can only be
+executed on the client (respectively, server), but that's often not an
+issue (and of course it can be called from both the client and the
+server at will).
+
+==== Q: _Separation of concerns seems to be non-existent in the examples_
+A: Ekhm, with all due respect but I'll applaud anyone who can show me
+a ``Hello world'' example with separation of concerns :). The timer example
+is not much better, either. Opa has a http://opalang.org/resources/doc/index.html#template.opa.html/!/[templating mechanism] that we are refining now. If you bear
+with me until more complex examples come (and they will) then I'll introduce
+templates and talk about separation of concerns. Deal?
+
+'''
+
+Ok, I seriously need to wrap it up now (hint: it's 2am in my time-zone).
+Long story short: yes, Opa may not yet
+have all the features and libraries that one would like to have... though, this
+is not to say that there are no interesting applications written with it, see this
+http://poker.mlstate.com[Opa Poker] (Texas Hold'em Poker in Opa) and this
+http://jetleague.com/[JetLeague] (A travel planner in Opa) to get an idea of what can be done with
+Opa *today*. But what I'll be trying to show with this blog is that Opa really
+is designed for the web, solves many headaches existing in web development and
+allows one to be very productive when writing web apps; much more so
+than in many other languages massively used in this domain.
+
+Somebody wrote in the comment:
+*_``It looks like a great idea, but it has a long way to go''_*.
+I couldn't agree more. Of course creation and adoption
+of a new language is a long process. But we strongly believe that the ideas
+and philosophy that are the driving force of Opa are the right way to go
+when it comes to web development and therefore that it will be a successful
+journey. Recently we made the first big step by releasing Opa as an
+https://github.com/MLstate/opalang[open source] project. Now it's only
+a question whether you want to be on-board or not?...
