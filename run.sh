@@ -9,4 +9,6 @@ case $1 in
         run watch 5000;;
     watch_slow)
         run watch_slow 5001;;
+    counter)
+        run counter 5002;;
 esac

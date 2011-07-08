@@ -1,11 +1,9 @@
-Id = {{
-  counter="counter"
-}}
+Id = {{ counter="counter" }}
 
 db /counter : int
 clicked(_) =
   do /counter <- /counter + 1
-  Dom.transform([#{Id.counter} <- <>I've been clicked {/counter} time(s).</>])
+  Dom.transform([#{Id.counter} <- <>I've been clicked {/counter} times.</>])
 
 page() =
   <button onclick={clicked}>Click me!</>
