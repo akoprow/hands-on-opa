@@ -14,9 +14,11 @@ include::interview_mattgu74.adoc[]
 include::interactivity.adoc[]
 
 include::questions_1.adoc[]
-////
 
 include::db_records.adoc[]
+////
+
+include::interview_thoughtpolice.adoc[]
 
 Pending posts
 -------------
