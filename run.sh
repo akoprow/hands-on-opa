@@ -11,4 +11,6 @@ case $1 in
         run watch_slow 5001;;
     counter)
         run counter 5002;;
+    iMage)
+        run iMage 5003;;
 esac
