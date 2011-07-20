@@ -1,0 +1,40 @@
+Opa Developer Challenge 2011 is on!
+-----------------------------------
+
+Long time no post, I know, I know. But there is a good reason
+for that. Last week we've been very busy to bring you good news
+and today I can already share part of them!
+Before I do that let me point out two smaller things:
+
+* This blog has been upgraded to an official Opa blog :)
+  (please updated your bookmarks to http://blog.opalang.org).
+* There are two job offers in Opa already, check them out at:
+  http://opalang.org/jobs.xmlt.
+
+Ok, now on to the main news. The Opa Developer Challenge
+has just started! What is it about? In 3 steps it would be:
+
+* Learn Opa.
+* Have fun developing a cool app (or two) in Opa.
+* Win awesome prizes.
+
+The main prizes are MacBook Air, iPad 2 and Nintendo 3DS,
+plus many more prizes in individual categories. You can write
+the app on your own or in a team. You have until 28th of
+August to do so. If you want to learn more go to
+http://challenge.opalang.org and register for the contest
+today!
+
+Learn a new language, have fun coding in it and win cool
+prizes :). Hopefully this blog will give you some directions
+on how to get started with Opa. If you have some requests
+regarding what you'd like to hear about, don't be shy and
+let me know in the comments :).
+
+'''
+
+Ok, the second part of the news will be coming in a day or
+two and will directly involve the content of this blog.
+And when it's out I'll come back to posting more tutorials
+and Opa code that you are all waiting for. Right? Right!
+Until then!
