@@ -142,3 +142,56 @@ Let's see...
 
 Working with external files
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Most languages allow to bundle external resources during
+deployment and then offer some form of accessing the filesystem
+to work with those files. In Opa external resources are
+statically included during compilation time (Question:
+can you think of any advantages of this approach?
+Disadvantages?)
+
+There are many ways to include external resources, the
+simplest being the +@static_content+ directive, which takes
+the file-name as its only argument and produces a function
+that gives the content of the file (as a +string+).
+
+Ok, now if we put a file +footer.xmlt+ with
+https://github.com/akoprow/iMage/blob/83d5723c3b6993a82e0d7b4219642ca3b6c3bf6a/footer.xmlt[this content] in the current directory. And then put
+together what we discussed so far and arrive at +iMage.opa+
+with the following content:
+
+[source, opa]
+------------------------
+import stdlib.web.template
+
+footer = @static_content("footer.xmlt")
+
+page() =
+  Template.parse(Template.default, footer())
+  |> Template.to_xhtml(Template.default, _)
+
+server = Server.one_page_server("iMage: a magical image viewer!", page)
+------------------------
+++++
+<span class="run"><A target="_blank" href="http://94.23.204.210:5004">Run</A></span>
+++++
+
+then a simple:
+
+[source, bash]
+---------------------
+opa iMage.opa
+---------------------
+
+will create +iMage.exe+ and running it we get a static
+page with the footer (try it locally, or click +Run+ above). What
+is important to realize that the produced executable (+iMage.exe+)
+*will contain* +footer.xmlt+ embedded into it. That's the Opa's
+philosophy:
+
+* compile and get a single file executable (no more forgotten files
+  when you move things between servers),
+* deploy the program by running the executable.
+
+If you're wondering what about files that do change during execution,
+read on.
