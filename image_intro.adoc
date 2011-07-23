@@ -1,3 +1,4 @@
+[[chapter_image_intro]]
 iMage: developing an image viewer in Opa
 ----------------------------------------
 

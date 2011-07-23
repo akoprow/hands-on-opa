@@ -1,0 +1,144 @@
+[[chapter_image_p1_resources]]
+iMage: part 1, Dealing with external resources
+----------------------------------------------
+
+After the announcement of iMage <<chapter_image_intro, few days ago>>
+some folks are getting impatient to see some code and, well, I cannot
+blame them, so without further ado let's start developing iMage.
+After this post we will end up with a functional but very
+barebone version of the app (none of the nifty animations etc.).
+
+Remark: Because we won't yet have any descriptions of photos, it's
+not yet possible to properly attribute CreativeCommon photos used
+in the <<chapter_image_intro, original presentation of iMage>>,
+therefore for now I'll use free photos of castles from
+http://www.myfreedigitalphotos.com/architecture/castles-and-fortifications.html[MYFreeDigitalPhotos].
+
+[icons=None, caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* How to handle external resources (such as images) in your app
+* How to work with CSS.
+* The basics of Opa templating.
+=======================
+
+Opa templating
+~~~~~~~~~~~~~~
+
+At the bottom of the application we want to include a small footer
+attributing the images. It's just a piece of static HTML and we already
+saw <<chapter_hello_web, before>> how to work with HTML. However, let's
+use this opportunity to introduce the
+http://opalang.org/resources/doc/index.html#template.opa.html/!/[templating mechanism of Opa].
+
+The templating mechanism is essentially an XML interpreter. It parses
+XML, checks that it conforms to the expected format and renders it
+back to XHTML. By default it recognizes a subset of XHTML and renders
+it as-is, making it merely a mechanism for safe inclusion of static XHTML
+in Opa programs.
+
+What makes it interesting, though, is that the templating framework is
+extensible. That means one can easily extend it with interpretations for
+some additional tags.
+
+To make things more concrete: example. One way to use this extensibility
+would be to accept +<markup>...</markup>+ tag which will render the content
+of the tag according to some lightweight markup often found in wikis or blogs.
+
+Since the extensions are coded as Opa callbacks, they can be application-specific
+and their functionality is only limited by the developer's creativity.
+We're now working on providing some interesting default extensions.
+
+However, I will cover the topic of templating extensions in another posts.
+For now we will use the simplest case of templating: inclusion of static XHTML.
+For that we need to be aware of two functions:
+
+[source, opa]
+------------------------
+Template.parse(engine: Template.engine, s: string) : Template.content
+Template.to_xhtml(engine : Template.engine, content: Template.content) : xhtml
+------------------------
+
+The first one takes a template engine and parses a string using the
+given ``engine'' (templating extensions are achieved by extending the
+engine). The second one takes a template engine and a parsed content
+and produces +xhtml+ from it.
+
+So our function to generate the footer could look like this:
+
+[source, opa]
+------------------------
+footer(txt : string) : xhtml =
+  content = Template.parse(Template.default, txt)
+  Template.to_xhtml(Template.default, content)
+------------------------
+
+as +Template.default+ is the default template engine. We could avoid
+introducing the intermediate +content+ binding and write:
+
+[source, opa]
+------------------------
+footer(txt : string) : xhtml =
+  Template.to_xhtml(Template.default, Template.parse(Template.default, txt))
+------------------------
+
+It's fine for such a short expression, but with more complex ones
+parsing all those parentheses easily becomes a nuisance (for us, that
+is, Opa will patiently obey). The +|>+ operator comes to the rescue.
+It's defined in the standard library as:
+
+[source, opa]
+------------------------
+`|>`(a, f) = f(a)
+------------------------
+
+(for Haskell-aware ppl Opa's +|>+ is a variant of Haskell's
+1http://stackoverflow.com/questions/940382/haskell-difference-between-dot-and-dollar-sign[+$+ operator]). +|>+ operator make it possible to nicely chain function calls.
+For instance the above function could be rewritten as:
+
+[source, opa]
+------------------------
+footer(txt : string) : xhtml =
+  Template.parse(Template.default, txt)
+  |> Template.to_xhtml(Template.default, _)
+------------------------
+
+I should add here that the underscore in the last line is a simple way
+to introduce anonymous functions:
+
+[source, opa]
+------------------------
+Template.to_xhtml(Template.default, _)
+------------------------
+
+is equivalent to:
+
+[source, opa]
+------------------------
+arg -> Template.to_xhtml(Template.default, arg)
+------------------------
+
+[icons=None, caption="Exercise"]
+[NOTE]
+=======================
+The +|>+ operator and the underscore construction for anonymous
+functions can be a little daunting at first (especially if you
+don't have much experience with functional programming). Instead
+of explaining things in more detail I suggest you play with them
+on your own. Trust me, there's no better way of learning than by
+doing. And if things are still unclear after taking your time to
+understand those concepts drop me a line in the comments and I'll
+try to help.
+=======================
+
+Ok, it seems like we did not accomplish so much.
+We merely turned a string with some XHTML into a proper XHTML.
+In some languages indeed there would be no difference between
+the two (Question: why should you be happy that this is not the
+case in Opa?). Anyhow, why string? Where will that come from?
+Let's see...
+
+Working with external files
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
