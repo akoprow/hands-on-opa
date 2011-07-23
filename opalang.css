@@ -375,7 +375,7 @@ pre {
 }
 
 
-span.run {
+span.run, span.see {
     border: 1px solid black;
     padding: 8px;
     font-size: 1.2em;
@@ -384,6 +384,5 @@ span.run {
     display: inline;
     position: relative;
     top: -52px;
-    margin-bottom: -52px;
     float: right;
 }

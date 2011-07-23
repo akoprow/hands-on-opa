@@ -6,7 +6,7 @@ After the announcement of iMage <<chapter_image_intro, few days ago>>
 some folks are getting impatient to see some code and, well, I cannot
 blame them, so without further ado let's start developing iMage.
 After this post we will end up with a functional but very
-barebone version of the app (none of the nifty animations etc.).
+bare-bone version of the app (none of the nifty animations etc.).
 
 Remark: Because we won't yet have any descriptions of photos, it's
 not yet possible to properly attribute CreativeCommon photos used
@@ -66,7 +66,14 @@ given ``engine'' (templating extensions are achieved by extending the
 engine). The second one takes a template engine and a parsed content
 and produces +xhtml+ from it.
 
-So our function to generate the footer could look like this:
+We first need to import the templating module
+
+[source, opa]
+------------------------
+import stdlib.web.template
+------------------------
+
+and then our function to generate the footer could look like this:
 
 [source, opa]
 ------------------------
@@ -140,11 +147,11 @@ the two (Question: why should you be happy that this is not the
 case in Opa?). Anyhow, why string? Where will that come from?
 Let's see...
 
-Working with external files
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Embedding files
+~~~~~~~~~~~~~~~
 
 Most languages allow to bundle external resources during
-deployment and then offer some form of accessing the filesystem
+deployment and then offer some form of accessing the file-system
 to work with those files. In Opa external resources are
 statically included during compilation time (Question:
 can you think of any advantages of this approach?
@@ -162,21 +169,17 @@ with the following content:
 
 [source, opa]
 ------------------------
-import stdlib.web.template
-
-footer = @static_content("footer.xmlt")
-
-page() =
-  Template.parse(Template.default, footer())
-  |> Template.to_xhtml(Template.default, _)
-
-server = Server.one_page_server("iMage: a magical image viewer!", page)
+include::iMage-0.opa[]
 ------------------------
 ++++
 <span class="run"><A target="_blank" href="http://94.23.204.210:5004">Run</A></span>
+<span class="see"><A target="_blank" href="https://github.com/akoprow/iMage/tree/iMage-0">See</A></span>
 ++++
 
-then a simple:
+(Note: click +See+ above to see the content of the repository at this step; click +Run+
+to see the application running)
+
+Then a simple:
 
 [source, bash]
 ---------------------
@@ -189,9 +192,125 @@ is important to realize that the produced executable (+iMage.exe+)
 *will contain* +footer.xmlt+ embedded into it. That's the Opa's
 philosophy:
 
-* compile and get a single file executable (no more forgotten files
+* compile and get a single executable with no dependencies (no more forgotten files
   when you move things between servers),
-* deploy the program by running the executable.
+* deploy the program by simply running the executable.
 
 If you're wondering what about files that do change during execution,
 read on.
+
+Embedding directories/resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Let's assume that we have the images that we want to use in the +resources/imgs+
+directory. Using the +@static_content+ directive we would have to mention them
+one by one -- not very elegant. The +@static_resource_directory+ directive come
+to our rescue. The +directory+ part of the name indicates that it will statically
+include the complete content of a directory, instead of just a single file.
+The +resource+ part indicates that the embedded files will be visible as
+_resources_ and not just bare strings. A
+http://opalang.org/resources/doc/index.html#resource.opa.html/!/[resource] is
+basically anything that can be send from the server to the client, so it can
+be an XHTML page, but also an image or style-sheet file.
+
+So with the following declaration
+
+[source, opa]
+---------------------
+resources_imgs = @static_resource_directory("resources/imgs")
+---------------------
+
++resources_imgs+ is a *map* from strings (file-names) to resources corresponding
+to embedded files. The http://en.wikipedia.org/wiki/Mime-type[MIME type] of the
+embedded resource is determined by Opa based on the file extension.
+
+From this resource map we can easily obtain a list of file-names:
+
+[source, opa]
+---------------------
+img_list = Map.To.key_list(resources_imgs)
+---------------------
+
+and then we can produce the XHTML with those images with:
+
+[source, opa]
+---------------------
+show_img(fn) = <img src={fn} />
+
+imgs_html = List.map(show_img, img_list)
+---------------------
+
+However, this just generates a bunch of +<img>+ tags
+with their +src+ attribute pointing to URLs of the shape
++resources/imgs/...+. We now need to instruct our server
+to actually serve those resources at such URLs.
+
+For that we need to use a slightly more advanced construction
+of a server:
+
+[source, opa]
+---------------------
+Server.one_page_bundle(title, resources, css, page)
+---------------------
+
+The first and last argument are just as for +Server.one_page_server+,
+namely, page title and the function to generate the XHTML of the page.
+The second argument is a list of maps of resources, so basically a list
+of resources included with the +@static_resource_directory+ directive.
+The third argument is a list of URLs with CSS style files for the
+page.
+
+So putting it all together we obtain the following program which will
+simply display a page with all the images from the +resources/img+
+directory (and a footer!).
+
+[source, opa]
+---------------------
+include::iMage-1.opa[]
+---------------------
+++++
+<span class="run"><A target="_blank" href="http://94.23.204.210:5005">Run</A></span>
+<span class="see"><A target="_blank" href="https://github.com/akoprow/iMage/tree/iMage-1">See</A></span>
+++++
+
+Working with CSS
+~~~~~~~~~~~~~~~~
+
+Putting it all together
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Huh, I realize that this became a rather long post. But if we put
+together all that we learned so far we are going to obtain a very basic
+version of
+http://iMage.opalang.org/?images=http://image.opalang.org/resources/img-data-thefuturebuzz.txt[iMage]... don't worry fancy user interface and other goodies will
+come in future posts :).
+
+Notice how we changed the +show_img+ function. It still shows
+an image but now on clicking it we invoke the +zoom_in+ function,
+which in turn replaces the main photo with the one we clicked on
+(remember, we already talked about +Dom.transform+
+<<chapter_interactivity, before>>).
+
+The remaining changes is just providing some XHTML mark-up that allows
+us to write
+https://github.com/akoprow/iMage/blob/ebd7bf1b78f20f94317fdc914b05d66fad26dc2e/resources/css/css.css[some CSS] to make things look acceptable. Btw. to avoid
+misunderstanding: I have a basic working knowledge of CSS, but I'm by
+no means no expert, neither in writing CSS, nor in designing pages.
+So if something looks crappy, blame me not Opa ;). Also I'm not going
+to explain the CSS that I'm using (this blog is about *developing*
+in Opa and if you ask me, CSS is better left for designers).
+
+Ok, below is the complete code of the application. It still fits on
+one screen (Hint: I do have a big screen :). In the next post we're
+either going to work on parsing the markup of the configuration file
+with links to images to display or we'll begin pumping up the UI.
+Suggestions, as always, welcome :).
+
+[source, opa]
+---------------------
+include::iMage-1.opa[]
+---------------------
+++++
+<span class="run"><A target="_blank" href="http://94.23.204.210:5006">Run</A></span>
+<span class="see"><A target="_blank" href="https://github.com/akoprow/iMage/tree/iMage-2">See</A></span>
+++++

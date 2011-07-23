@@ -15,4 +15,8 @@ case $1 in
         run iMage 5003;;
     iMage-0)
         run iMage-0 5004;;
+    iMage-1)
+        run iMage-1 5005;;
+    iMage-2)
+        run iMage-2 5006;;
 esac
