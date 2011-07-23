@@ -18,3 +18,4 @@ do
   to=${img#*\,}
   replace "<img src=\"$from\"" "<img src=\"$to\""
 done
+replace "&apos;" "'"
