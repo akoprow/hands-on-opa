@@ -13,10 +13,10 @@ case $1 in
         run counter 5002;;
     iMage)
         run iMage 5003;;
-    iMage-0)
-        run iMage-0 5004;;
-    iMage-1)
-        run iMage-1 5005;;
-    iMage-2)
-        run iMage-2 5006;;
+    iMage-01)
+        run iMage-01 5004;;
+    iMage-02)
+        run iMage-02 5005;;
+    iMage-03)
+        run iMage-03 5006;;
 esac

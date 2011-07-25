@@ -19,3 +19,6 @@ do
   replace "<img src=\"$from\"" "<img src=\"$to\""
 done
 replace "&apos;" "'"
+replace "" ""
+
+
