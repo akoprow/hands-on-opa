@@ -1,3 +1,5 @@
+resources = @static_resource_directory("resources")
+
 type blog_article =
   { title : string
   ; post : Uri.uri
@@ -39,23 +41,32 @@ examples : list(example) = [
 
 show_example(ex) =
   header =
-    <link href="http://fonts.googleapis.com/css?family=Kranky&v2" rel="stylesheet" type="text/css" />
-    <div id=#title>
-      Hands on Opa: {ex.name}
+    <link href="http://fonts.googleapis.com/css?family=Rock+Salt&v2" rel="stylesheet" type="text/css" />
+    <div id=#post>
+      <a href={ex.article.post} target="_blank">
+        {ex.article.title}
+      </>
+    </>
+    <a id=#title href="/">
+      Hands on
+      <span id=#opa />
+      <span id=#hand />
+    </>
+    <div id=#src_code>
+      <a href="https://github.com/akoprow/hands-on-opa/tree/master/{ex.name}">
+        Source code
+      </>
     </>
   page =
     <div id="header">{header}</div>
     <div id="container">
       <iframe src="http://94.23.204.210:{ex.port}" />
     </>
-  Resource.page("Hands on Opa: {ex.name}", page)
+  Resource.styled_page("Hands on Opa: {ex.name}", ["/resources/style/style.css"], page)
 
 urls =
   rec aux =
-  | [] ->
-    (parser .* ->
-       Resource.default_error_page({wrong_address})
-    )
+  | [] -> (parser {Rule.fail} -> @fail)
   | [x | xs] ->
     (parser
     | "/{x.name}" -> show_example(x)
@@ -63,44 +74,4 @@ urls =
     )
   aux(examples)
 
-server = simple_server(urls)
-
-header_height = 50.
-css = css
-  html, body {
-    position: absolute;
-    height: 100%;
-    max-height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-  iframe {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    border: none;
-  }
-  #container {
-    position: absolute;
-    top: {px(header_height + 5.)};
-    bottom: 0;
-    width: 100%;
-    overflow: hidden;
-  }
-  #header {
-    position: absolute;
-    top: 0px;
-    height: {px(header_height)};
-    width: 100%;
-    background: black;
-    color: #CCC;
-    border-bottom: 1px solid #ECECEC;
-    border-top: 3px solid #FF9238;
-    box-shadow: 0 0 5px #AAA;
-  }
-  #title {
-    font: normal bold 30px Kranky;
-    padding: 8px;
-    float: left;
-  }
+server = Server.simple_bundle([resources], urls)
