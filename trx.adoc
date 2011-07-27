@@ -1,0 +1,135 @@
+[[chapter_trx]]
+TRX: parsing in Opa
+-------------------
+
+This article is not exactly a continuation of our <<chapter_image_intro, iMage walk-through>>. Not exactly. But quite. In this post I'll introduce you to TRX (please don't ask me about the entymology of this name) -- Opa's animal responsible for _parsing_. In the next post we will put this knowledge to good use by writing a parser for a simple mark-up and using it in iMage for configuration files with images to be shown and their captions.
+
+[icons=None, caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* About http://en.wikipedia.org/wiki/Parsing_expression_grammar[Parsing Expressions Grammars (PEGs)]
+* How to handle string parsing in Opa (XML parsing is for another story).
+=======================
+
+Web apps and parsing
+~~~~~~~~~~~~~~~~~~~~
+
+Parsing is something that web apps need to do quite often, to process certain inputs. For instance think about writing a wiki. Chances are you will want to use some (non-HTML) mark-up for its pages. That means you will need to transform this mark-up to corresponding HTML. That in turns means you will need to parse the mark-up first. Also processing forms usually involves parsing in one form or another.
+
+Fear not, Opa has a great support for writing recursive descent style parsers. Let's first explore the underlying formalizm and then we will talk about Opa's support for it.
+
+Hello, PEGs
+~~~~~~~~~~~
+
+Opa's parsing is based on http://en.wikipedia.org/wiki/Parsing_expression_grammar[Parsing Expressions Grammars (PEGs)]. It's a relatively new hence not so widely known format, so chances are you haven't heard of it yet. On the other hand you probably heard about http://en.wikipedia.org/wiki/Context-free_grammar[Context Free Grammars (CFGs)]. If that's the case let me quickly sketch main practical differences between CFGs and PEGs, if you don't know CFGs, you can safely skip the following paragraph and jump righ into the introduction to PEGs. Also, if you like reading academic papers, you may want to read http://www.lmcs-online.org/ojs/viewarticle.php?id=708&layout=abstract[``TRX: A Formally Verified Parser Interpreter''], where both the theory behind TRX, as well as some efforts towards its formal verification are described. If you prefer more down to earth stuff -- read on :).
+
+The main difference between PEGs and CFGs is that the former ones are always unambiguous. And that's a good thing (at least if you're not into processing natural languages and stuff). On the down side parsing PEGs can be expensive (read: exponentional). One way to avoid address that is to use memoization which makes parsing complexity linear at the price of also linear memory consumption. For now the built-in parsing mechanisms in Opa do not use memoization so we need to be careful when writing grammars. (At least that's the theory, in practice you'll probably never encounter such problems, unless you're writing serious grammars like, say, parsing some programming language).
+
+... and hello TRX
+~~~~~~~~~~~~~~~~~
+
+You know what, I know I said I'll first introduce PEGs and then talk about TRX, but after all this blog is supposed to be practical. So let's talk about TRX explaining the neccessary minimum of PEGs as we go along. If you want to learn a bit more about the theoretical part of TRX then read the aforementioned article (or one of the many articles about PEGs themselves).
+
+So, let's start right away with our first Opa parser:
+
+[source, opa]
+------------------------
+our_first_parser =
+  parser "Hello TRX" -> void
+------------------------
+
+So let's see what happened there one piece at a time. +our_first_parser+ is just a usual name of a declared value. +parser+ is an Opa keyword and it means that what follows will be a parsing expression. Such an expression has a form +exp -> res+ where +exp+ is the parsing expression to match and +res+ is the result for parsing such an expression. In this case the expression is just a literal string "Hello TRX". That means that this parser will succeed only if fed with exactly that string. In which case it will produce (kind-of ``return'') the result; in this case there's nothing interesting happening so we just return a non-value +void+.
+
+How do we use such a parser? You can take a look at the http://opalang.org/resources/doc/index.html#parser.opa.html/!/[+Parser+] module. The most interesting function is:
+
+[source, opa]
+------------------------
+Parser.try_parse : Parser.general_parser('a), string -> option('a)
+------------------------
+
++Parser.try_parse+ takes two arguments: a parser of type β to use and an input string and it produces an optional β result, in case parsing succeeds. Woow, ok, I can hear some of you screaming for me to slow down. Sure thing.
+
+First of all, don't let those Greek letters scare you :). (If you're a functional programming guru then skip the few following paragraphs before you start yawning.) The +'a+ in +Parser.general_parser('a)+ is a so-called ``type-variable''. In source code we use identifiers starting with \' to denote type-variables. In normal texts it's usual to use Greek letters for them hence the β above.
+
+Now those type variables are variables standing for types. They are used for polymorphism. For instance what do you think is the type of the following function:
+
+[source, opa]
+------------------------
+identity(x) = x
+------------------------
+
+It's an identity function: it takes an argument and returns it unchanged. It doesn't really matter what is the type of +x+. Therefore the type of this function is:
+
+[source, opa]
+------------------------
+identity : 'a -> 'a
+------------------------
+
+which you can read as: give me an argument of some type +'a+ and I'll return you a value of the same type, i.e. +'a+.
+
+Coming back to parsing. Now we can properly read this type:
+
+[source, opa]
+------------------------
+Parser.try_parse : Parser.general_parser('a), string -> option('a)
+------------------------
+
+What it says is: the function +Parser.try_parse+ takes as an argument a parser (+Parser.general_parser+) for some arbitrary type +'a+ and an input string and returns an optional value of type +'a+.
+
+Now I should probably properly explain what an +option+ type is but that would start a discussion on sum-types in Opa and it's just too much out of scope for this article. We'll come to that. For now just just know that the +option('a)+ value is either +none+ (indicating no value) or +some(x)+ with some value +x+ of type +'a+. This is btw. a type-safe way to deal with possibly non-existing values (languages like Java or C use +null+ for that).
+
+So let's see how this business parsing works:
+
+[source, opa]
+------------------------
+Parser.try_parse(our_first_parser, "Hello TRX") == some(void)
+Parser.try_parse(our_first_parser, "Hello, TRX") == none
+------------------------
+
+If we feed the "Hello TRX" string to our parser then parsing succeeds (with +void+) value. If we feed it anything else it fails with +none+.
+
+Ok, now let's see some more interesting ways to construct our parsers. We can put together two parsers in sequence: +A B+ means first parse with +A+ and then with +B+ on the remaining input. So the above parser could as well be written:
+
+[source, opa]
+------------------------
+our_almost_first_parser = parser "Hello " "TRX" -> void
+------------------------
+
+Then there is the choice: +A | B+ means try to parse with +A+ and if that fails try to parse with +B+.
+
+[source, opa]
+------------------------
+choice_parser = parser
+| "Hello TRX" -> true
+| "Hello world" -> false
+------------------------
+
+Notice that we return a boolean value here, so the type of the +choice_parser+ is +Parser.general_parser(bool)+. There is one very important point here: the second (and third etc. as we can have a choice between more than two expressions) branch will be tried *only* if the first one fails.
+
+This can get confusing especially if you're familiar with CFGs as there the choice operator is completely symmetrical. In PEGs the choice is *prioritized*: earlier branches of the choice take priority over the later ones. To emphasize this assymetry it is usual to denote the PEG choice as +A / B+. However, in Opa we keep +A | B+ syntax as it very nicely mimics the syntax of pattern matching -- and there are many parallels as the pattern matching is also ``prioritized''. Ok, enough theory.
+
+What else do we have. A dot (+.+) stands for arbitrary character. A range +[abc]+ stands for any of the characters (so +a+, +b+ or +c+). It's also possible to put ranges there so for instance: +[a-zA-Z]+ means any letter (small or capital).
+
+Finally there is the repetition +A*+ means zero-or-more repetitions of +A+ and +A++ means one-or-more repetitions of +A+. Another important note and another difference with CFGs: those repetitions operators are *greedy*, in the sense that we will process as many copies of +A+ as possible from the input and we will not consider taking less copies than that. Example! Consider: +(a|b)* b+. In CFGs that would mean a string composed of +a+ and +b+ letters with +b+ at the end. In PEGs such a parser will never succeed. Why? Consider the string +ab+. The repetition operator is *greedy*, so it will ``eat'' as much as it can. That means the whole +ab+. So there is no input left to match the +b+ at the end.
+
+Ok, I can see you folks getting confused (unless there are some PEG ninjas hiding amoung you) so let's hit a couple of examples.
+
+[source, opa]
+------------------------
+digits = parser [0-9]+ -> void
+------------------------
+
+The +digits+ parser accept a (non-empty) sequence of digits. For now we only saw +void+ parsers, but for this one we would actually like to produce a result being the natural number corresponding to the given sequence of digits. To do that we can give names to parsed entries as follows:
+
+[source, opa]
+------------------------
+digits2 = parser res=[0-9]+ -> res
+------------------------
+
+So +res+ is the result of parsing the +[0-9]\++ expression and that's what this parser will return. Now, the result of parsing a repetition is the list of parsed elements. The result of parsing a range, +[0-9]+, is a parsed character. So this will give us a list of characters.
+
+However, we'd like to get the parsed string, so that we can feed this string to the +Int.of_string+ function. In order to do that we can just put the expression in parentheses. A parsing expression +(A -> res)+ will return +res+ and when that is not given explicitly, as in +(A)+ it just gives the string being the part of the input that was used by this expression.
+
+or almost a string. There's a little caveat here. For efficiency reasons TRX does not use the +string+ data-type but +text+, which is an Opa's version of a http://en.wikipedia.org/wiki/Rope_(computer_science)[rope] data-type. To get string out of a +t : text+ that we can use explicit conversion +Text.to_string(t)+, or use a string insert +"{t}\"+, which will make an implicit conversion from rope to string. Yeah, I know, a bit annoying. We're trying to unify +string+ and +text+, but before we can do that, bear with us.
