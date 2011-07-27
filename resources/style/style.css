@@ -36,33 +36,11 @@ iframe {
   font-size: 1.4em;
   margin-top: 10px;
 }
-#title {
-  color: #FE8A3A;
-  text-decoration: none;
-  vertical-align: top;
-  font: normal bold 20px Rock Salt;
+#logo {
   position: absolute;
-  top: 5px;
-  left: 10px;
-  display: inline-block;
-  height: 70px;
   z-index: 20;
-  text-shadow: -1px 0 #DDD, 0 1px #DDD, 1px 0 #DDD, 0 -1px #DDD;
-}
-#title #opa {
-  width: 86px;
-  height: 70px;
-  display: inline-block;
-  background: url("http://opalang.org/img/opa-logo-orange.png") no-repeat;
-}
-#title #hand {
-  width: 50px;
-  height: 50px;
-  display: inline-block;
-  background: url("/resources/img/hand.png") no-repeat;
-  vertical-align: top;
-  margin-left: -5px;
-  margin-top: -3px;
+  top: 5px;
+  left: 20px;
 }
 #post a {
   color: #CFC;

@@ -47,10 +47,8 @@ show_example(ex) =
         {ex.article.title}
       </>
     </>
-    <a id=#title href="/">
-      Hands on
-      <span id=#opa />
-      <span id=#hand />
+    <a id=#logo href="/">
+      <img src="/resources/img/hands-on-opa.png" />
     </>
     <div id=#src_code>
       <a href="https://github.com/akoprow/hands-on-opa/tree/master/{ex.name}">
