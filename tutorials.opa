@@ -50,6 +50,9 @@ show_example(ex) =
     <a id=#logo href="/">
       <img src="/resources/img/hands-on-opa.png" />
     </>
+    <a id=#opalang href="http://opalang.org">
+      Go to opalang.org
+    </>
     <div id=#src_code>
       <a href="https://github.com/akoprow/hands-on-opa/tree/master/{ex.name}">
         Source code

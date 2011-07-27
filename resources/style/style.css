@@ -6,6 +6,14 @@ html, body {
   margin: 0;
   padding: 0;
 }
+a, a:link, a:visited {
+  color: #0B67B2;
+  text-decoration: none;
+}
+a:hover {
+  color: #0B4D86;
+  text-decoration: underline;
+}
 iframe {
   position: absolute;
   height: 100%;
@@ -41,6 +49,21 @@ iframe {
   z-index: 20;
   top: 5px;
   left: 20px;
+}
+#opalang {
+  position: absolute;
+  right: 280px;
+  top: 0;
+  display: block;
+  background-color: #CFCFD0;
+  color: #252525;
+  font-size: 0.9em;
+  padding: 4px 8px;
+  border-radius: 0 0 5px 5px;
+  font-family: 'Lucida Grande', Arial, sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  text-shadow: white 0px 1px 0px;
 }
 #post a {
   color: #CFC;
