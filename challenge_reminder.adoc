@@ -1,0 +1,21 @@
+Reminder: Opa Developer Challenge
+---------------------------------
+
+Just a short reminder that the Opa Developer Cha1llenge is in progress! Go check http://challange.opalang.org for more information.
+
+Below you can read the recent http://www.marketwire.com/press-release/opa-developer-challenge-1542899.htm[press release] about the contest. But if you'd rather spend that time developing cool apps for the contest -- I won't complain...
+
+'''''
+
+*A Contest to Show Off Your Coding Skills and Learn Tomorrow's Language*
+
+SAN FRANCISCO, CA -- (Marketwire - Jul 27, 2011) - MLstate, the creators of Opa, is proud to present the Opa Developer Challenge, a coding contest taking place from Wednesday, July 13th until Sunday, August 28th. The contest consists of applicants learning and writing an application using Opa, a novel programming language centered on simplicity and ease of use.
+Opa is a new language that was released as open source less than one month ago so all participants will start on an equal footing. A new generation of platform development, Opa is a platform for developing cloud-enabled web applications. All the documentation and relevant information can be found on http://opalang.org. What's more, you will be amazed to see how rich an application you will be able to code during the duration of the contest.
+
+_``We have been working towards the open-source release of Opa since the start of our company in 2007 and are very proud to have released it,''_ said Henri Binsztok, founder and CEO of MLstate. _``We are grateful for the involvement of our early adopters and by creating the Opa Developer Challenge we aim at increasing our visibility and thanking them for their efforts. ''_
+
+To enter the contest, please register on this website: http://challenge.opalang.org. Applications will be judged by representatives of Foursquare, DotCloud, Twitter, Le Monde, SF New Tech Meetup, Slate and MLstate. The best three entries will respectively receive a 256 GB 13'' MacBook Air, a 64 GB iPad 2 with a customized Opa cover and a Nintendo 3DS. Additionally there will be prizes for the three best entries in each category.
+
+Officially released in June, Opa has already accumulated a gallery of various applications by early adopters and testers, one that MLstate wishes to expand and showcase with the Challenge. The gallery of existing applications on Opa, including Opa Poker, a peer-to-peer poker application, can be found here: http://opalang.org/see.xmlt.
+
+*Opa*. Opa, a breakthrough in web application development and runtime, is a completely new web service stack comprising a new language, database, server and distribution framework. Opa is used by a wide range of customers, including the French Ministry of Industry, French Department of Defense, Cyrlight and Plug-Up International. Please visit http://opalang.org for more information.
