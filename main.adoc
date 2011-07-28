@@ -4,7 +4,6 @@ Hands-on experience with Opa
 :toc:
 :toclevels: 1
 
-////
 include::hello_opa.adoc[]
 
 include::first_steps.adoc[]
@@ -26,7 +25,6 @@ include::image_intro.adoc[]
 include::image_p1_resources.adoc[]
 
 include::challenge_reminder.adoc[]
-////
 
 include::trx.adoc[]
 
