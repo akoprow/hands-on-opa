@@ -13,7 +13,9 @@ type example =
 
 Examples = {{
 
-  compilation_cmd(e : example, compiler_options, plugin_builder_options) : list(string) =
+  exe(e) = "./{e.name}/{e.name}.exe"
+
+  compilation_cmd(e, compiler_options, plugin_builder_options) : list(string) =
     opack = "{e.name}.opack"
     opa = "{e.name}.opa"
     files = if Map.mem("{e.name}/{opack}", e.srcs) then opack else opa
@@ -24,12 +26,29 @@ Examples = {{
     compile = "opa {files} {compiler_options}"
     build_plugins ++ [compile]
 
-  compile(e : example) : void =
+  kill(e) =
+    cmd = "killall -w {exe(e)} || true"
+    do Log.info("HOP", "Killing <{e.name}>: `{cmd}`")
+    %%Bash.execute%%(cmd)
+
+  compile(e) =
     cmds = compilation_cmd(e, "", "")
     cmd = List.to_string_using("", "", " && ", cmds)
     do Log.info("HOP", "Compiling <{e.name}>... [{cmd}]")
     %%Bash.execute%%("cd {e.name} && {cmd}")
 
-  compile_all = List.iter(compile, _)
+  run(e) =
+    cmd = "{exe(e)} --port {e.port} &"
+    do Log.info("HOP", "Running <{e.name}>: `{cmd}`")
+    %%Bash.execute%%(cmd)
+
+  deploy(e) : void =
+    do Log.info("HOP", "Deploying <{e.name}>")
+    do kill(e)
+    do compile(e)
+    do run(e)
+    void
+
+  deploy_all = List.iter(deploy, _)
 
 }}

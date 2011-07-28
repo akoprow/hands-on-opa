@@ -37,5 +37,5 @@ urls =
   aux(examples)
 
 server =
-  do Examples.compile_all(examples)
+  do Examples.deploy_all(examples)
   Server.simple_bundle([resources], urls)
