@@ -1,0 +1,64 @@
+div, span {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+#Body {
+  background-color: black;
+}
+
+#slideshow {
+  background-color: #1E1E1E;
+  width: 800px;
+  text-align: center;
+  margin: 30px auto 0px;
+}
+
+#thumbs_out {
+  width: 800px;
+  height: 95px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-top: 1px inset #999;
+}
+
+#thumbs_in .container {
+  display: table-cell;
+  vertical-align: middle;
+  margin: auto;
+  width: 100px;
+}
+
+#thumbs_in .container img {
+  max-width: 100px;
+  max-height: 80px;
+  cursor: pointer;
+}
+
+#photo {
+  display: table-cell;
+  vertical-align: middle;
+  margin: auto;
+  width: 800px;
+  height: 600px;
+}
+
+#photo img {
+  max-width: 800px;
+  max-height: 600px;
+  display: block;
+  margin: auto;
+}
+
+footer p {
+  text-align: center;
+  margin-top: 30px;
+  color: #999;
+}
+
+footer a {
+  color: #D90;
+}
