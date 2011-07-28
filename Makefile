@@ -5,8 +5,8 @@ EXE = $(MAIN).exe
 
 all: $(EXE)
 
-$(MAIN).exe: $(MAIN).opa
-	$(OPA) $< -o $@
+$(MAIN).exe: $(MAIN).opa data.opa
+	$(OPA) $^ -o $@
 
 run: $(EXE)
 	./$(EXE)
