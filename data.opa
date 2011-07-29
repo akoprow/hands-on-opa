@@ -9,8 +9,6 @@ mk_hands_on_article(~{at title}) : blog_article =
   post = Option.lazy_default(wrong_uri, Uri.of_string(uri))
   ~{post title}
 
-mk_example(~{name port article srcs}) = {~name ~port ~article ~srcs plugins=[]} : example
-
 hello_opa = mk_hands_on_article(
   { at="2011/06/hello-opa-what-is-opa-to-quote-manual.html"
   ; title="Hello Opa"
@@ -60,13 +58,12 @@ trx = mk_hands_on_article(
   ; title="TRX: parsing in Opa"
   })
 
-watch =      mk_example({ name="watch"      port=5000 article=interactivity   srcs=@static_include_directory("watch") })
-watch_slow = mk_example({ name="watch_slow" port=5001 article=interactivity   srcs=@static_include_directory("watch_slow")})
-counter =    mk_example({ name="counter"    port=5002 article=db_intro        srcs=@static_include_directory("counter")})
-iMage =                 { name="iMage"      port=5003 article=image_intro     srcs=@static_include_directory("iMage")
-  plugins=[{name="effects" files=["effects/effects.js", "effects/jquery-effects.js"]}]}
-iMage_01 =   mk_example({ name="iMage-01"   port=5004 article=image_resources srcs=@static_include_directory("iMage-01")})
-iMage_02 =   mk_example({ name="iMage-02"   port=5005 article=image_resources srcs=@static_include_directory("iMage-02")})
-iMage_03 =   mk_example({ name="iMage-03"   port=5006 article=image_resources srcs=@static_include_directory("iMage-03")})
+watch =      { name="watch"      port=5000 article=interactivity   srcs=@static_include_directory("examples/watch") }
+watch_slow = { name="watch_slow" port=5001 article=interactivity   srcs=@static_include_directory("examples/watch_slow")}
+counter =    { name="counter"    port=5002 article=db_intro        srcs=@static_include_directory("examples/counter")}
+iMage =      { name="iMage"      port=5003 article=image_intro     srcs=@static_include_directory("examples/iMage")}
+iMage_01 =   { name="iMage-01"   port=5004 article=image_resources srcs=@static_include_directory("examples/iMage-01")}
+iMage_02 =   { name="iMage-02"   port=5005 article=image_resources srcs=@static_include_directory("examples/iMage-02")}
+iMage_03 =   { name="iMage-03"   port=5006 article=image_resources srcs=@static_include_directory("examples/iMage-03")}
 
 examples : list(example) = [ watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03 ]

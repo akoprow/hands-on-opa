@@ -2,7 +2,9 @@ resources = @static_resource_directory("resources")
 
 show_example(ex) =
   header =
-    <link href="http://fonts.googleapis.com/css?family=Rock+Salt&v2" rel="stylesheet" type="text/css" />
+    <div id=#title>
+      {ex.name}
+    </>
     <div id=#post>
       <a href={ex.article.post} target="_blank">
         {ex.article.title}

@@ -8,45 +8,27 @@ type example =
   ; port : int
   ; srcs : stringmap(Resource.resource)
   ; article : blog_article
-  ; plugins : list(plugin)
   }
 
 Examples = {{
 
-  exe(e) = "./{e.name}/{e.name}.exe"
+  execute = %%Bash.execute%%
+  execute_parallel = %%Bash.execute_parallel%%
 
-  compilation_cmd(e, compiler_options, plugin_builder_options) : list(string) =
-    opack = "{e.name}.opack"
-    opa = "{e.name}.opa"
-    files = if Map.mem("{e.name}/{opack}", e.srcs) then opack else opa
-    build_plugin(p) =
-      files = List.to_string_using("", "", " ", p.files)
-      "opa-plugin-builder {files} -o {p.name} {plugin_builder_options}"
-    build_plugins = List.map(build_plugin, e.plugins)
-    compile = "opa {files} {compiler_options}"
-    build_plugins ++ [compile]
-
-  kill(e) =
-    cmd = "killall -w {exe(e)} || true"
-    do Log.info("HOP", "Killing <{e.name}>: `{cmd}`")
-    %%Bash.execute%%(cmd)
+  exe(e) = "examples/{e.name}/{e.name}.exe"
 
   compile(e) =
-    cmds = compilation_cmd(e, "", "")
-    cmd = List.to_string_using("", "", " && ", cmds)
-    do Log.info("HOP", "Compiling <{e.name}>... [{cmd}]")
-    %%Bash.execute%%("cd {e.name} && {cmd}")
+    execute("cd examples/{e.name} && bash compile")
 
-  run(e) =
-    cmd = "{exe(e)} --port {e.port} &"
-    do Log.info("HOP", "Running <{e.name}>: `{cmd}`")
-    %%Bash.execute%%(cmd)
+  rerun(e) =
+    do execute("(pgrep -f {exe(e)} | grep -v $$ | xargs kill) || true")
+    do execute_parallel("{exe(e)} --port {e.port}")
+    void
 
   deploy(e) : void =
     do Log.info("HOP", "Deploying <{e.name}>")
-    do kill(e)
     do compile(e)
-    do run(e)
+    do rerun(e)
     void
 
   deploy_all = List.iter(deploy, _)

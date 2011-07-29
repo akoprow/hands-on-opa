@@ -38,10 +38,16 @@ iframe {
   border-top: 3px solid #FF9238;
   box-shadow: 0 0 5px #AAA;
 }
-#post {
-  text-align: center;
+#title {
+  text-align: right;
   font-variant: small-caps;
   font-size: 1.4em;
+  margin-top: 10px;
+}
+#post {
+  text-align: right;
+  font-variant: small-caps;
+  font-size: 1.0em;
   margin-top: 10px;
 }
 #logo {
