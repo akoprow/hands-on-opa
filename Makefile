@@ -21,6 +21,8 @@ run: $(EXE)
 
 clean:
 	rm -rf nohup.out `find . -name '_tracks' \
+ -o -name access.log \
+ -o -name error.log \
  -o -name '*.opp' \
  -o -name '*.opx' \
  -o -name '_build'\

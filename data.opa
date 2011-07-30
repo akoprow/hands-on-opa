@@ -66,4 +66,4 @@ iMage_01 =   { name="iMage-01"   port=5004 article=image_resources srcs=@static_
 iMage_02 =   { name="iMage-02"   port=5005 article=image_resources srcs=@static_include_directory("examples/iMage-02")}
 iMage_03 =   { name="iMage-03"   port=5006 article=image_resources srcs=@static_include_directory("examples/iMage-03")}
 
-examples : list(example) = [ watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03 ]
+examples : list(example) = [ watch ] //, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03 ]

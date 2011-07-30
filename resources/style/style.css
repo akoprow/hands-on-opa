@@ -39,7 +39,7 @@ iframe {
   box-shadow: 0 0 5px #AAA;
 }
 #title {
-  text-align: right;
+  text-align: center;
   font-variant: small-caps;
   font-size: 1.4em;
   margin-top: 10px;
@@ -177,4 +177,76 @@ iframe {
   margin-top: 8px;
   color: #030;
   text-shadow: 0.1em 0.1em 0.2em black;
+}
+.src_code_top {
+  background: #88F;
+  padding: 15px;
+  font-variant: small-caps;
+  height: 20px;
+  color: white;
+  text-shadow: 0.1em 0.1em 0.2em #333;
+  font-size: 1.3em;
+  text-align: center;
+}
+.src_code_content {
+  overflow: auto;
+}
+.src_code_main {
+  background: white;
+  border: 2px solid #DDD;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  box-shadow: 0px 0px 20px black;
+  -webkit-box-shadow: 0px 0px 20px black;
+  -moz-box-shadow: 0px 0px 20px black;
+}
+#src_code_close {
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 32px;
+  height: 0;
+  color: white;
+  padding: 32px 0 0 0;
+  overflow: hidden;
+  background: #222;
+  border: 3px solid white;
+  -moz-border-radius: 32px;
+  -webkit-border-radius: 32px;
+  border-radius: 32px;
+  box-shadow: 0 0 6px #000000, 1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), 1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3);
+  -ms-box-shadow: 0 0 6px #000000, 1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), 1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 6px #000000, 1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), 1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 0 6px #000000, 1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), 1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+#src_code_close:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+#src_code_close:before {
+  content: "\D7";
+  display: block;
+  text-align: center;
+  width: 32px;
+  position: absolute;
+  top: -3.2px;
+  left: 0;
+  font-size: 32px;
+  line-height: 32px;
+  font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
+}
+.action {
+  display: inline-block;
+  border: 1px dotted black;
+  padding-right: 5px;
+  margin-top: 2px;
+}
+.action:hover {
+  background-color: #AAF;
+  border: 1px solid #333;
 }
