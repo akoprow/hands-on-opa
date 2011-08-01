@@ -1,0 +1,38 @@
+#calc {
+  width: 700px;
+  height: 85px;
+  margin: auto;
+  margin-top: 75px;
+  text-align: center;
+  background-color
+  background: #EFEFEF;
+  border: 2px solid #DDD;
+  border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  box-shadow: 0px 0px 20px black;
+  -webkit-box-shadow: 0px 0px 20px black;
+  -moz-box-shadow: 0px 0px 20px black;
+  padding: 20px;
+}
+#expr {
+  font-size: 30px;
+  width: 250px;
+  outline: auto 5px gold;
+  outline-offset: -2px;
+  -moz-outline: gold solid 2px;
+  -moz-outline-radius: 7px 7px;
+  -moz-outline-offset: 0;
+}
+#equals {
+  font-size: 30px;
+  padding: 0px 7px;
+  margin: 0px 10px;
+}
+#answer {
+  font-size: 30px;
+}
+#error {
+  color: red;
+  margin-top: 5px;
+}

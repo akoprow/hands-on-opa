@@ -57,6 +57,10 @@ trx = mk_hands_on_article(
   { at="2011/07/trx-parsing-in-opa.html"
   ; title="TRX: parsing in Opa"
   })
+unit_testing = mk_hands_on_article(
+  { at="2011/08/unit_testing_and_parsing.html"
+  ; title=""
+  })
 
 watch =      { name="watch"      port=5000 article=interactivity   srcs=@static_include_directory("examples/watch") }
 watch_slow = { name="watch_slow" port=5001 article=interactivity   srcs=@static_include_directory("examples/watch_slow")}
@@ -65,5 +69,6 @@ iMage =      { name="iMage"      port=5003 article=image_intro     srcs=@static_
 iMage_01 =   { name="iMage-01"   port=5004 article=image_resources srcs=@static_include_directory("examples/iMage-01")}
 iMage_02 =   { name="iMage-02"   port=5005 article=image_resources srcs=@static_include_directory("examples/iMage-02")}
 iMage_03 =   { name="iMage-03"   port=5006 article=image_resources srcs=@static_include_directory("examples/iMage-03")}
+calculator = { name="calculator" port=5007 article=unit_testing    srcs=@static_include_directory("examples/calculator") }
 
-examples : list(example) = [ watch ] //, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03 ]
+examples : list(example) = [ watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator ]
