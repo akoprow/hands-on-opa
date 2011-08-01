@@ -14,90 +14,6 @@ a:hover {
   color: #0B4D86;
   text-decoration: underline;
 }
-iframe {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  border: none;
-}
-#container {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  overflow: hidden;
-  top: 55px;
-}
-#header {
-  position: absolute;
-  top: 0px;
-  width: 100%;
-  height: 50px;
-  background: #333;
-  color: #CCC;
-  border-bottom: 1px solid #ECECEC;
-  border-top: 3px solid #FF9238;
-  box-shadow: 0 0 5px #AAA;
-}
-#title {
-  text-align: center;
-  font-variant: small-caps;
-  font-size: 1.4em;
-  margin-top: 10px;
-}
-#post {
-  text-align: right;
-  font-variant: small-caps;
-  font-size: 1.0em;
-  margin-top: 10px;
-}
-#logo {
-  position: absolute;
-  z-index: 20;
-  top: 5px;
-  left: 20px;
-}
-#opalang {
-  position: absolute;
-  right: 280px;
-  top: 0;
-  display: block;
-  background-color: #CFCFD0;
-  color: #252525;
-  font-size: 0.9em;
-  padding: 4px 8px;
-  border-radius: 0 0 5px 5px;
-  font-family: 'Lucida Grande', Arial, sans-serif;
-  font-size: 12px;
-  font-weight: normal;
-  text-shadow: white 0px 1px 0px;html, body {
-  position: absolute;
-  height: 100%;
-  max-height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-a, a:link, a:visited {
-  color: #0B67B2;
-  text-decoration: none;
-}
-a:hover {
-  color: #0B4D86;
-  text-decoration: underline;
-}
-iframe {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  border: none;
-}
-#container {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  overflow: hidden;
-  top: 55px;
-}
 #header {
   position: absolute;
   top: 0px;
@@ -115,10 +31,13 @@ iframe {
   font-size: 1.4em;
   margin-top: 10px;
 }
+#post a {
+  color: #CFC;
+}
 #logo {
   position: absolute;
   z-index: 20;
-  top: 5px;
+  top: 3px;
   left: 20px;
 }
 #opalang {
@@ -136,30 +55,24 @@ iframe {
   font-weight: normal;
   text-shadow: white 0px 1px 0px;
 }
-#post a {
-  color: #CFC;
-}
-#src_code {
+iframe {
   position: absolute;
-  top: 0px;
-  right: 0px;
-  width: 257px;
-  height: 50px;
-  background: url("/resources/img/src-code.png") no-repeat;
+  height: 100%;
+  width: 100%;
+  border: none;
 }
-#src_code a {
-  display: block;
+#container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  overflow: hidden;
+  top: 55px;
+}
+#title {
   text-align: center;
   font-variant: small-caps;
   font-size: 1.4em;
-  margin-top: 8px;
-  color: #030;
-  text-shadow: 0.1em 0.1em 0.2em black;
-}
-
-}
-#post a {
-  color: #CFC;
+  margin-top: 10px;
 }
 #src_code {
   position: absolute;
