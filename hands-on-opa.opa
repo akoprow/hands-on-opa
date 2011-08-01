@@ -19,11 +19,6 @@ show_example(ex) =
         }
     }
   src_code_modal_box =
-    compilation_instr =
-      res = Map.get("examples/{ex.name}/compile", ex.srcs) ?
-        error("missing compilation instr. for {ex.name}")
-      d = Resource.export_data(res) ? error("missing compilation resource for {ex.name}")
-      d.data
     xhtml =
       <a class=action href="https://github.com/akoprow/hands-on-opa/tree/master/{ex.name}">
         <img src="/resources/img/github.png" />
@@ -35,7 +30,7 @@ show_example(ex) =
       </>
       <span id=compile_instr>
         Compile with:
-        <pre>{compilation_instr}</>
+        <pre>{Examples.compilation_instructions(ex)}</>
       </>
       <div class=coming_soon>
         Source code browser coming soon...

@@ -15,6 +15,12 @@ Examples = {{
   execute = %%Bash.execute%%
   execute_parallel = %%Bash.execute_parallel%%
 
+  compilation_instructions(ex) =
+    res = Map.get("examples/{ex.name}/compile", ex.srcs) ?
+      error("missing compilation instr. for {ex.name}")
+    d = Resource.export_data(res) ? error("missing compilation resource for {ex.name}")
+    d.data
+
   exe(e) = "examples/{e.name}/{e.name}.exe"
 
   compile(e) =
@@ -25,8 +31,13 @@ Examples = {{
     do execute_parallel("{exe(e)} --port {e.port}")
     void
 
+  check(e) =
+    _ = compilation_instructions(e)
+    void
+
   deploy(e) : void =
     do Log.info("HOP", "Deploying <{e.name}>")
+    do check(e)
     do compile(e)
     do rerun(e)
     void
