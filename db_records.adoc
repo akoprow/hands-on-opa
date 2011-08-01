@@ -1,33 +1,21 @@
 (Very) gentle introduction to DB and records.
 ---------------------------------------------
 
-I still owe you continuation of <<chapter_interactivity, this post>>,
-where I promised to write a simple ``counter'' example (counting total
-clicks by all users ever). Since that would make for a very short post
-let me take this opportunity to introduce few basics concerning persistent
-storage in Opa (i.e., database) and records. But let's start with the
-counter application.
+I still owe you continuation of <<chapter_interactivity, this post>>, where I promised to write a simple ``counter'' example (counting total clicks by all users ever). Since that would make for a very short post let me take this opportunity to introduce few basics concerning persistent storage in Opa (i.e., database) and records. But let's start with the counter application.
 
 Hello, database
 ~~~~~~~~~~~~~~~
 
-For the purpose of this example we need storage of a single integer value.
-It is accomplished with the following declaration:
+For the purpose of this example we need storage of a single integer value. It is accomplished with the following declaration:
 
 [source, opa]
 ------------------------
 db /counter : int
 ------------------------
 
-which should be read as follows: declare a persistent (i.e. stored in a
-database) value (+db+), available at the path +/counter+ where the type
-of the value is +int+ (btw. this is one of the few places in Opa where
-explicit type annotation is required).
+which should be read as follows: declare a persistent (i.e. stored in a database) value (+db+), available at the path +/counter+ where the type of the value is +int+ (btw. this is one of the few places in Opa where explicit type annotation is required).
 
-Opa's database is hierarchical and has an organization much akin to that
-of a file-system. That's why we also refer to DB locations as ``paths''.
-In the above example we declared a value named +counter+ at the root of
-the database. We can read such a value as follows:
+Opa's database is hierarchical and has an organization much akin to that of a file-system. That's why we also refer to DB locations as ``paths''. In the above example we declared a value named +counter+ at the root of the database. We can read such a value as follows:
 
 [source, opa]
 ------------------------
@@ -41,8 +29,7 @@ and modify it with the +db_path <- new_value+ syntax as in:
 /counter <- /counter + 1
 ------------------------
 
-Having said that (and <<chapter_interactivity, all that>>), the following
-code should not be very surprising, I hope:
+Having said that (and <<chapter_interactivity, all that>>), the following code should not be very surprising, I hope:
 
 [source, opa]
 ------------------------
@@ -52,28 +39,14 @@ include::counter.opa[]
 <span class="run"><A target="_blank" href="http://counter.opalang.org">Run</A></span>
 ++++
 
-Probably the only point that requires some comment is the +do+ notation
-in the +clicked+ function. Essentially +do f(...)+ is a shortcut for
-+_ = f(...)+. It is useful whenever we have a function +f(...)+ that
-does not return any value (i.e. returns +void+). Such a function will
-have side-effects (if it did not and it returned +void+ there would
-not be much point in having it, would there? :) and it's a good practice
-to call it using this +do+ notation. Writing +do f(...)+ for function
-+f+ with non-void return type will result in a compiler warning (we're
-ignoring function's return value, which may not intended).
+Probably the only point that requires some comment is the +do+ notation in the +clicked+ function. Essentially +do f(...)+ is a shortcut for +_ = f(...)+. It is useful whenever we have a function +f(...)+ that does not return any value (i.e. returns +void+). Such a function will have side-effects (if it did not and it returned +void+ there would not be much point in having it, would there? :) and it's a good practice to call it using this +do+ notation. Writing +do f(...)+ for function +f+ with non-void return type will result in a compiler warning (we're ignoring function's return value, which may not intended).
 
 Records
 ~~~~~~~
 
-Admittedly, storing integers is not all that exciting. But there is good
-news here: in Opa essentially every (non-functional) value can be stored
-in the data-base, just as easily as integers. So let's make a first step
-towards discovering ways to create more complex values than the primitive
-ones.
+Admittedly, storing integers is not all that exciting. But there is good news here: in Opa essentially every (non-functional) value can be stored in the data-base, just as easily as integers. So let's make a first step towards discovering ways to create more complex values than the primitive ones.
 
-The one that plays a very central role in Opa is that of records. I assume
-that readers are familiar with records in one form or another. Let's see
-how Opa records work. Let's first declare a simple record type as follows:
+The one that plays a very central role in Opa is that of records. I assume that readers are familiar with records in one form or another. Let's see how Opa records work. Let's first declare a simple record type as follows:
 
 ////
 For this part of the tutorial I suggest you try to feed the commands to
@@ -104,10 +77,7 @@ Now we can instantiate a value of this type:
 me : person = { name="Adam Koprowski" age=256 }
 ------------------------
 
-Again, one may put an optional semicolon between the fields.
-The colon followed by a type (after +me+) is a coercion,
-which explicitly states that +me+ is of type +person+.
-Now let's write a simple function manipulating records:
+Again, one may put an optional semicolon between the fields. The colon followed by a type (after +me+) is a coercion, which explicitly states that +me+ is of type +person+. Now let's write a simple function manipulating records:
 
 [source, opa]
 ------------------------
@@ -115,8 +85,7 @@ present(p1 : person, p2 : person) : string =
   "Sum of ages of {p1.name} and {p2.name} is {p1.age + p2.age}"
 ------------------------
 
-So we access records fields with a standard dot notation, no
-surprises there. Note that Opa is strictly-typed so trying
+So we access records fields with a standard dot notation, no surprises there. Note that Opa is strictly-typed so trying
 
 [source, opa]
 ------------------------
@@ -136,20 +105,11 @@ Hint:
   Error occurred through field age.
 ------------------------
 
-(I replaced actual numbers with X's in this error message as they are
-likely to differ depending on how exactly you type the above snippets.
-And yes, I know, I should probably make friends with
-http://www.andre-simon.de/doku/ansifilter/ansifilter.html[ansifilter]
-to get a colorized terminal output here and make things more readable).
+(I replaced actual numbers with X's in this error message as they are likely to differ depending on how exactly you type the above snippets. And yes, I know, I should probably make friends with http://www.andre-simon.de/doku/ansifilter/ansifilter.html[ansifilter] to get a colorized terminal output here and make things more readable).
 
-I'll explain such error messages in more details later on, but essentially
-the error comes from the fact that the second argument of function
-+present+ should be of type +person+ and that's a record whose field
-+age+ has type +int+, not +string+, which the error message is hinting
-at.
+I'll explain such error messages in more details later on, but essentially the error comes from the fact that the second argument of function +present+ should be of type +person+ and that's a record whose field +age+ has type +int+, not +string+, which the error message is hinting at.
 
-To manipulate a record we can either create a new one (such as
-we did with +me+ above) or we can use record extension:
+To manipulate a record we can either create a new one (such as we did with +me+ above) or we can use record extension:
 
 [source, opa]
 ------------------------
@@ -159,8 +119,7 @@ birthday(p : person) : person =
 
 which only replaces field +age+ in record +p+.
 
-In fact above we introduced a type +person+, but naming and explicitly
-stating type structure is usually not strictly necessary. If we write:
+In fact above we introduced a type +person+, but naming and explicitly stating type structure is usually not strictly necessary. If we write:
 
 [source, opa]
 ------------------------
@@ -168,10 +127,7 @@ next_year(p) =
   { p with age=p.age+1 }
 ------------------------
 
-What is the type of such a function? To figure it out let's run Opa's
-top-level +opatop+, which will present us with a +#+-prompt. We can
-enter Opa code and indicate with double semicolon that we are finished,
-which will result in interpreter's processing of our code.
+What is the type of such a function? To figure it out let's run Opa's top-level +opatop+, which will present us with a +#+-prompt. We can enter Opa code and indicate with double semicolon that we are finished, which will result in interpreter's processing of our code.
 
 ------------------------
 koper@thistle:~$ opatop
@@ -179,13 +135,7 @@ koper@thistle:~$ opatop
 next_year : {age : int; ...} -> {age : int; ...} = <fun>
 ------------------------
 
-The produced type indicates that the function +next_year+ takes
-as its argument a record with field +age+ of type +int+ and possibly
-some more fields (+...+) and produces as a result a record with
-field age and possibly some more fields (+...+). Actually both occurrences
-of three dots must be exactly the same, even though it's not visible
-from this simplified type presentation. Error messages include more
-verbose renderings of types as we can see here:
+The produced type indicates that the function +next_year+ takes as its argument a record with field +age+ of type +int+ and possibly some more fields (+...+) and produces as a result a record with field age and possibly some more fields (+...+). Actually both occurrences of three dots must be exactly the same, even though it's not visible from this simplified type presentation. Error messages include more verbose renderings of types as we can see here:
 
 ------------------------
 # test = next_year({age="Seven"});;
@@ -198,9 +148,7 @@ Hint:
   Error occurred through field age.
 ------------------------
 
-In this message you can see that both occurrences of the three dots were
-replaced with a so-called row-variable +'r.a+, indicating they are indeed
-the same.
+In this message you can see that both occurrences of the three dots were replaced with a so-called row-variable +'r.a+, indicating they are indeed the same.
 
 Now, let's see how we can store records in the database.
 
@@ -217,9 +165,7 @@ introduce_myself() =
   "Hello, my name is {/me/name} and I'm {/me/age} years old"
 ------------------------
 
-We can see that records behave like folders in a file-system:
-every field-name has its own path in the database. We can also
-update them separately:
+We can see that records behave like folders in a file-system: every field-name has its own path in the database. We can also update them separately:
 
 [source, opa]
 ------------------------
@@ -227,21 +173,10 @@ getting_older() =
   /me/age <- /me/age + 1
 ------------------------
 
-There's much more to say about records as they are actually very
-expressive in Opa, but let's leave it for later.
+There's much more to say about records as they are actually very expressive in Opa, but let's leave it for later.
 
 '''
 
-I've been thinking that I'm going at a turtle pace with
-explaining things in this blog. It's probably helpful for
-beginners but more experienced developers are
-probably getting very bored (or are gone already? :). I'm
-not yet sure how to solve it and make both groups somewhat
-happy. Maybe I'll split the posts into beginners and advanced
-series? (comments/ideas on that welcome!).
+I've been thinking that I'm going at a turtle pace with explaining things in this blog. It's probably helpful for beginners but more experienced developers are probably getting very bored (or are gone already? :). I'm not yet sure how to solve it and make both groups somewhat happy. Maybe I'll split the posts into beginners and advanced series? (comments/ideas on that welcome!).
 
-In any case expect next week something much more exciting
-than ``Hello world'' or a button with a counter. Add on top
-of that a very enthralling Opa announcement is also
-coming and it looks like it's gonna be an interesting week
-for Opa fans :). Have a great weekend guys!
+In any case expect next week something much more exciting than ``Hello world'' or a button with a counter. Add on top of that a very enthralling Opa announcement is also coming and it looks like it's gonna be an interesting week for Opa fans :). Have a great weekend guys!
