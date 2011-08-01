@@ -24,7 +24,7 @@ show_example(ex) =
         <img src="/resources/img/github.png" />
         See on GitHub
       </>
-      <a class=action href="/{ex.name}/download">
+      <a class=action href="/{ex.name}/{ex.name}.zip">
         <img src="/resources/img/download.png" />
         Download
       </>
@@ -80,6 +80,7 @@ urls =
   | [] -> (parser {Rule.fail} -> @fail)
   | [x | xs] ->
     (parser
+    | "/{x.name}/{x.name}.zip" -> Examples.pack(x)
     | "/{x.name}" -> show_example(x)
     | res={aux(xs)} -> res
     )

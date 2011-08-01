@@ -21,6 +21,10 @@ Examples = {{
     d = Resource.export_data(res) ? error("missing compilation resource for {ex.name}")
     d.data
 
+  pack(ex) =
+    Map.get("examples/{ex.name}/pack.zip", ex.srcs) ?
+      error("missing zip package for {ex.name}")
+
   exe(e) = "examples/{e.name}/{e.name}.exe"
 
   compile(e) =
@@ -33,6 +37,7 @@ Examples = {{
 
   check(e) =
     _ = compilation_instructions(e)
+    _ = pack(e)
     void
 
   deploy(e) : void =

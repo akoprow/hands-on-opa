@@ -14,7 +14,7 @@ bash.opp: bash.ml
 	opa-plugin-builder $^ -o $@
 
 examples/%/pack.zip: examples/%
-	zip -r $@ $^
+	cd examples && zip -r ../$@ $*
 
 run: $(EXE)
 	./$(EXE)
