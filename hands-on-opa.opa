@@ -2,6 +2,8 @@ import stdlib.widgets.{core,notification}
 
 resources = @static_resource_directory("resources")
 
+main_server="localhost" //"94.23.204.210"
+
 show_example(ex) =
   Modal = WNotification
   src_code_id = "src_code"
@@ -17,6 +19,11 @@ show_example(ex) =
         }
     }
   src_code_modal_box =
+    compilation_instr =
+      res = Map.get("examples/{ex.name}/compile", ex.srcs) ?
+        error("missing compilation instr. for {ex.name}")
+      d = Resource.export_data(res) ? error("missing compilation resource for {ex.name}")
+      d.data
     xhtml =
       <a class=action href="https://github.com/akoprow/hands-on-opa/tree/master/{ex.name}">
         <img src="/resources/img/github.png" />
@@ -25,6 +32,13 @@ show_example(ex) =
       <a class=action href="/{ex.name}/download">
         <img src="/resources/img/download.png" />
         Download
+      </>
+      <span id=compile_instr>
+        Compile with:
+        <pre>{compilation_instr}</>
+      </>
+      <div class=coming_soon>
+        Source code browser coming soon...
       </>
     close(box_id) = _ -> Modal.destroy({default}, box_id)
     { Modal.default_error(xhtml) with
@@ -62,7 +76,7 @@ show_example(ex) =
   page =
     <div id="header">{header}</div>
     <div id="container">
-      <iframe src="http://94.23.204.210:{ex.port}" />
+      <iframe src="http://{main_server}:{ex.port}" />
     </>
   Resource.styled_page("Hands on Opa: {ex.name}", ["/resources/style/style.css"], page)
 

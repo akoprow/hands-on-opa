@@ -102,6 +102,7 @@ iframe {
   text-align: center;
 }
 .src_code_content {
+  height: 480px;
   overflow: auto;
 }
 .src_code_main {
@@ -162,4 +163,24 @@ iframe {
 .action:hover {
   background-color: #AAF;
   border: 1px solid #333;
+}
+div.coming_soon {
+  text-align: center;
+  font-size: 24px;
+}
+.src_code_content .coming_soon {
+  margin-top: 150px;
+}
+#compile_instr {
+  color: black;
+  display: inline-block;
+  margin-top: 3px;
+  margin-left: 10px;
+  vertical-align: top;
+}
+#compile_instr pre {
+  color: white;
+  background: black;
+  margin-top: 3px;
+  padding: 3px 10px;
 }
