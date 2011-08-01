@@ -167,8 +167,7 @@ iframe {
 div.coming_soon {
   text-align: center;
   font-size: 24px;
-}
-.src_code_content .coming_soon {
+  color: #888;
   margin-top: 150px;
 }
 #compile_instr {

@@ -17,7 +17,7 @@ examples/%/pack.zip: examples/%
 	cd examples && zip -r ../$@ $*
 
 run: $(EXE)
-	./$(EXE)
+	./$(EXE) --port 5099
 
 clean:
 	rm -rf nohup.out `find . -name '_tracks' \

@@ -75,9 +75,31 @@ show_example(ex) =
     </>
   Resource.styled_page("Hands on Opa: {ex.name}", ["/resources/style/style.css"], page)
 
+index() =
+  header =
+    <div id=#title>
+      Hands on Opa: learn Opa by examples!
+    </>
+    <a id=#logo href="/">
+      <img src="/resources/img/hands-on-opa.png" />
+    </>
+    <a id=#opalang href="http://opalang.org">
+      Go to opalang.org
+    </>
+  page =
+    <div id="header">{header}</div>
+    <div id="container">
+      <div class=coming_soon>
+        An index page with all articles and tutorials coming soon...
+      </>
+    </>
+  Resource.styled_page("Hands on Opa: Opa tutorials",
+    ["/resources/style/style.css"], page)
+
 urls =
   rec aux =
-  | [] -> (parser {Rule.fail} -> @fail)
+  | [] ->
+    (parser "/" -> index())
   | [x | xs] ->
     (parser
     | "/{x.name}/{x.name}.zip" -> Examples.pack(x)
