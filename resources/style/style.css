@@ -25,26 +25,21 @@ a:hover {
   border-top: 3px solid #FF9238;
   box-shadow: 0 0 5px #AAA;
 }
-#post {
-  text-align: center;
-  font-variant: small-caps;
-  font-size: 1.4em;
-  margin-top: 10px;
-}
-#post a {
-  color: #CFC;
-}
 #logo {
   position: absolute;
   z-index: 20;
   top: 3px;
   left: 20px;
 }
-#opalang {
+#header_right {
   position: absolute;
-  right: 280px;
-  top: 0;
-  display: block;
+  z-index: 20;
+  right: 0px;
+}
+#opalang {
+  vertical-align: top;
+  margin-right: 10px;
+  display: inline-block;
   background-color: #CFCFD0;
   color: #252525;
   font-size: 0.9em;
@@ -69,20 +64,28 @@ iframe {
   top: 55px;
 }
 #title {
+  position: absolute;
+  display: block;
+  width: 100%;
   text-align: center;
   font-variant: small-caps;
   font-size: 1.4em;
   margin-top: 10px;
 }
 #src_code {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  width: 257px;
+  display: inline-block;
+  width: 222px;
   height: 50px;
   background: url("/resources/img/src-code.png") no-repeat;
 }
-#src_code a {
+#article {
+  display: inline-block;
+  margin-right: 10px;
+  width: 146px;
+  height: 50px;
+  background: url("/resources/img/article.png") no-repeat;
+}
+#src_code a, #article a {
   display: block;
   text-align: center;
   font-variant: small-caps;

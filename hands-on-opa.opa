@@ -20,7 +20,7 @@ show_example(ex) =
     }
   src_code_modal_box =
     xhtml =
-      <a class=action href="https://github.com/akoprow/hands-on-opa/tree/master/{ex.name}">
+      <a class=action href="https://github.com/akoprow/hands-on-opa/tree/master/examples/{ex.name}">
         <img src="/resources/img/github.png" />
         See on GitHub
       </>
@@ -48,24 +48,24 @@ show_example(ex) =
   header =
   <>
     {src_code_html}
-    <div id=#title>
-      {ex.name}
-    </>
-    <div id=#post>
-      <a href={ex.article.post} target="_blank">
-        {ex.article.title}
-      </>
-    </>
     <a id=#logo href="/">
       <img src="/resources/img/hands-on-opa.png" />
     </>
-    <div id=#src_code>
-      <a onclick={_ -> src_code_modal_show()}>
-        Source code
+    <div id=#header_right>
+      <a id=#opalang href="http://opalang.org">
+        Go to opalang.org
+      </>
+      <div id=#article>
+        <a href={ex.article.post} target="_blank">Article</>
+      </>
+      <div id=#src_code>
+        <a onclick={_ -> src_code_modal_show()}>
+          Source code
+        </>
       </>
     </>
-    <a id=#opalang href="http://opalang.org">
-      Go to opalang.org
+    <div id=#title>
+      {ex.name}
     </>
   </>
   page =
@@ -83,8 +83,10 @@ index() =
     <a id=#logo href="/">
       <img src="/resources/img/hands-on-opa.png" />
     </>
-    <a id=#opalang href="http://opalang.org">
-      Go to opalang.org
+    <div id=#header_right>
+      <a id=#opalang href="http://opalang.org">
+        Go to opalang.org
+      </>
     </>
   page =
     <div id="header">{header}</div>
