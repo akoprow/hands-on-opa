@@ -24,6 +24,9 @@ Here it is:
 ------------------------
 server = Server.one_page_server("Hello", ( -> <>Hello web</>))
 ------------------------
+++++
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/hello_web">Run</A></span>
+++++
 
 That's the web equivalent of the infamous http://en.wikipedia.org/wiki/Hello_world[``Hello world'' program], only this program instead of printing ``Hello world'' on the console
 creates a web service with a single, static web-page titled ``Hello'' and with ``Hello web'' as its content (actually, it does much more than that, but we will come to that in a second).
