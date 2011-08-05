@@ -15,19 +15,19 @@ calculator =
   | ~factor -> factor
   expr
 
-calculate() =
+calculate(_evt) =
   (answer, error) =
     match Parser.try_parse(calculator, Dom.get_value(#expr)) with
     | {some=result} -> (<>{result}</>, <></>)
-    | {none} -> (<></>, <>Sorry, but I'm a simple calculator that only understands +, -, *, / and parentheses (...).<br/>Your expression is too complex to me...</>)
+    | {none} -> (<></>, <>Sorry, but I'm a simple calculator that only understands +, -, *, / and parentheses (...).</>)
   do Dom.transform([#answer <- answer])
   do Dom.transform([#error <- error])
   void
 
 page() =
   <div id=#calc>
-    <input id=#expr type=text />
-    <button id=#equals onclick={_ -> calculate()}>=</button>
+    <input id=#expr type=text onnewline={calculate} />
+    <button id=#equals onclick={calculate}>=</button>
     <span id=#answer />
     <div id=#error />
   </>
