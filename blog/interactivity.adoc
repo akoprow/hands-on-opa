@@ -1,0 +1,191 @@
+[[chapter_interactivity]]
+Interactivity, event handling
+-----------------------------
+
+[icons=None, caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* How to handle events in Opa and write interactive apps.
+* How application distribution works in Opa.
+=======================
+
+Let's start with a goal for this tutorial.
+
+[icons=None, caption="Goal"]
+[NOTE]
+=======================
+We will write two very simple applications:
+
+* The first one will be a page showing current time (updated every second).
+* The second one will consist of a button. Upon pressing the button a message should show saying how many times this button was pressed *ever* (in total, by all users, since the creation of the application).
+=======================
+
+They may not sound much like realistic projects but they have exactly the characteristics I'm looking for, as:
+
+* we will need to tackle interactivity (time-triggered changes to the page),
+* as well as user interaction (response to pressing the button),
+* we will need persistence on the server (to keep count of all button presses),
+* while the apps are still simple enough for this tutorial :).
+
+[icons=None, caption="Exercise"]
+[NOTE]
+=======================
+If you are a web developer write such apps in _YourFavoriteLanguage_, before continuing with this tutorial. No, seriously, I mean it. No worries, I'll wait.
+=======================
+
+Why is it important? I want you to be able to *really* compare Opa with the solution you were using up till now. And if your excuse is that you don't have time then you should *seriously* consider Opa where solutions to both exercises consist of around 10 LoC (as we will see) and can be coded in 5 minutes maximum (yup, no kidding).
+
+_(In fact, it's always a good idea to try to do those tutorials in the tools that you are using currently (if any), to be able to compare them better with Opa. Side note: I recently decided to learn a bit about Ruby on Rails. I started reading http://ruby.railstutorial.org/ruby-on-rails-tutorial-book#sec:up_and_running[this tutorial] and, quite frankly, after reading the first chapter I'm rather horrified. I do hope that this tutorial is outdated but it strongly suggests that, apart form having to deal with versioning hell, anyone working with Rails will have to deal with around 20 files to write a simple ``Hello web'' (if  you missed the previous post, in Opa it takes <<chapter_hello_web, 1 file & 1 line>>). I mean, *seriously*? Btw. this is not a personal attack on Ruby on Rails; this seems to be a generally accepted situation. And I'm asking: *why*? Would you ever use a language where writing ``Hello world'' would require setting up a project with 20 files? I didn't think so...)_
+
+Ok, we will begin with the timer app. Fasten your seat belts. Let's rock with Opa!
+
+Event scheduling
+~~~~~~~~~~~~~~~~
+
+Let's first see how we can display the present date in Opa. I'll try to cover in more detail the subject of dealing with dates in some later tutorial, but for now we will only need two functions from the http://opalang.org/resources/doc/index.html#date.opa.html/!/value_stdlib.core.date.Date[+Date+] module:
+
+[source, opa]
+------------------------
+Date.now() : Date.date
+------------------------
+
+function which returns the current date/time and the
+
+[source, opa]
+------------------------
+to_string(date : Date.date) : string
+------------------------
+
+function which converts such a date to a string (using default formatting; there are other functions which allow extensive customization, but we will leave them for later, too).
+
+Ok, we know how to display the date but how to update it every second? This is where the http://opalang.org/resources/doc/index.html#scheduler.opa.html/!/value_stdlib.core.rpc.core.Scheduler[+Scheduler+] module comes in hand and, in particular, its +timer+ function
+
+[source, opa]
+------------------------
+Scheduler.timer(delay_ms : int, callback : -> void) : void
+------------------------
+
+which calls the +callback+ function in the intervals of +delay_ms+ milliseconds.
+
+We know how to display current time and how to perform some task in regular time intervals. The last piece of the puzzle that we need is a way to transform a web-page dynamically. For this we will use the http://opalang.org/resources/doc/index.html#dom.opa.html/!/value_stdlib.core.xhtml.Dom[+Dom+] module and it's function
+
+[source, opa]
+------------------------
+Dom.transform(l : list(Dom.transformation)) : void
+------------------------
+
+which takes a list of transformations to apply as its single argument. One variant of a transformation comes with a special syntax +#id <- xhtml+, which replaces the node with +id+ with a given +xhtml+ in the DOM.
+
+[TIP]
+=======================
+If you're a web developer probably you eat DOM for breakfast. If you're an aspiring web developer then you will need to become friends with this concept. DOM stands for Document Object Model and is a way to represent the structure of a web page. By interacting with this model, we effectively change the visual presentation of the page. See http://www.w3schools.com/dom/default.asp[this page] for more details.
+=======================
+
+Ok, we now are ready to write a function that will update the page element displaying current time:
+
+[source, opa]
+------------------------
+show_time() =
+  now_string = Date.to_string(Date.now())
+  Dom.transform([#time <- <>{now_string}</>])
+------------------------
+
+It assigns the string representation of the current date on +now_string+ and then puts it as a new content of the DOM element with id +time+.
+
+The main page would look something like this:
+
+[source, opa]
+------------------------
+do_onready(_) = Scheduler.timer(1000, show_time)
+page() =
+  <span id=#time onready={do_onready} />
+------------------------
+
+The +do_onready+ function registers a callback to +show_time+ every second. Then the page itself is just a single span with id +time+. We invoke the aforementioned function in the +onready+ callback (i.e. when the page is loaded). Every DOM action is of type:
+
+[source, opa]
+------------------------
+action : Dom.event -> void
+------------------------
+
+so it's a function with a single argument containing information about the generated event. In our case we do not need to inspect this argument so we replace it with a hole +_+, which can be understood as a special argument name indicating we will not use it (otherwise just having an unused function argument generates a compilation warning). If you don't like the underscore you can use any name starting with it, so for instance.
+
+[source, opa]
+------------------------
+do_onready(_event) = Scheduler.timer(1000, show_time)
+page() =
+  <span id=#time onready={do_onready} />
+------------------------
+
+Finally, we already learned about anonymous functions and the above can be rewritten into the equivalent:
+
+[source, opa]
+------------------------
+page() =
+  <span id=#time onready={_ -> Scheduler.timer(1000, show_time)} />
+------------------------
+
+Final remark: we used the DOM id +time+ twice in this code. If we changed one occurrence of the identifier and forgot about the other, then the program would stop working correctly. Therefore it is a good practice to declare all DOM ids used on a given page as constants and then only refer to them (which effectively rules out the above scenario). The above would then become:
+
+[source, opa]
+------------------------
+Id = {{ time="time" }}
+page() =
+  <span id=#{Id.time} onready={_ -> Scheduler.timer(1000, show_time)} />
+------------------------
+
+The +Id+ above is a module (indicated by double curly braces). We will learn more about modules later on, but here we use it merely as a name-space. Finally, the complete code of our simple app becomes:
+
+[source, opa]
+------------------------
+include::watch.opa[]
+------------------------
+++++
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/watch">Run</A></span>
+++++
+////
+The code below would be nicer, but I have no clue how to make it open in a new window
+(i.e. provide target attribute for the link)
+### [run]#http://tutorials.opalang.org/watch[Run]#
+////
+
+Notice this green box in the right bottom corner of the code? Yup, that's the live demo running this exact code; you can click and play with it (ok, not much possible playing yet, but we will get there).
+
+So far so good. But if you read it carefully you probably have some questions. One would be: ``Is it a server or a client date that I see on the page?''. Or more generally: ``How is this Opa program executed?''.
+
+This brings us to the subject of _slicing_. Slicing involves distributing the program between the client and the server and involves:
+
+* deciding which parts of the program should be executed where (client   VS server),
+* automatically generating JavaScript for the client parts,
+* ensuring behind-the-scenes communication between the two, which let's the developer (that's us) concentrate on getting things done and the compiler (that's Opa) on providing the boring, error prone communication facilities.
+
+We will not go into the details of the slicer here (interested readers are referred to the http://opalang.org/resources/book/index.html#_client_server_distribution[relevant part] of the manual). Let us just make a few remarks here:
+
+* The slicer works on the level of top-level functions; that is every function ends up either on the server or on the client (or on both sides) but will not be split between the two.
+* Some primitives exist only on the server (like data-base manipulation) and some only on the client (like Dom manipulation).
+* There exist annotations (+@server+, +@client+, +@both+ and +@both_implem+; details in the http://opalang.org/resources/book/index.html#_client_server_distribution[manual]) to instruct the slicer about the required location for any function.
+* There also exist annotations for visibility (+@public+, +@server_private+), i.e. to differentiate between server functions that are visible to the client and those that are not (for security reasons).
+
+This is where the magic starts to happen, so let's just stop for a moment to contemplate the implications of this Opa feature. It means we write code in one language, pretty much as we would do developing a desktop application, but here as a result we obtain a fully distributed application with all the communication glue provided behind the scenes by Opa.
+
+This also means that moving some app functionality from the client to the server or vice-versa is as simple as adding a small annotation. So one can easily prototype without thinking much about what goes where and only later on add few annotations to optimize the amount of client-server communication. Cool? Absolutely!
+
+One minor remark concerning our timer program. Suppose that we moved the above +show_time()+ function to be local in the +page()+ function, as here:
+
+[source, opa]
+------------------------
+include::watch_slow.opa[]
+------------------------
+++++
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/watch_slow">Run</A></span>
+++++
+
+Does that change anything? Well, it's still a perfectly valid Opa program, but note what I said earlier that slicing is done on a per-function basis. Where will the +page()+ function go? It's used by the server to prepare the page to serve and hence must be on the server and therefore so will be its local +show_time()+ function. That means that this variant of our program... yes, will display server time and will call the server every single second. Try running this demo and observe the requests made to the server (you know how, right?).
+
+Therefore to get efficiently running applications one needs to think a bit about the client/server separation and proper decomposition of the program into functions (don't worry, though, it's easy enough to change things if you don't get them perfectly at first try).
+
+Ok, I still have one final remark (or two?) about slicing but this is growing into a monstrous post so let me stop here and I will continue in the next post (coming no later than in 2 days, I promise). Happy coding!
+
+_To be continued..._

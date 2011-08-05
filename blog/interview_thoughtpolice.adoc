@@ -1,0 +1,47 @@
+Weekend chat about Opa: Austin Seipp
+------------------------------------
+
+Ok, it's time for the next installment of the ``Weekend chat about Opa''. My today's guest is Austin Seipp, who came up with very detailed answers to my qeustions -- Austin, thanks a lot for taking your time to do that!
+
+:guest: Austin Seipp
+:g: AS
+
+Today's guest: Austin Seipp
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+image::thoughpolice.png[float="left", link="http://hacks.yi.org/~as/"]
+
+*me*: _Can you tell us a bit about yourself?_ +
+*http://hacks.yi.org/~as/[{guest}]*: I'm a 21 year old programmer, currently employed and working in the US -- been programming since I was a child! I have a http://neocontra.wordpress.com/[blog] where I sometimes find time to write things about code, but when I'm not doing any of that, I can often be found watching StarCraft 2 or reading.
+
+*me*: _How did you first learn about Opa?_ +
+*{g}*: I first stumbled across Opa when I was looking at functional programming languages for the web, my main point of interest then being http://impredicative.com/ur[Ur/Web] -- a powerful domain specific language for writing web applications. I found some mentions of Opa when looking around, and found it too was quite similar in structure, so I signed up for the closed invite and decided to try!
+
+*me*: _Can you tell a bit about the app that you developed?_ +
+*{g}*: My first and currently only project is http://github.com/thoughtpolice/opaque[opaque], a simple, markdown-powered blog engine. Currently it's quite trivial in functionality, but it was not only a good exercise to get my feet wet with Opa, but also look at how it interacts with the outside world (there are currently several foreign bindings to support things like Markdown, MathJax, and I found these really easy to whip up).
+
+*me*: _What other technologies are you familiar with?_ +
+*{g}*: My work is naturally C\+\+/Java for the most part, but outside of that, I'm a very heavy proponent and happy user of Haskell (about five years using it now, crazy!) and functional programming in general -- I'm a real believer in the advantages they bring when writing code. +
+Most of my real interests and heart lie in both compiler technology, and low-level systems programming in general (x86 asm, linkers, C and C++, software security, etc.) So web development is in fact very out of my element for the most part! But I love FP, and I'm always interested in trying something new, so Opa was a good fit.
+
+*me*: _What do you like and dislike most about Opa?_ +
+*{g}*: I mostly like the unification of all the different tools you would normally use. This avoids a rather painful amount of plumbing (for example, between the client, server, and everything in-between.) But as a person interested in application security, this kind of model is also fairly appealing to me: a guiding principle in vulnerability assessment is to look at what you may say are ``fault lines'', or boundaries of communication between two entities, that you can exploit. Wrapping all this sort of stuff into one package is nice from this perspective. Many functional languages are well known for their strong, static types that allow the enforcement of invariants at compile time. That's the case here, as the compiler can type check your code across server and client, and database, and like usual, make sure many classes of problems simply cannot happen by default. +
+There's an important underlying point here I think is worth repeating -- I'd sum it up as, ``it is very hard to do bad things on accident, but easy to do them on purpose''. Interpreting a string as an XHTML fragment in Opa is extremely, extremely hard to do by accident -- but easy to do on purpose (like I had to do, for my Markdown integration in opaque -- you naturally have to transform the user-input on the server side, followed by rendering it to the client as XHTML). This is the kind of language we want for web development. +
+At the same time, the current state of Opa may displease some people. One thing is that people are going to want templating engines, especially ones put in separate files. This really is important, as workflow often expects people like designers to be able to make design changes rather independently from programmers. When your layout is typed and directly embedded in the source as extra syntax, this is fantastic from a programmer perspective, but tough from a designer perspective. +
+Now, I know that Opa has this by default, but I couldn't quite figure out how to use it ;) Documentation on this, or just some examples would go a long way to making people more comfortable here, including me. Something in the manual would be the best (unless I somehow already missed that part!) +
+Another thing is the database. While many web programmers in their language of choice these days use ORMs for a variety of purposes, many people are also very used to a relational language for their data, like SQL. Giving then an alternative to this for describing such relational data is important I think. The integrated Opa DB - while nicely integrated syntactically - is going to be off-putting initially to many, as it may just seem like a souped-up key-value store. But I recently heard MLstate are working on improving the query language for their database, and I am looking forward to these changes.
+
+*me*: _How does Opa compare to other technologies you know?_ +
+*{g}*: It's hard to evaluate this one, since I'm not really a web programmer ;). But web programming or not, I think the advantages brought to the table by languages like Opa - and statically typed functional languages in general - are clear: a powerful type system, strong modularity and abstraction capabilities (ML-style functors are great for this) and ``the right'' defaults for things like security (again, it's hard to do bad things on accident, but easy on purpose).
+
+*me*: _Do you think Opa has a chance of becoming a popular language for web development?_ +
+*{g}*: I do. But there are of course going to be some adoption barriers. MLstate however have shown a lot of willingness to do what's needed -- the proposed round of syntax changes I saw a month or two ago are a good example of this. +
+Another thing is that it's important to dispel any myths of 'magic', because people really do not like that - and with very good reason! People may see Opa that way, but I think it's really important to point out why it isn't. Some of these things truly are a bit less magical than others. As a functional programmer and compiler fan, I can safely say the idea of using a typed representation of XML fragments - and associated syntactic sugar - is certainly not magic. This idea has been done several other times, outside of Opa (for a good example of this, you can look at Ocsigen for OCaml, or Hamlet and HSX for Haskell). I'd also say that compiling to javascript isn't exactly magic either - plenty of languages can do that these days! + On the other hand, things like the automatic distribution model may in fact seem quite a bit more magical. And with good reason (seriously, I was pretty amazed when I started up my blog on like 3 machines and I didn't write a single line of code to do that). Of course, programmers accomplish these kinds of feats by hand all the time, and so we should hope we could automate it - and it seems we can. But explaining some of this will go a long way to settling the fears of your possible users I think. It would also be a great way to get more people hacking on Opa itself! +
+Since Opa is open source now, I only expect this sort of documentation and education about the technology to improve.
+
+*me*: _Anything else you'd like to add?_ +
+*{g}*: I hope you guys at MLstate keep on doing your thing, and doing it well!
+
+'''
+
+Do you have experience with Opa (good or bad)? Want to share it with others? Don't hesitate to mailto:Adam.Koprowski@mlstate.com[let me know]!

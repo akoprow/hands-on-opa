@@ -1,0 +1,270 @@
+[[chapter_image_p1_resources]]
+iMage: part 1, Dealing with external resources
+----------------------------------------------
+
+*Edit*: I slightly improved the mark-up of the examples and of the post itself (for Google Reader).
+
+After the announcement of iMage <<chapter_image_intro, few days ago>> some folks are getting impatient to see some code and, well, I cannot blame them, so without further ado let's start developing iMage. After this post we will end up with a functional but very bare-bone version of the app (none of the nifty animations etc.).
+
+[icons=None, caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* The basics of Opa templating.
+* How to handle external resources, such as images, in your app.
+* How to work with http://en.wikipedia.org/wiki/CSS[CSS].
+=======================
+
+Remark: Because we won't yet have any descriptions of photos, it's not yet possible to properly attribute Creative Commons photos used in the <<chapter_image_intro, original presentation of iMage>>, therefore for now I'll use a set of free photos of castles from http://www.myfreedigitalphotos.com/architecture/castles-and-fortifications.html[MYFreeDigitalPhotos].
+
+Opa templating
+~~~~~~~~~~~~~~
+
+At the bottom of the application we want to include a small footer attributing the images. It's just a piece of static HTML and we already saw <<chapter_hello_web, before>> how to work with HTML. However, let's use this opportunity to introduce the http://opalang.org/resources/doc/index.html#template.opa.html/!/[templating mechanism of Opa].
+
+The templating mechanism is essentially an XML interpreter. It parses XML, checks that it conforms to the expected format and renders it to XHTML. By default it recognizes a subset of XHTML and renders it as-is, making it merely a mechanism for safe inclusion of static XHTML in Opa programs.
+
+What makes it interesting, though, is that the templating framework is extensible. That means one can easily add arbitrarily complex functionality by adding interpretations for some additional tags.
+
+To make things more concrete: example. One way to use this extensibility would be to accept +<markup>...</markup>+ tag which will render the content of the tag according to some lightweight markup often found in wikis or blogs.
+
+Since the extensions are coded as Opa callbacks, they can be application-specific and their functionality is only limited by the developer's creativity. We're now working on providing some interesting default extensions.
+
+However, I will cover the topic of templating extensions in another posts. For now we will use the simplest case of templating: inclusion of static XHTML. For that we need to be aware of two functions:
+
+[source, opa]
+------------------------
+Template.parse(engine: Template.engine, s: string) : Template.content
+Template.to_xhtml(engine : Template.engine, content: Template.content) : xhtml
+------------------------
+
+The first one takes a template engine and parses a string using the given ``engine'' (templating extensions are achieved by extending the engine). The second one takes a template engine and a parsed content and produces +xhtml+ from it.
+
+We first need to import the templating module
+
+[source, opa]
+------------------------
+import stdlib.web.template
+------------------------
+
+and then our function to generate the footer could look like this:
+
+[source, opa]
+------------------------
+footer(txt : string) : xhtml =
+  content = Template.parse(Template.default, txt)
+  Template.to_xhtml(Template.default, content)
+------------------------
+
+as +Template.default+ is the default template engine. We could avoid introducing the intermediate +content+ binding and write:
+
+[source, opa]
+------------------------
+footer(txt : string) : xhtml =
+  Template.to_xhtml(Template.default, Template.parse(Template.default, txt))
+------------------------
+
+It's fine for such a short expression, but with more complex ones parsing all those parentheses easily becomes a nuisance (for us, that is, Opa will patiently obey). The +|>+ operator comes to the rescue. It's defined in the standard library as:
+
+[source, opa]
+------------------------
+`|>`(a, f) = f(a)
+------------------------
+
+(for Haskell-aware ppl Opa's +|>+ is a variant of Haskell's http://stackoverflow.com/questions/940382/haskell-difference-between-dot-and-dollar-sign[+$+ operator]). +|>+ operator make it possible to nicely chain function calls. For instance the above function could be rewritten as:
+
+[source, opa]
+------------------------
+footer(txt : string) : xhtml =
+  Template.parse(Template.default, txt)
+  |> Template.to_xhtml(Template.default, _)
+------------------------
+
+I should add here that the underscore in the last line is a simple way to introduce anonymous functions:
+
+[source, opa]
+------------------------
+Template.to_xhtml(Template.default, _)
+------------------------
+
+is equivalent to:
+
+[source, opa]
+------------------------
+arg -> Template.to_xhtml(Template.default, arg)
+------------------------
+
+[icons=None, caption="Exercise"]
+[NOTE]
+=======================
+The +|>+ operator and the underscore construction for anonymous functions can be a little daunting at first (especially if you don't have much experience with functional programming). Instead of explaining things in more detail I suggest you play with them on your own. Trust me, there's no better way of learning than by doing. And if things are still unclear after taking your time to understand those concepts drop me a line in the comments and I'll try to help.
+=======================
+
+Ok, it seems like we did not accomplish so much. We merely turned a string with some XHTML into a proper XHTML. In some languages indeed there would be no difference between the two (Question: why should you be happy that this is not the case in Opa?). Anyhow, why string? Where will that come from? Let's see...
+
+Embedding files
+~~~~~~~~~~~~~~~
+
+Most languages allow to bundle external resources during deployment and then offer some form of accessing the file-system to work with those files. In Opa external resources are statically included during compilation time (Question: can you think of any advantages of this approach? Disadvantages?).
+
+There are many ways to include external resources, the simplest being the +@static_content+ directive, which takes the file-name as its only argument and produces a function that gives the content of the file (as a +string+).
+
+Ok, now if we put a file +footer.xmlt+ with https://github.com/akoprow/iMage/blob/83d5723c3b6993a82e0d7b4219642ca3b6c3bf6a/footer.xmlt[this content] in the current directory. And then put together what we discussed so far and create +iMage.opa+ with the following content:
+
+[source, opa]
+------------------------
+include::iMage-01.opa[]
+------------------------
+++++
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-01">Run</A></span>
+++++
+
+(Note: click +Run+ above to see the application running and get access to downloading the sources etc.)
+
+Then a simple:
+
+[source, bash]
+---------------------
+opa iMage.opa
+---------------------
+
+will create +iMage.exe+ and running it we get a static page with the footer (try it locally, or click +Run+ above). What is important is to realize that the produced executable (+iMage.exe+) *will contain* +footer.xmlt+ embedded into it. That's the Opa's philosophy:
+
+* compile and get a single executable with no dependencies (no more forgotten files when you move things between servers),
+* deploy the program by simply running the executable.
+
+If you're wondering what about files that do change during execution, read on.
+
+Embedding directories/resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Let's assume that we have the images that we want to use in the +resources/imgs+ directory. Using the +@static_content+ directive we would have to mention them one by one -- not very elegant. The +@static_resource_directory+ directive come to our rescue. The +directory+ part of the name indicates that it will statically include the complete content of a directory, instead of just a single file. The +resource+ part indicates that the embedded files will be visible as _resources_ and not just bare strings. A http://opalang.org/resources/doc/index.html#resource.opa.html/!/[resource] is basically anything that can be send from the server to the client, so it can be an XHTML page, but also an image or a style-sheet file.
+
+So with the following declaration
+
+[source, opa]
+---------------------
+resources_imgs = @static_resource_directory("resources/imgs")
+---------------------
+
++resources_imgs+ is a *map* from strings (file-names) to resources corresponding to those embedded files. The http://en.wikipedia.org/wiki/Mime-type[MIME type] of the embedded resource is determined by the compiler based on the file extension.
+
+From this resource map we can easily obtain a list of file-names:
+
+[source, opa]
+---------------------
+img_list : xhtml = <>{Map.To.key_list(resources_imgs)}</>
+---------------------
+
+and then we can produce the XHTML with those images with:
+
+[source, opa]
+---------------------
+show_img(fn) = <img src={fn} />
+
+imgs_html = List.map(show_img, img_list)
+---------------------
+
+However, this just generates a bunch of +<img>+ tags with their +src+ attribute pointing to URLs of the shape +resources/imgs/...+. We now need to instruct our server to actually serve those resources at such URLs.
+
+For that we need to use a slightly more advanced construction of a server:
+
+[source, opa]
+---------------------
+Server.one_page_bundle(title, resources, style, page)
+---------------------
+
+The first and last argument are just as for +Server.one_page_server+, namely, page title and the function to generate the XHTML of the page. The second argument is a list of maps of resources, so basically a list of resources included with the +@static_resource_directory+ directive. The third argument is a list of URLs with CSS style files for the page.
+
+So putting it all together we obtain the following program which will simply display a page with all the images from the +resources/img+ directory (and a footer!).
+
+[source, opa]
+---------------------
+include::iMage-02.opa[]
+---------------------
+++++
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-02">Run</A></span>
+++++
+
+Working with CSS
+~~~~~~~~~~~~~~~~
+
+How to provide CSS for services developed with Opa? In a sense we already saw one way to do that.
+
+*External CSS*: put an external CSS file in some directory, include it with +@static_resource_directory+ and provide an URL in +Server.one_page_bundle+. So if we assume there is a +style.css+ file in +resources/css+ then the above program could be extended with this style by replacing its server declaration with:
+
+[source, opa]
+---------------------
+resources_css = @static_resource_directory("resources/css")
+
+server = Server.one_page_bundle("iMage: a magical image viewer!",
+           [resources_imgs, resources_css], ["resources/css/style.css"], page)
+---------------------
+
+There's one useful trick. If you compile your program in the development mode (i.e. without the +--compile-release+ switch) then adding +-d+ (or +--debug-editable-all+) switch when running the server will have the following effect.
+
+* Directory +opa-debug+ will be created containing all the files embedded in the server.
+* Changing those files will have *immediate* effect on the running server, so for instance one can tweak the CSS files and see the changes immediately (well, after reloading pages in the browser that is). This can be quite useful during the development process.
+* Those files are temporary so if you want your modified files to be embedded in the server, you still need to update the included resources and recompile the server.
+
+There are more options for fine-tuning which resources are exposed via this process; try running your server with +--help+ switch and check the ``Debugging Resources : dynamic edition'' section.
+
+*Inline CSS.* Second way of working with CSS is directly in the Opa source code. CSS is a data-type in Opa (+Css.properties+ for a set of CSS properties and +Css.declaration+ for a list of CSS declarations) just like XHTML is (+xhtml+). There is also a special syntax to declare CSS properties in Opa +css { ... }+ where the three dots can essentially be replaced with usual CSS syntax but additionally it is possible to use Opa inserts inside this CSS. So for instance to declare a block with the width of 100 pixels per every image we have we could write:
+
+[source, opa]
+---------------------
+block =
+  block_css = css { width: {100 * List.length(img_list)}px }
+  <div style={block_css} />
+---------------------
+
+[icons=None, caption="Caution"]
+[NOTE]
+=======================
+The inline CSS is currently limited in Opa and only accepts some subset (rather large) of CSS3 (for instance +:first-child+ special selector is not yet supported, nor is the +text-shadow+ property). On the other hand Opa tries to provide cross-browser compatiblity for inlined CSS so for instance the single +opacity+ property will be translated into a  http://www.w3schools.com/css/css_image_transparency.asp[number of declarations] to ensure proper interpretation by all major browsers. The external CSS, on the other hand, is included as-is.
+=======================
+
+Moreover just like +server+ declaration has the special role of declaring a server; similarly +css+ declaration is used to declare (service-wide) CSS. So we could for instance write:
+
+[source, opa]
+---------------------
+css = css
+  html, body { background: black; }
+---------------------
+
+to get black background for our application.
+
+[icons=None, caption="Caution"]
+[NOTE]
+=======================
+There are currently few syntactical limitations to inlined CSS. The +css+ block should be placed at the end of the Opa file and it's safer to terminate all properties with an ending semicolon (+;+). Yes, Opa is a young, rapidly changing language. No, it's not perfect yet :).
+=======================
+
+It's of course also perfectly fine to mix the two styles, which we will also do: external CSS for static properties and inline CSS for dynamically computed properties.
+
+Putting it all together
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Huh, I realized only now that this became a veery long (too long?) post. But the good news is that if we put together all that we learned so far we are going to obtain a very basic version of http://iMage.opalang.org/?images=http://image.opalang.org/resources/img-data-thefuturebuzz.txt[iMage]... don't worry fancy user interface and other goodies will come in future posts :).
+
+Notice how we changed the +show_img+ function. It still shows an image but now on clicking it we invoke the +zoom_in+ function, which in turn replaces the main photo with the one we clicked on (remember, we already talked about +Dom.transform+ <<chapter_interactivity, before>>).
+
+The remaining changes is just providing some mark-up that allows us to write https://github.com/akoprow/iMage/blob/ebd7bf1b78f20f94317fdc914b05d66fad26dc2e/resources/css/css.css[this CSS] to make things look acceptable. Btw. to avoid misunderstanding: I have a basic working knowledge of CSS, but I'm by no means no expert, neither in writing CSS, nor in designing nice looking pages. So if something looks crappy -- blame me not Opa ;). Also I'm not going to explain the CSS that I'm using (this blog is about *developing* in Opa and if you ask me, CSS is better left for designers).
+
+Ok, below is the complete code of the application. In the next post we're either:
+
+* going to develop a simple configuration format and write a parser for it, in order to be able to easily configure a set of images to display,
+* or we'll begin pumping up the UI.
+
+Any requests/suggestions, as always, welcome :).
+
+[source, opa]
+---------------------
+include::iMage-03.opa[]
+---------------------
+++++
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-03">Run</A></span>
+++++
+
+P.S. I think the rendering in Google Reader should be slightly better now. Feedback welcome.
