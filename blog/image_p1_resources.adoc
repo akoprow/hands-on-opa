@@ -114,7 +114,7 @@ Ok, now if we put a file +footer.xmlt+ with https://github.com/akoprow/iMage/blo
 
 [source, opa]
 ------------------------
-include::iMage-01.opa[]
+include::../examples/iMage-01/iMage-01.opa[]
 ------------------------
 ++++
 <span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-01">Run</A></span>
@@ -181,7 +181,7 @@ So putting it all together we obtain the following program which will simply dis
 
 [source, opa]
 ---------------------
-include::iMage-02.opa[]
+include::../examples/iMage-02/iMage-02.opa[]
 ---------------------
 ++++
 <span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-02">Run</A></span>
@@ -261,7 +261,7 @@ Any requests/suggestions, as always, welcome :).
 
 [source, opa]
 ---------------------
-include::iMage-03.opa[]
+include::../examples/iMage-03/iMage-03.opa[]
 ---------------------
 ++++
 <span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-03">Run</A></span>

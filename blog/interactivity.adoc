@@ -140,7 +140,7 @@ The +Id+ above is a module (indicated by double curly braces). We will learn mor
 
 [source, opa]
 ------------------------
-include::watch.opa[]
+include::../examples/watch/watch.opa[]
 ------------------------
 ++++
 <span class="run"><A target="_blank" href="http://tutorials.opalang.org/watch">Run</A></span>
@@ -176,7 +176,7 @@ One minor remark concerning our timer program. Suppose that we moved the above +
 
 [source, opa]
 ------------------------
-include::watch_slow.opa[]
+include::../examples/watch_slow/watch_slow.opa[]
 ------------------------
 ++++
 <span class="run"><A target="_blank" href="http://tutorials.opalang.org/watch_slow">Run</A></span>

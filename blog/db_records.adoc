@@ -33,7 +33,7 @@ Having said that (and <<chapter_interactivity, all that>>), the following code s
 
 [source, opa]
 ------------------------
-include::counter.opa[]
+include::../examples/counter/counter.opa[]
 ------------------------
 ++++
 <span class="run"><A target="_blank" href="http://tutorials.opalang.org/counter">Run</A></span>

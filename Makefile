@@ -10,6 +10,7 @@ pack: $(ZIPPED_EXAMPLES)
 $(MAIN).exe: $(MAIN).opa data.opa examples.opa bash.opp
 	$(OPA) $^ -o $@
 
+.PHONY: stop
 stop:
 	pgrep -fx "./$(EXE) --port 5099" | xargs -r kill
 
@@ -19,9 +20,11 @@ bash.opp: bash.ml
 examples/%/pack.zip: examples/%
 	cd examples && zip -r ../$@ $*
 
+.PHONY: run
 run: $(EXE)
 	./$(EXE) --port 5099
 
+.PHONY: clean
 clean:
 	rm -rf nohup.out `find . -name '_tracks' \
  -o -name access.log \
@@ -33,4 +36,9 @@ clean:
  -o -name '*~' \
  -o -name 'pack.zip'`
 
+.PHONY: blog
+blog:
+	make -C blog blogspot
+
+.PHONY: deploy
 deploy: clean pack stop run

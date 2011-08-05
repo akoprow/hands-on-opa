@@ -225,7 +225,7 @@ Ok, now let's turn this parser into a small but fully functional calculator. I h
 
 [source, opa]
 ---------------------
-include::calculator.opa[]
+include::../examples/calculator/calculator.opa[]
 ---------------------
 ++++
 <span class="see"><A target="_blank" href="http://tutorials.opalang.org/calculator">Run</A></span>
