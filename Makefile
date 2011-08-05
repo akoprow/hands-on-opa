@@ -10,6 +10,9 @@ pack: $(ZIPPED_EXAMPLES)
 $(MAIN).exe: $(MAIN).opa data.opa examples.opa bash.opp
 	$(OPA) $^ -o $@
 
+stop:
+	pgrep -fx "./$(EXE) --port 5099" | xargs -r kill
+
 bash.opp: bash.ml
 	opa-plugin-builder $^ -o $@
 
@@ -30,4 +33,4 @@ clean:
  -o -name '*~' \
  -o -name 'pack.zip'`
 
-deploy: clean pack run
+deploy: clean pack stop run
