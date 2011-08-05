@@ -1,1 +1,3 @@
-../book/more_lang.map
+opa = opa.lang
+gram = grammar.lang
+grammar = grammar.lang
