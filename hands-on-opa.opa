@@ -2,7 +2,7 @@ import stdlib.widgets.{core,notification}
 
 resources = @static_resource_directory("resources")
 
-main_server="localhost" //"94.23.204.210"
+main_server="94.23.204.210"
 
 show_example(ex) =
   Modal = WNotification
