@@ -1,7 +1,7 @@
 Reminder: Opa Developer Challenge
 ---------------------------------
 
-Just a short reminder that the Opa Developer Cha1llenge is in progress! Go check http://challange.opalang.org for more information.
+Just a short reminder that the Opa Developer Challenge is in progress! Go check http://challenge.opalang.org for more information.
 
 Below you can read the recent http://www.marketwire.com/press-release/opa-developer-challenge-1542899.htm[press release] about the contest. But if you'd rather spend that time developing cool apps for the contest -- I won't complain...
 

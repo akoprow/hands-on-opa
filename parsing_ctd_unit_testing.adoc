@@ -1,0 +1,234 @@
+[[chapter_parsing_ctd_unit_testing]]
+More parsing and unit-testing
+-----------------------------
+
+As promised I really want to continue with developing iMage, but after some comments I got about the <<chapter_trx, previous post>> I realized that the exercises I posted were more difficult than I realized. And hence it would not be fair not to present you with solutions. So if you are still planning to do the exercises -- don't read this post as it will contain spoilers :). I will also use this opportunity to speak a bit about unit-testing.
+
+Palindromes over a and b letters
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This was certainly more difficult than intended. In CFGs this is fairly easy and would be taken care of with the following grammar:
+
+------------------------
+P ::= a P a
+    | b P b
+    | a
+    | b
+    | 𝜖
+------------------------
+
+so an empty-string or one character strings are palindromes and then we can form palindromes by adding +a+ or +b+ on both sides of some palindrome.
+
+That works perfectly fine in the world of CFGs. It does not in the PEG world. Can you figure out why? Hint: +aa+ will *not* parse as a palindrome.
+
+Actually, it turns out that capturing the palindrome language with PEGs is difficult. Gladly in TRX parsers are just functions and we can parametrize them with arbitrary arguments. Take a look at this parser:
+
+[source,opa]
+------------------------
+palindrome_ab =
+  char = parser c=([ab]) -> "{c}"
+  rec aux(suffix) = parser
+  | "{suffix}" Rule.eos -> void
+  | char "{suffix}" Rule.eos -> void
+  | c=char {aux("{c}{suffix}")} -> void
+  aux("")
+------------------------
+
+The +char+ parser just eats a single +a+ or +b+. Now the trick lies in the +aux+ function, which takes as a +suffix+ argument *the remaining input that must be consumed in order to form a palindrome*. That means that if we see +suffix+ followed by the end of string (+Rule.eos+) then we have a palindrome. Similarly we can allow an arbitrary character followed by this +suffix+ (+aba+, +aabaa+ are palindromes too). Otherwise we consume a single character +c+ and call +aux+ recursively, requesting a +suffix+ of the form +c+ followed by previous +suffix+. Neat, huh?
+
+Now how do we make sure that this parser is correct? Enter http://en.wikipedia.org/wiki/Unit_testing[unit-testing]. If you're not familiar with unit-testing, the main idea is to test small pieces of code, say, a function at a time. Opa offers some simple facilities for that in its http://opalang.org/resources/doc/index.html#ok_ko.opa.html/!/value_stdlib.tests.OK[+OK+] module from the +stdlib.tests+ package. We will only use its single function:
+
+[source,opa]
+------------------------
+check_equal : string, 'a, 'a -> void
+------------------------
+
+which takes 3 arguments: name of the test and two values which are checked for equality (one of them is intended to be a reference value). Let's first specialize this function a bit for parser-testing.
+
+[source,opa]
+------------------------
+import stdlib.tests
+test(rule_str, rule, s, res) =
+ OK.check_equal("test [{rule_str}]: {s}", Parser.try_parse(rule, s), res)
+------------------------
+
+now we're ready to perform a number of tests:
+
+[source,opa]
+------------------------
+_ =
+ test_p = test("palindrome_ab", palindrome_ab, _, _)
+ do test_p("abba", some(void))
+ do test_p("aba", some(void))
+ do test_p("bbaabb", some(void))
+ do test_p("a", some(void))
+ do test_p("b", some(void))
+ do test_p("aa", some(void))
+ do test_p("abaa", none)
+ do test_p("abbab", none)
+ void
+------------------------
+
+after running this program we get on the standard error:
+
+------------------------
+ok_ko : OK: test [palindrome_ab]: abba	 ##ok_ko
+ok_ko : OK: test [palindrome_ab]: aba	 ##ok_ko
+ok_ko : OK: test [palindrome_ab]: bbaabb	 ##ok_ko
+ok_ko : OK: test [palindrome_ab]: a	 ##ok_ko
+ok_ko : OK: test [palindrome_ab]: b	 ##ok_ko
+ok_ko : OK: test [palindrome_ab]: aa	 ##ok_ko
+ok_ko : OK: test [palindrome_ab]: abaa	 ##ok_ko
+ok_ko : OK: test [palindrome_ab]: abbab	 ##ok_ko
+------------------------
+
+all OKs, so we are set. Should there be anything wrong we would get a line with +KO+ instead of +OK+. As you can see the testing ``framework'' is overly simplistic now and needs to be combined with some external scripts grepping for KOs etc. Btw. writing a more sophisticated framework would make a nice external project for Opa: anyone interested? :)
+
+a^n^b^n^
+~~~~~~~~
+
+Ok, that one is easy and the ``expected'' solution works fine (we could even do it in one single line if we only want it working for n ≥ 1; Question: how?):
+
+[source,opa]
+------------------------
+an_bn = parser
+| [a] an_bn [b] -> void
+| Rule.succeed -> void
+
+_ =
+ test_anbn = test("an_bn", an_bn, _, _)
+ do test_anbn("", some(void))
+ do test_anbn("ab", some(void))
+ do test_anbn("aabb", some(void))
+ do test_anbn("aaabbb", some(void))
+ do test_anbn("a", none)
+ do test_anbn("b", none)
+ do test_anbn("ba", none)
+ do test_anbn("aab", none)
+ do test_anbn("abb", none)
+ void
+------------------------
+
+a^n^b^n^c^n^
+~~~~~~~~~~~~
+
+This is more tricky. Actually, this is a classical non-context-free language (so cannot be parsed with CFGs). We can describe it with PEGs thanks to syntactic predicates. How do we do that? Well, the trick is to first check that the string is of the shape +a^i^b^j^c^j^+ and then we parse +a^k^b^k^c^l^+; in other words we first check that the numbers of +b+ and +c+ match and then the same for +a+ and +b+, so in the end we make sure that all letters occur the same number of times. Here's the final parser with a bunch of tests:
+
+[source,opa]
+------------------------
+an_bn_cn =
+  rec bn_cn = parser
+  | [b] bn_cn [c] -> void
+  | Rule.succeed -> void
+  parser &([a]* bn_cn Rule.eos) an_bn [c]* -> void
+
+_ =
+ test_abc = test("an_bn_cn", an_bn_cn, _, _)
+ do test_abc("", some(void))
+ do test_abc("abc", some(void))
+ do test_abc("aabbcc", some(void))
+ do test_abc("aaabbbccc", some(void))
+ do test_abc("ab", none)
+ do test_abc("bc", none)
+ do test_abc("aabcc", none)
+ do test_abc("aabbc", none)
+ void
+------------------------
+
+Ending with a +b+
+~~~~~~~~~~~~~~~~~
+
+As explained in the previous post we cannot just do +.* b+ because the start operator is greedy. Instead we have two alternatives: if we have a +b+ at the end of a string -- we're good; otherwise we parse one arbitrary character and make a recursive call.
+
+[source,opa]
+------------------------
+ends_with_b = parser
+| [b] Rule.eos -> void
+| . {ends_with_b} -> void
+
+_ =
+ test_b = test("ends_with_b", ends_with_b, _, _)
+ do test_b("b", some(void))
+ do test_b("bbb", some(void))
+ do test_b("abab", some(void))
+ do test_b("aab", some(void))
+ do test_b("a", none)
+ do test_b("bba", none)
+ do test_b("baba", none)
+ void
+------------------------
+
+Alternative solutions
+~~~~~~~~~~~~~~~~~~~~~
+
+Of course for each of those exercises there are many possible ways of solving it. I got some solutions from the readers. The most interesting one was based on http://en.wikipedia.org/wiki/Continuation-passing_style[Continuation-passing style] (CPS) like approach (thanks Valentin!).
+
+With this technique the palindrome example can be solved with:
+
+[source,opa]
+------------------------
+palindrome_ab_cps =
+  rec aux(k) = parser
+  | "a" {aux(parser "a" k -> void)} -> void
+  | "b" {aux(parser "b" k -> void)} -> void
+  | "a" k -> void
+  | "b" k -> void
+  | "" k -> void
+  aux(parser {Rule.eos} -> void)
+------------------------
+
+The +aux+ function takes as its parameter an argument which is a parser-continuation to be used to parse the suffix of the string. If you're new to CPS this may be hard to swallow; otherwise it's just a matter of getting over passing a parser as an argument to a function :).
+
+This approach works really awesome with the +a^n^b^n^c^n^+ example as this is a CPS-like solution for this language. Digest its awesomeness on your own and drop me a comment if having any questions.
+
+[source,opa]
+------------------------
+an_bn_cn_cps =
+  rec aux(k) = parser
+  | "a" {aux(parser "b" k "c" -> void)} -> void
+  | k -> void
+  aux(parser Rule.succeed -> void)
+------------------------
+
+Calculator
+~~~~~~~~~~
+
+The final exercise was to write a simple parser for mathematical expressions. This is a possible solution:
+
+[source,opa]
+------------------------
+ws(p) = parser
+| Rule.ws res=p Rule.ws -> res
+
+calculator =
+  rec term = parser
+  | f={ws(Rule.float)} -> f
+  | {ws(parser "(")} ~expr {ws(parser ")")} -> expr
+  and factor = parser
+  | ~term "*" ~factor -> term * factor
+  | ~term "/" ~factor -> term / factor
+  | ~term -> term
+  and expr = parser
+  | ~factor "+" ~expr -> factor + expr
+  | ~factor "-" ~expr -> factor - expr
+  | ~factor -> factor
+  expr
+------------------------
+
+First we write a +ws(p)+ function that lifts a parser +p+, allowing it to be enclosed by white space. The rest should hopefully be clear after the following remarks:
+
+* we use hierarchy of productions (+term+, +factor+, +expr+) to get the priorities for operators right;
+* +term+, +factor+ and +expr+ are mutually recursive so they need to be declared with +rec ... and ...+ construction;
+* note that +xyz=abc+ in the parsing expression means using parser +abc+ and calling its result +xyz+; if we are fine with calling the result +abc+ as well then +~abc+ is short for +abc=abc+.
+
+Ok, now let's turn this parser into a small but fully functional calculator. I hope that the UI code that needs to be added to the parser will be old news by now :)
+
+[source, opa]
+---------------------
+include::calculator.opa[]
+---------------------
+++++
+<span class="see"><A target="_blank" href="http://tutorials.opalang.org/calculator">Run</A></span>
+++++
+
+In the next post -- back to http://tutorials.opalang.org/iMage[iMage]. Btw. maybe you noticed that I improved a bit the ``hosting'' of the examples from this blog. Now you will only see one button -- ``Run'' -- which will take you to the running application with a header on top that will allow you to easily download (and soon: browse) the code of the examples etc. I'm planning to turn it, bit by bit, into a repository of examples and tutorials about Opa. Feedback, as always, welcome. (And, yes, you got it right: it is written in Opa :).

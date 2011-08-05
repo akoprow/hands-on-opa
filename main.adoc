@@ -28,6 +28,8 @@ include::challenge_reminder.adoc[]
 
 include::trx.adoc[]
 
+include::parsing_ctd_unit_testing.adoc[]
+
 Pending posts
 -------------
 * Opa records
