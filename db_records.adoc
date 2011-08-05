@@ -36,7 +36,7 @@ Having said that (and <<chapter_interactivity, all that>>), the following code s
 include::counter.opa[]
 ------------------------
 ++++
-<span class="run"><A target="_blank" href="http://counter.opalang.org">Run</A></span>
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/counter">Run</A></span>
 ++++
 
 Probably the only point that requires some comment is the +do+ notation in the +clicked+ function. Essentially +do f(...)+ is a shortcut for +_ = f(...)+. It is useful whenever we have a function +f(...)+ that does not return any value (i.e. returns +void+). Such a function will have side-effects (if it did not and it returned +void+ there would not be much point in having it, would there? :) and it's a good practice to call it using this +do+ notation. Writing +do f(...)+ for function +f+ with non-void return type will result in a compiler warning (we're ignoring function's return value, which may not intended).

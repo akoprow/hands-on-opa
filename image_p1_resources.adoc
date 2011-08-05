@@ -117,12 +117,10 @@ Ok, now if we put a file +footer.xmlt+ with https://github.com/akoprow/iMage/blo
 include::iMage-01.opa[]
 ------------------------
 ++++
-<span class="run"><A target="_blank" href="http://94.23.204.210:5004">Run</A></span>
-<span class="hidden"> | </span>
-<span class="see"><A target="_blank" href="https://github.com/akoprow/iMage/tree/v01">See</A></span>
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-01">Run</A></span>
 ++++
 
-(Note: click +See+ above to see the content of the repository at this step; click +Run+ to see the application running)
+(Note: click +Run+ above to see the application running and get access to downloading the sources etc.)
 
 Then a simple:
 
@@ -186,9 +184,7 @@ So putting it all together we obtain the following program which will simply dis
 include::iMage-02.opa[]
 ---------------------
 ++++
-<span class="run"><A target="_blank" href="http://94.23.204.210:5005">Run</A></span>
-<span class="hidden"> | </span>
-<span class="see"><A target="_blank" href="https://github.com/akoprow/iMage/tree/v02">See</A></span>
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-02">Run</A></span>
 ++++
 
 Working with CSS
@@ -268,9 +264,7 @@ Any requests/suggestions, as always, welcome :).
 include::iMage-03.opa[]
 ---------------------
 ++++
-<span class="run"><A target="_blank" href="http://94.23.204.210:5006">Run</A></span>
-<span class="hidden"> | </span>
-<span class="see"><A target="_blank" href="https://github.com/akoprow/iMage/tree/v03">See</A></span>
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-03">Run</A></span>
 ++++
 
 P.S. I think the rendering in Google Reader should be slightly better now. Feedback welcome.

@@ -14,7 +14,7 @@ P ::= a P a
     | b P b
     | a
     | b
-    | 𝜖
+    | ϵ
 ------------------------
 
 so an empty-string or one character strings are palindromes and then we can form palindromes by adding +a+ or +b+ on both sides of some palindrome.
