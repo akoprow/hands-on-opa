@@ -26,6 +26,7 @@ run: $(EXE)
 
 .PHONY: clean
 clean:
+	make -C blog clean
 	rm -rf nohup.out `find . -name '_tracks' \
  -o -name access.log \
  -o -name error.log \

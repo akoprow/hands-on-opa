@@ -1,0 +1,126 @@
+[[chapter_image_p2_packages_modules]]
+iMage: part 2, Files, packages, modules
+---------------------------------------
+
+Time to go back to the http://tutorials.opalang.org/iMage[iMage] app walk-through. I was planning to put into practice our knowledge about parsing and implement external configuration for our iMage app, but this will have to wait for the next post (still this week, I promise). Because before we do that I'd like to speak about ways of organizing bigger projects into several files/packages/modules -- and about what those notions mean in Opa.
+
+[caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* About files, packages and modules in Opa.
+* How to split bigger projects into logical components.
+=======================
+
+So far we were writing toy applications that we could fit on one screen. For more serious apps it becomes crucial to split them over several files. This is pretty much business as usual, only Opa does _not_ enforce any one-class/module/...-per-file policy and is not very restrictive when it comes to naming conventions.
+
+Opa provides a mechanism of _packages_. A package is a unit of compilation (i.e. when re-compiling an application only modified packages and those depending on the modified packages are recompiled) and of abstraction (i.e. we can have types/values private to the package). There are no enforced naming convention between file names and package names.
+
+Package names consist of identifiers separated by dots (think URLs). However, from the compiler's point of view packages are _not_ hierarchical. Dots are used for naming conventions and because we can use match-all asterisks when importing packages.
+
+Enough blabbering, time for some practical examples. We indicate the package of the given file with a declaration such as (if not given it will fall into the un-named package):
+
+[source,opa]
+---------------------
+package mlstate.image.slideshow
+---------------------
+
+We use here a convention to compose the full package name out of: the company name, the application name and finally a functional part of the application. To use code from this package in another one, we would need to import it first:
+
+[source,opa]
+---------------------
+import mlstate.image.slideshow
+---------------------
+
+In the import declarations it's possible to use the asterisk and curly braces; it's easier to show an example than to explain:
+
+[source,opa]
+---------------------
+import mlstate.image.*
+import stdlib.widgets.{core, dateprinter}
+---------------------
+
+Few words about the package organization of the standard library. Before continuing to read I suggest you take a look http://opalang.org/resources/doc/index.html[here] at the list of packages available in the standard library of Opa. Roughly speaking they can be divided into the following categories (with sub-categories):
+
+* +stdlib.core+: the core of the standard library. It does not need to be explicitly imported in programs (think Haskell prelude, for instance). Most of the functions we used so far are there.
+* +stdlib.apis+: APIs providing connectivity with other services (http://opalang.org/resources/doc/index.html#facebook.opa.html/!/value_stdlib.apis.facebook[Facebook], http://opalang.org/resources/doc/index.html#twitter.opa.html/!/value_stdlib.apis.twitter[Twitter], http://opalang.org/resources/doc/index.html#github.opa.html/!/value_stdlib.apis.github[GitHub], http://opalang.org/resources/doc/index.html#gmaps.opa.html/!/value_stdlib.apis.gmaps[Google Maps], ...)
+* +stdlib.widgets+ and +stdlib.components+: the ever-growing list of widgets, ready to be used in applications. I'm sure I'll devote a post (or two) to the topics of widgets and components in Opa. (The distinction between the two is somewhat subtle: widgets are stateless, whereas components are not).
+
+Finally we come to the last structural element: _http://opalang.org/resources/book/index.html#_modules[modules]_. Modules are declared as:
+
+[source,opa]
+---------------------
+ModuleName = {{
+  // module declarations
+}}
+---------------------
+
+First notice the _double_ curly braces. We already saw that single braces are used for records; and indeed modules and records bear quite a lot of similarities, as we'll see.
+
+The name of the module will typically be capitalized, although this is a convention and is not enforced by the compiler. Another convention in the standard library of Opa is that all widget modules are prefixed with +``W''+, while all component modules start with +``C''+.
+
+Modules group together definitions -- values and functions but _not_ type definitions, which can only appear at the top-level. All the definitions within the module are mutually recursive, so the following code is correct (though, I don't recommend running it on negative numbers ;)
+
+[source,opa]
+---------------------
+OddEven = {{
+  isOdd(x) = if x == 1 then true else isEven(x-1)
+  isEven(x) = if x == 0 then true else isOdd(x-1)
+}}
+---------------------
+
+and declares a module +OddEven+ with two functions +isOdd+ and +isEven+. We can use them from top-level (or another module) as follows:
+
+[source,opa]
+---------------------
+odd_or_even(x) =
+  x_str = if OddEven.isOdd(x) then "odd" else "even"
+  "{x} is {x_str}"
+---------------------
+
+It's worth noting that Opa does not put many restriction on its users: naming conventions for modules (starting with a capital letter) are not enforced and there is no relation between file names, package names and module names (like in Java where the name of the class must correspond to the name of the file); nor is it enforced that there is only one module per file (like one public class per file in Java).
+
+Is it a good or a bad thing? Depends. Less restrictions means more flexibility for developers. That's good. But it's also more responsibility for teams of developers to come up with good naming conventions and stick to them. Should Opa be more restrictive in that regard? If you have any opinion on this matter, we'll be very interested to hear about it (as usual: drop a line in the comments).
+
+{nbsp}
+
+Ok, let's use those notions in practice by structuring the version of iMage developed in the <<chapter_image_p1_resources, previous post>>. Essentially we can think about this application as consisting of two components: the slideshow widget and the main application using this widget.
+
+So we create a file +slideshow.opa+ in package +mlstate.image.slideshow+ containing a single module +WSlideshow+. We put there functions +zoom_in+ and +show_img+, as before, unchanged. Only now those functions are not supposed to be used from outside of this module so we mark them with +@private+ annotations, which have exactly this effect (making those functions inaccessible outside of the module). We'll talk more about abstraction in Opa soon, I hope.
+
+Then our +page+ function from before now becomes +html+ (it will create the +xhtml+ for the slideshow widget and we will see later that this name is also part of the naming conventions for widgets). Additionally now this function is parametrizes by the map of images to be presented in the slideshow.
+
+Then we create the +iMage-04.opa+ (it's our fourth iteration) file with the main app, which imports and uses this slideshow widget.
+
+Running this application is not so exciting as functionally it's absolutely equivalent to +iMage-03+ from the <<chapter_image_p1_resources, previous post>>. However, I strongly encourage you to compare the source codes of the two and see how we achieved modularity.
+
+++++
+<div class="ftabs">
+++++
+* <<iMage-04, iMage-04.opa>>
+* <<slideshow, slideshow.opa>>
+++++
+<div id="iMage-04">
+++++
+[source,opa]
+---------------------
+include::../examples/iMage-04/iMage-04.opa[]
+---------------------
+++++
+</div>
+<div id="slideshow">
+++++
+[source,opa]
+---------------------
+include::../examples/iMage-04/slideshow.opa[]
+---------------------
+++++
+</div>
+</div>
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-04">Run</A></span>
+++++
+
+Ok, that was a relatively short post but an important step on the way to more complex examples, as we now know how to split them over several files and how to provide basic abstraction. In the next post we'll extend the iMage with external configuration capabilities, allowing us to configure the set of displayed images without recompiling the application, but also to show some extra information for the images (author, title, captions).
+
+// * To put into practice previously obtained skills (<<chapter_trx, here>> and <<chapter_parsing_ctd_unit_testing, here>>) of writing parsers.

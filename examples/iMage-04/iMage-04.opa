@@ -1,5 +1,5 @@
 import stdlib.web.template
-import mlstate.slideshow
+import mlstate.image.slideshow
 
 resources_imgs = @static_resource_directory("resources/imgs")
 resources_css = @static_resource_directory("resources/css")
@@ -10,7 +10,7 @@ page() =
     Template.parse(Template.default, footer())
     |> Template.to_xhtml(Template.default, _)
   <>
-    {Slideshow.create(resources_imgs)}
+    {WSlideshow.html(resources_imgs)}
     {footer}
   </>
 

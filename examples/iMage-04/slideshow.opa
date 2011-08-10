@@ -1,6 +1,6 @@
-package mlstate.slideshow
+package mlstate.image.slideshow
 
-Slideshow =
+WSlideshow =
 {{
 
   @private zoom_in(fn) =
@@ -12,7 +12,7 @@ Slideshow =
       <img onclick={_ -> zoom_in(fn)} src={fn} />
     </>
 
-  create(imgs) =
+  html(imgs) =
     img_list = Map.To.key_list(imgs)
     thumbs_css = css { width: {100 * List.length(img_list)}px }
     <div id=#slideshow>

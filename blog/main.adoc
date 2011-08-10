@@ -40,7 +40,7 @@ include::trx.adoc[]
 
 include::parsing_ctd_unit_testing.adoc[]
 
-include::image_p2_parsing.adoc[]
+include::image_p2_packages_modules.adoc[]
 
 Pending posts
 -------------
