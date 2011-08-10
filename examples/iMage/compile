@@ -1,0 +1,2 @@
+opa-plugin-builder effects/effects.js effects/jquery-effects.js -o effects
+opa iMage.opack -o iMage.exe
