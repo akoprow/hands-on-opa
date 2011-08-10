@@ -4,6 +4,16 @@ Hands-on experience with Opa
 :toc:
 :toclevels: 1
 
+// FIXME, there must be a better way of doing that....
+++++
+<link type="text/css" href="css/jquery-hands-on-opa.css" rel="Stylesheet" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js"></script>
+<script>
+$(function() { $( ".ftabs" ).tabs(); });
+</script>
+++++
+
 include::hello_opa.adoc[]
 
 include::first_steps.adoc[]
@@ -29,6 +39,8 @@ include::challenge_reminder.adoc[]
 include::trx.adoc[]
 
 include::parsing_ctd_unit_testing.adoc[]
+
+include::image_p2_parsing.adoc[]
 
 Pending posts
 -------------
