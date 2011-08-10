@@ -59,17 +59,22 @@ trx = mk_hands_on_article(
   })
 unit_testing = mk_hands_on_article(
   { at="2011/08/unit_testing_and_parsing.html"
-  ; title=""
+  ; title="More parsing and unit-testing"
+  })
+packages_modules = mk_hands_on_article(
+  { at="2011/08/image-part-2-files-packages-modules.html"
+  ; title="iMage: part 2, Files, packages, modules"
   })
 
-hello =      { name="hello_web"  port=5008 article=hello_web       srcs=@static_include_directory("examples/hello_web") }
-watch =      { name="watch"      port=5000 article=interactivity   srcs=@static_include_directory("examples/watch") }
-watch_slow = { name="watch_slow" port=5001 article=interactivity   srcs=@static_include_directory("examples/watch_slow")}
-counter =    { name="counter"    port=5002 article=db_intro        srcs=@static_include_directory("examples/counter")}
-iMage =      { name="iMage"      port=5003 article=image_intro     srcs=@static_include_directory("examples/iMage")}
-iMage_01 =   { name="iMage-01"   port=5004 article=image_resources srcs=@static_include_directory("examples/iMage-01")}
-iMage_02 =   { name="iMage-02"   port=5005 article=image_resources srcs=@static_include_directory("examples/iMage-02")}
-iMage_03 =   { name="iMage-03"   port=5006 article=image_resources srcs=@static_include_directory("examples/iMage-03")}
-calculator = { name="calculator" port=5007 article=unit_testing    srcs=@static_include_directory("examples/calculator") }
+hello =      { name="hello_web"  port=5008 article=hello_web        srcs=@static_include_directory("examples/hello_web") }
+watch =      { name="watch"      port=5000 article=interactivity    srcs=@static_include_directory("examples/watch") }
+watch_slow = { name="watch_slow" port=5001 article=interactivity    srcs=@static_include_directory("examples/watch_slow")}
+counter =    { name="counter"    port=5002 article=db_intro         srcs=@static_include_directory("examples/counter")}
+iMage =      { name="iMage"      port=5003 article=image_intro      srcs=@static_include_directory("examples/iMage")}
+iMage_01 =   { name="iMage-01"   port=5004 article=image_resources  srcs=@static_include_directory("examples/iMage-01")}
+iMage_02 =   { name="iMage-02"   port=5005 article=image_resources  srcs=@static_include_directory("examples/iMage-02")}
+iMage_03 =   { name="iMage-03"   port=5006 article=image_resources  srcs=@static_include_directory("examples/iMage-03")}
+calculator = { name="calculator" port=5007 article=unit_testing     srcs=@static_include_directory("examples/calculator") }
+iMage_04 =   { name="iMage-04"   port=5009 article=packages_modules srcs=@static_include_directory("examples/iMage-04")}
 
-examples : list(example) = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator ]
+examples : list(example) = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04 ]
