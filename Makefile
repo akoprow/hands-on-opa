@@ -31,7 +31,7 @@ clean:
  -o -name access.log \
  -o -name error.log \
  -o -name '*.opp' \
- -o -name '*.opx' \
+ -o -name '*.opx*' \
  -o -name '_build'\
  -o -name '*.exe' \
  -o -name '*~' \

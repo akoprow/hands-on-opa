@@ -98,6 +98,10 @@ packages_modules = mk_hands_on_article(
   { at="2011/08/image-part-2-files-packages-modules.html"
   ; title="iMage: part 2, Files, packages, modules"
   })
+image_parsing = mk_hands_on_article(
+  { at="..."
+  ; title="iMage: part 3, Parsing external configuration"
+  })
 
 // ===============================================================
 // manual examples
@@ -123,8 +127,9 @@ iMage_02 =   { name="iMage-02"   port=5005 article=image_resources  srcs=@static
 iMage_03 =   { name="iMage-03"   port=5006 article=image_resources  srcs=@static_include_directory("examples/iMage-03")}
 calculator = { name="calculator" port=5007 article=unit_testing     srcs=@static_include_directory("examples/calculator") }
 iMage_04 =   { name="iMage-04"   port=5009 article=packages_modules srcs=@static_include_directory("examples/iMage-04")}
+iMage_05 =   { name="iMage-05"   port=5015 article=image_parsing    srcs=@static_include_directory("examples/iMage-05")}
 
-blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04 ]
+blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05 ]
 
 // ===============================================================
 // all examples
