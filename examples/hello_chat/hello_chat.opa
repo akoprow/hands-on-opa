@@ -1,0 +1,1 @@
+../../../opalang/doc/book/hello_chat/hello_chat.opa

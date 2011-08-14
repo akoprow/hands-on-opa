@@ -3,6 +3,39 @@ type blog_article =
   ; post : Uri.uri
   }
 
+// ===============================================================
+// manual articles
+// ===============================================================
+mk_manual_article(~{at title}) : blog_article =
+  uri = "http://opalang.org/resources/book/index.html#{at}"
+  wrong_uri() = error("Wrong manual URI: {uri}")
+  post = Option.lazy_default(wrong_uri, Uri.of_string(uri))
+  ~{post title}
+
+hello_chat = mk_manual_article(
+  { at="_hello_chat"
+  ; title="Hello, chat"
+  })
+hello_wiki = mk_manual_article(
+  { at="_hello_wiki"
+  ; title="Hello, wiki"
+  })
+hello_wiki_rest = mk_manual_article(
+  { at="_hello_web_services"
+  ; title="Hello, web services"
+  })
+hello_wiki_rest_client = mk_manual_article(
+  { at="_hello_web_services_client"
+  ; title="Hello, web services client"
+  })
+hello_recaptcha = mk_manual_article(
+  { at="hello_recaptcha"
+  ; title="Hello, reCaptcha (and the rest of the world)"
+  })
+
+// ===============================================================
+// blog articles
+// ===============================================================
 mk_hands_on_article(~{at title}) : blog_article =
   uri = "http://blog.opalang.org/{at}"
   wrong_uri() = error("Wrong article URI: {uri}")
@@ -66,6 +99,20 @@ packages_modules = mk_hands_on_article(
   ; title="iMage: part 2, Files, packages, modules"
   })
 
+// ===============================================================
+// manual examples
+// ===============================================================
+chat =             { name="hello_chat"             port=5010 article=hello_chat             srcs=@static_include_directory("examples/hello_chat")}
+wiki =             { name="hello_wiki"             port=5011 article=hello_wiki             srcs=@static_include_directory("examples/hello_wiki")}
+wiki_rest =        { name="hello_wiki_rest"        port=5012 article=hello_wiki_rest        srcs=@static_include_directory("examples/hello_wiki_rest")}
+wiki_rest_client = { name="hello_wiki_rest_client" port=5013 article=hello_wiki_rest_client srcs=@static_include_directory("examples/hello_wiki_rest_client")}
+recaptcha =        { name="hello_recaptcha"        port=5014 article=hello_recaptcha        srcs=@static_include_directory("examples/hello_recaptcha")}
+
+manual_examples = [ chat, wiki, wiki_rest, wiki_rest_client, recaptcha ]
+
+// ===============================================================
+// blog examples
+// ===============================================================
 hello =      { name="hello_web"  port=5008 article=hello_web        srcs=@static_include_directory("examples/hello_web") }
 watch =      { name="watch"      port=5000 article=interactivity    srcs=@static_include_directory("examples/watch") }
 watch_slow = { name="watch_slow" port=5001 article=interactivity    srcs=@static_include_directory("examples/watch_slow")}
@@ -77,4 +124,9 @@ iMage_03 =   { name="iMage-03"   port=5006 article=image_resources  srcs=@static
 calculator = { name="calculator" port=5007 article=unit_testing     srcs=@static_include_directory("examples/calculator") }
 iMage_04 =   { name="iMage-04"   port=5009 article=packages_modules srcs=@static_include_directory("examples/iMage-04")}
 
-examples : list(example) = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04 ]
+blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04 ]
+
+// ===============================================================
+// all examples
+// ===============================================================
+examples = manual_examples ++ blog_examples

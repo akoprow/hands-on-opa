@@ -1,0 +1,1 @@
+../../../opalang/doc/book/hello_web_services/hello_wiki_rest_client_customizable.opa

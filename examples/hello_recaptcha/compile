@@ -1,0 +1,2 @@
+opa-plugin-builder recaptcha.js -o recaptcha
+opa recaptcha.opp hello_recaptcha.opa hello_recaptcha_app.opa -o hello_recaptcha.exe
