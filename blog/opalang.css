@@ -141,6 +141,8 @@ pre {
    color: #00428C;
    background-color: #F4F5F7;
    margin: 0px;
+   max-height: 500px;
+   overflow: auto;
   }
 /* #preamble {position: absolute;right: 0;top: -370px;} */
 .toctitle {color:#969692;}

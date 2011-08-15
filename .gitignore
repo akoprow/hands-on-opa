@@ -4,4 +4,5 @@ _tracks
 *.exe
 *.opp
 *.opx
+*.opx.broken
 *.zip

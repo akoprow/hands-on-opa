@@ -123,4 +123,3 @@ include::../examples/iMage-04/slideshow.opa[]
 
 Ok, that was a relatively short post but an important step on the way to more complex examples, as we now know how to split them over several files and how to provide basic abstraction. In the next post we'll extend the iMage with external configuration capabilities, allowing us to configure the set of displayed images without recompiling the application, but also to show some extra information for the images (author, title, captions).
 
-// * To put into practice previously obtained skills (<<chapter_trx, here>> and <<chapter_parsing_ctd_unit_testing, here>>) of writing parsers.

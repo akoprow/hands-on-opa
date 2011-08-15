@@ -26,7 +26,12 @@ show_error(error) =
 
 go(config_string) =
   match Parser.try_parse(WSlideshow.markup_parser, config_string)
-  | {none} -> show_error(<>Error: wrong configuration markup:<br/><pre>{config_string}</></>)
+  | {none} -> show_error(
+                <>
+                  Error: wrong configuration markup:<br/>
+                  <pre>{config_string}</>
+                </>
+              )
   | {some=config} ->
     show_slideshow(config)
 
@@ -35,11 +40,14 @@ dispatch(uri : Uri.relative) =
   | {path=[] query=[] ...} -> go(default_config())
   | {path=[] query=[("images", url)] ...} ->
     (match Uri.of_string(url)
-    | {none} -> show_error(<>Error: wrong configuration URI: {url}</>)
+    | {none} ->
+        show_error(<>Error: wrong configuration URI: {url}</>)
     | {some=config_uri} ->
         match WebClient.Get.try_get(config_uri)
-        | {failure=_} -> show_error(<>Error: problems fetching configuration from {url}</>)
-        | {success=config} -> go(config.content)
+        | {failure=_} ->
+            show_error(<>Error: problems fetching configuration from {url}</>)
+        | {success=config} ->
+            go(config.content)
     )
   | _ -> none
 

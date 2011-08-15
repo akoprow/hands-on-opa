@@ -1,0 +1,161 @@
+[[chapter_image_p3_parsing]]
+iMage: part 3, Parsing external configuration
+---------------------------------------------
+
+Ok, as promised earlier try to proceed with our walk-through of the http://tutorials.opalang.org/iMage[iMage] app. In this post we will use our freshly obtained skills about parsing in Opa and will extend the app with external configuration, which will contain the images to display as well as their basic info (author, title, description).
+
+[caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* How to put into practice previously obtained skills (<<chapter_trx, here>> and <<chapter_parsing_ctd_unit_testing, here>>) of writing parsers.
+* How to change application behaviour, based on the accessed URL.
+=======================
+
+Modelling the configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Our first step would be to define a data-type for the configuration. In practice this step is usually not required (unless we want to put this data in the DB), but often very helpful. It is not strictly neccessary because Opa type-inference would do the work for us even without explicit type-annotations. But the advantages of having them are:
+
+* at the early stage of implementation it helps us to get a better idea of what we are trying to do,
+* it helps documenting the code (and indeed can greatly improve clarity of the code for non-authors; or authors looking at the code after a few weeks),
+* it usually improves compiler error messages (allowing to better pin-point the origin of the type error and to improve its quality).
+
+In this article we will use the following types:
+
+[source, opa]
+---------------------
+type WSlideshow.image =
+  { src : Uri.uri
+  ; link : option(Uri.uri)
+  ; author : option(xhtml)
+  ; title : option(xhtml)
+  ; description : option(xhtml)
+  }
+
+type WSlideshow.config =
+  { title : xhtml
+  ; images : list(WSlideshow.image)
+  }
+---------------------
+
++WSlideshow.image+ is a description of a single image and contains its address (+src+ of type +Uri.uri+), an optional +link+ (we will open it upon clicking on the image) and optional image information: +author+, +title+ and +description+ (all being +xhtml+ fragments). +WSlideshow.config+ is a configuration of a slideshow containing a +title+ and a list of +images+ to display.
+
+Few remarks:
+
+* types are always defined in top-level and cannot be defined within modules,
+* type names can contain dots and it's usual to prefix them with the name of the module to which they are relevant.
+
+Parsing the configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Ok, now it's time to construct such a configuration from a textual description, such as http://image.opalang.org/resources/img-data-thefuturebuzz.txt[this one]. The rules of the game are as follows:
+
+* consecutive entries (images) are separated with a series of hash (+#+) characters,
+* the first entry is the title of the slideshow and subsequent ones are images to be displayed,
+* every image consists of:
+  - +Image: ...+ with the URL of the image to display,
+  - +Link: ...+, +Title: ...+ and +Author: ...+ with, respectively, link, title and author of the image (all optional),
+  - Everything after those fields (and an optional new line) is considered to be a description of the image.
+  - description can contain links in the form +[title](URL)+.
+
+So, let's write a parser for this kind of markup. Let's begin with a few simple definitions:
+
+[source, opa]
+---------------------
+ws = parser [ ]* -> void
+
+eol = parser [\n] -> void
+
+separator = parser "####" [#]* ws eol -> void
+
+entry(label, content) =
+  parser "{label}:" ws res=content -> res
+---------------------
+
++ws+ accepts a sequence of spaces, +eol+ is the end-of-line character, +separator+ parses a single line containing a block (at least 4) of hash characters (+#+). Finally +entry(label, content)+ parses text starting with +label+, followed by a colon +:+ and then continues parsing with +content+ parser.
+
+Now, let's proceed with +linkifier+, which will get an arbitrary +string+ and will turn it into +xhtml+ extracting links in the process, according to the schema +[link title](link URL)+.
+
+[source, opa]
+---------------------
+linkifier =
+  link = parser
+    "[" name=((!"]" .)*) "](" link=UriParser.uri ")" -> <a href={link}>{name}</>
+  msg_segment = parser
+  | ~link -> link
+  | s=((!link .)+) -> <>{s}</>
+  parser ls=msg_segment* -> <>{ls}</>
+---------------------
+
+The +link+ parser recognizes links and turns them into +<a href="..." />+ tags. Then the main parser just goes over a list of segments, where a segment is either a +link+ or a sequence of characters that does not start a link (+!link .+).
+
+[source, opa]
+---------------------
+full_line_parser =
+  parser txt=((!eol .)*) eol ->
+    Parser.try_parse(linkifier, "{txt}") ? <></>
+---------------------
+
+The above +full_line_parser+ just parses a single line of text. We discussed this parsing expression in the <<chapter_trx, previous post>>. It's production calls our +linkifier+ parser to transform the line of text into an +xhtml+, interpreting the links. Note that +Parser.try_parse+ gives us an +option+. The question mark operator, a very useful one, works as follows. +x ? default+ returns:
+
+* +a+ if +x == some(a)+ and
+* +default+ if +x == none+.
+
+[source, opa]
+---------------------
+multi_line_parser =
+  parser lines=(!separator l=full_line_parser -> l)+ ->
+    XmlConvert.of_list_using(<></>, <br/>, <br/>, lines)
+---------------------
+
+Finally, the above +multi_line_parser+ reads a number of lines until reaching a separator (a series of +#+ characters). All lines are parsed with +full_line_parser+ so give us +xhtml+ with interpreted links. We produce the final +xhtml+ by separating lines with +<br/>+ tag, using the http://opalang.org/resources/doc/index.html#xhtml.opa.html/!/value_stdlib.core.xhtml.XmlConvert.of_list_using[+XmlConvert.of_list_using+] function.
+
+Ok, now we have all the weapons in hands and can proceed to write the main parser.
+
+[source, opa]
+---------------------
+markup_parser : Parser.general_parser(WSlideshow.config) =
+  src = entry("Image", Uri.uri_parser)
+  link = entry("Link", Uri.uri_parser)
+  title  = entry("Title", full_line_parser)
+  author = entry("Author", full_line_parser)
+  image = parser ~src ~link? ~title? ~author? eol? description=multi_line_parser? ->
+    ~{src link author title description} : WSlideshow.image
+  images = Rule.parse_list_sep(true, image, separator)
+  parser separator title=multi_line_parser ~images separator -> ~{title images}
+---------------------
+
+I hope most of it should be self-explanatory by now. The main parser reads a +separator+ line then reads the slideshow title with a +multi_line_parser+ and then the list of +images+. +images+ are parsed using http://opalang.org/resources/doc/index.html#rules.opa.html/!/value_stdlib.core.parser.Rule.parse_list_sep[+Rule.parse_list_sep+] combinator which reads a list of entries (+image+ here), with a given separator. Finally a single +image+ parser reads a +src+ entry, followed by optional: +link+, +title+, +author+ (all build with +entry+ function) and finally the rest is treaded as +description+ and is parsed with +multi_line_parser+.
+
+All in all 27 lines of code getting the job done. It takes a while to make friends with Opa's TRX; but once that happens it can be a surprisingly powerful friend :)
+
+Putting it all together
+~~~~~~~~~~~~~~~~~~~~~~~
+
+++++
+<div class="ftabs">
+++++
+* <<iMage-05, iMage-05.opa>>
+* <<slideshow, slideshow.opa>>
+++++
+<div id="iMage-05">
+++++
+[source,opa]
+---------------------
+include::../examples/iMage-05/iMage-05.opa[]
+---------------------
+++++
+</div>
+<div id="slideshow">
+++++
+[source,opa]
+---------------------
+include::../examples/iMage-05/slideshow.opa[]
+---------------------
+++++
+</div>
+</div>
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-05">Run</A></span>
+++++

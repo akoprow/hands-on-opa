@@ -5,6 +5,8 @@ EXE = $(MAIN).exe
 EXAMPLES = $(shell ls examples)
 ZIPPED_EXAMPLES = $(foreach ex,$(EXAMPLES),examples/$(ex)/pack.zip)
 
+all: clean pack $(EXE)
+
 pack: $(ZIPPED_EXAMPLES)
 
 $(MAIN).exe: $(MAIN).opa data.opa examples.opa bash.opp
