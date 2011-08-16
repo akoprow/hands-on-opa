@@ -14,7 +14,6 @@ $(function() { $( ".ftabs" ).tabs(); });
 </script>
 ++++
 
-////
 include::hello_opa.adoc[]
 
 include::first_steps.adoc[]
@@ -42,7 +41,6 @@ include::trx.adoc[]
 include::parsing_ctd_unit_testing.adoc[]
 
 include::image_p2_packages_modules.adoc[]
-////
 
 include::image_p3_parsing.adoc[]
 
