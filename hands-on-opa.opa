@@ -73,6 +73,7 @@ show_example(ex, url_suffix) =
     <div id="container">
       <iframe src="http://{main_server}:{ex.port}{url_suffix}" />
     </>
+    <script src="resources/ga.js" type="text/javascript"></script>
   Resource.styled_page("Hands on Opa: {ex.name}", ["/resources/style/style.css"], page)
 
 index() =
