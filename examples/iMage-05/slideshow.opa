@@ -78,7 +78,7 @@ WSlideshow =
 
   @private eol = parser [\n] -> void
 
-  @private separator = parser "####" [#]* ws eol -> void
+  @private separator = parser "####" "#"* ws eol -> void
 
   @private entry(label, content) =
     parser "{label}:" ws res=content -> res
@@ -104,7 +104,8 @@ WSlideshow =
     link = entry("Link", Uri.uri_parser)
     title  = entry("Title", full_line_parser)
     author = entry("Author", full_line_parser)
-    image = parser ~src ~link? ~title? ~author? eol? description=multi_line_parser? ->
+    image =
+      parser ~src ~link? ~title? ~author? eol? description=multi_line_parser? ->
       ~{src link author title description} : WSlideshow.image
     images = Rule.parse_list_sep(true, image, separator)
     parser separator title=multi_line_parser ~images separator -> ~{title images}

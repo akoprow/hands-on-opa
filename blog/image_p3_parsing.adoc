@@ -2,7 +2,7 @@
 iMage: part 3, Parsing external configuration
 ---------------------------------------------
 
-Ok, as promised earlier try to proceed with our walk-through of the http://tutorials.opalang.org/iMage[iMage] app. In this post we will use our freshly obtained skills about parsing in Opa and will extend the app with external configuration, which will contain the images to display as well as their basic info (author, title, description).
+Ok, as promised earlier, let's proceed with our walk-through of the http://tutorials.opalang.org/iMage[iMage] app. In this post we will use our freshly obtained skills about parsing in Opa and will extend the app with external configuration, which will contain the images to display as well as their basic info (author, title, description).
 
 [caption="Summary"]
 [NOTE]
@@ -10,15 +10,16 @@ Ok, as promised earlier try to proceed with our walk-through of the http://tutor
 You will learn:
 
 * How to put into practice previously obtained skills (<<chapter_trx, here>> and <<chapter_parsing_ctd_unit_testing, here>>) of writing parsers.
-* How to change application behaviour, based on the accessed URL.
+* How to change application behavior, based on the accessed URL.
+* That it's possible to have more than one server :)
 =======================
 
-Modelling the configuration
+Modeling the configuration
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Our first step would be to define a data-type for the configuration. In practice this step is usually not required (unless we want to put this data in the DB), but often very helpful. It is not strictly neccessary because Opa type-inference would do the work for us even without explicit type-annotations. But the advantages of having them are:
+Our first step will be to define a data-type for the configuration. In practice this step is usually not required (unless we want to put this data in the DB), but often very helpful. It is not strictly necessary because Opa type-inference would do the work for us even without explicit type-annotations. But the advantages of having them are:
 
-* at the early stage of implementation it helps us to get a better idea of what we are trying to do,
+* at the early stage of implementation it forces us to think better about what we are trying to do, before actually doing it (and that can save us a lot of work in the long run :),
 * it helps documenting the code (and indeed can greatly improve clarity of the code for non-authors; or authors looking at the code after a few weeks),
 * it usually improves compiler error messages (allowing to better pin-point the origin of the type error and to improve its quality).
 
@@ -44,7 +45,7 @@ type WSlideshow.config =
 
 Few remarks:
 
-* types are always defined in top-level and cannot be defined within modules,
+* types are always defined at the top-level and cannot be defined within modules,
 * type names can contain dots and it's usual to prefix them with the name of the module to which they are relevant.
 
 Parsing the configuration
@@ -58,7 +59,7 @@ Ok, now it's time to construct such a configuration from a textual description, 
   - +Image: ...+ with the URL of the image to display,
   - +Link: ...+, +Title: ...+ and +Author: ...+ with, respectively, link, title and author of the image (all optional),
   - Everything after those fields (and an optional new line) is considered to be a description of the image.
-  - description can contain links in the form +[title](URL)+.
+  - all fields can contain links in the form +[title](URL)+.
 
 So, let's write a parser for this kind of markup. Let's begin with a few simple definitions:
 
@@ -68,13 +69,13 @@ ws = parser [ ]* -> void
 
 eol = parser [\n] -> void
 
-separator = parser "####" [#]* ws eol -> void
+separator = parser "####" "#"* ws eol -> void
 
 entry(label, content) =
   parser "{label}:" ws res=content -> res
 ---------------------
 
-+ws+ accepts a sequence of spaces, +eol+ is the end-of-line character, +separator+ parses a single line containing a block (at least 4) of hash characters (+#+). Finally +entry(label, content)+ parses text starting with +label+, followed by a colon +:+ and then continues parsing with +content+ parser.
++ws+ accepts a sequence of spaces, +eol+ is the end-of-line character, +separator+ parses a single line containing a block of (at least 4) hash characters (+#+). Finally +entry(label, content)+ parses text starting with +label+, followed by a colon +:+ and then continues parsing with +content+ parser.
 
 Now, let's proceed with +linkifier+, which will get an arbitrary +string+ and will turn it into +xhtml+ extracting links in the process, according to the schema +[link title](link URL)+.
 
@@ -89,7 +90,7 @@ linkifier =
   parser ls=msg_segment* -> <>{ls}</>
 ---------------------
 
-The +link+ parser recognizes links and turns them into +<a href="..." />+ tags. Then the main parser just goes over a list of segments, where a segment is either a +link+ or a sequence of characters that does not start a link (+!link .+).
+The local +link+ parser recognizes links and turns them into +<a href="..." />+ tags. Then the main parser just goes over a list of segments, where a segment is either a +link+ or a sequence of characters that does not start a link (+!link .+).
 
 [source, opa]
 ---------------------
@@ -98,7 +99,7 @@ full_line_parser =
     Parser.try_parse(linkifier, "{txt}") ? <></>
 ---------------------
 
-The above +full_line_parser+ just parses a single line of text. We discussed this parsing expression in the <<chapter_trx, previous post>>. It's production calls our +linkifier+ parser to transform the line of text into an +xhtml+, interpreting the links. Note that +Parser.try_parse+ gives us an +option+. The question mark operator, a very useful one, works as follows. +x ? default+ returns:
+The above +full_line_parser+ just parses a single line of text. We discussed this parsing expression in the <<chapter_trx, previous post>>. It's production calls our +linkifier+ parser to transform the line of text into an +xhtml+, interpreting the links. Note that +Parser.try_parse+ gives us an +option+. The question mark operator, a very useful one!, works as follows. +x ? default+ returns:
 
 * +a+ if +x == some(a)+ and
 * +default+ if +x == none+.
@@ -127,12 +128,110 @@ markup_parser : Parser.general_parser(WSlideshow.config) =
   parser separator title=multi_line_parser ~images separator -> ~{title images}
 ---------------------
 
-I hope most of it should be self-explanatory by now. The main parser reads a +separator+ line then reads the slideshow title with a +multi_line_parser+ and then the list of +images+. +images+ are parsed using http://opalang.org/resources/doc/index.html#rules.opa.html/!/value_stdlib.core.parser.Rule.parse_list_sep[+Rule.parse_list_sep+] combinator which reads a list of entries (+image+ here), with a given separator. Finally a single +image+ parser reads a +src+ entry, followed by optional: +link+, +title+, +author+ (all build with +entry+ function) and finally the rest is treaded as +description+ and is parsed with +multi_line_parser+.
+I hope most of it should be self-explanatory by now. The main parser reads a +separator+ line then reads the slideshow title with a +multi_line_parser+ and then the list of +images+. +images+ are parsed using http://opalang.org/resources/doc/index.html#rules.opa.html/!/value_stdlib.core.parser.Rule.parse_list_sep[+Rule.parse_list_sep+] combinator which reads a list of entries (+image+ here), with a given separator. Finally a single +image+ parser reads a +src+ entry, followed by optional: +link+, +title+, +author+ (all build with +entry+ function) and finally the rest is treated as a +description+ and is parsed with +multi_line_parser+.
 
 All in all 27 lines of code getting the job done. It takes a while to make friends with Opa's TRX; but once that happens it can be a surprisingly powerful friend :)
 
+Interpreting the URL
+~~~~~~~~~~~~~~~~~~~~
+
+We now need to alert the main application to use our shiny new configuration parser. We begin writing a +show_slideshow+ function that takes a configuration as an argument.
+
+[source, opa]
+---------------------
+show_page(content) =
+  title = "iMage: a magical image viewer!"
+  style = ["resources/css.css"]
+  Resource.styled_page(title, style, content) |> some
+
+show_slideshow(slideshow_config : WSlideshow.config) =
+  footer =
+    Template.parse(Template.default, footer())
+    |> Template.to_xhtml(Template.default, _)
+  xhtml =
+    <>
+      {WSlideshow.html(slideshow_config)}
+      {footer}
+    </>
+  show_page(xhtml)
+
+show_error(error) =
+ show_page(<div class=error>{error}</>)
+---------------------
+
+It's very similar to +page()+ function that we had previously except that:
+
+* we now call +WSlideshow.html+ with slideshow configuration as an argument and not the list of image resources,
+* we don't return just an +xhtml+ but a full +resource+, in this case being an HTML page with custom style constructed in +show_page+ function using http://opalang.org/resources/doc/index.html#resource.opa.html/!/value_stdlib.core.web.resource.Resource.styled_page[+Resource.styled_page+] and
+* we also have an additional +show_error+ function that we will use shortly.
+
+Now we could have some exemplary configuration included as a resource to our application
+
+[source, opa]
+---------------------
+default_config = @static_content("resources/img-data-thefuturebuzz.txt")
+---------------------
+
+and then use it to present the slideshow as before, only now with more information about presented images, coming from this configuration.
+
+[source, opa]
+---------------------
+go(config_string) =
+  match Parser.try_parse(WSlideshow.markup_parser, config_string)
+  | {none} -> show_error(
+                <>
+                  Error: wrong configuration markup:<br/>
+                  <pre>{config_string}</>
+                </>
+              )
+  | {some=config} ->
+    show_slideshow(config)
+
+page() = go(default_config())
+
+server = Server.one_page_bundle("iMage: a magical image viewer!",
+           [resources_imgs, resources_css], ["resources/css/css.css"], page())
+---------------------
+
+In the +go+ function we use the previously presented +WSlideshow.markup_parser+ to parse the configuration string.
+
+However... why not allowing custom configuration given by the user of the app? How would we get such a parameter from the user? One option is to use the URL.
+
+For that we will use a new server constructor: http://opalang.org/resources/doc/index.html#server.opa.html/!/value_stdlib.core.web.server.Server.full_dispatch[+Server.full_dispatch+]. It takes two arguments:
+
+[source, opa]
+---------------------
+full_dispatch(dispatcher: Uri.relative -> 'a, decoder: 'a -> option(resource)) : service
+---------------------
+
+the +dispatcher+ maps the URL to some type and then the +decoder+ maps that type to an optional +resource+. Returning none means that this server does not handle the given URL. This allows us to have more than one server, each one handling a different set of URLs. A typical scenario for that will be to have one HTTP and one HTTPS server. However, we will use it below simply to have one server to handle resources, we will use http://opalang.org/resources/doc/index.html#server.opa.html/!/value_stdlib.core.web.server.Server.of_bundle[+Server.of_bundle+] for that, and another one for user requests. Also we will not use this two-step process and will simply have an identity function for the +decoder+. We will recognize relative URLs of the format +/?images=CONFIGURATION_URL+ and we use http://opalang.org/resources/doc/index.html#web_client.opa.html/!/value_stdlib.core.web.client.WebClient.Get.try_get[+WebClient.Get.try_get+] to fetch configuration from a given URL (http://opalang.org/resources/doc/index.html#web_client.opa.html/!/[+WebClient+] can perform all the GET, POST, DELETE etc. requests). This leads to the following two servers:
+
+[source, opa]
+---------------------
+dispatch(uri : Uri.relative) =
+  match uri with
+  | {path=[] query=[] ...} -> go(default_config())
+  | {path=[] query=[("images", url)] ...} ->
+    (match Uri.of_string(url)
+    | {none} ->
+        show_error(<>Error: wrong configuration URI: {url}</>)
+    | {some=config_uri} ->
+        match WebClient.Get.try_get(config_uri)
+        | {failure=_} ->
+            show_error(<>Error: problems fetching configuration from {url}</>)
+        | {success=config} ->
+            go(config.content)
+    )
+  | _ -> none
+
+server = Server.full_dispatch(dispatch, identity)
+server = Server.of_bundle([resources_css])
+---------------------
+
 Putting it all together
 ~~~~~~~~~~~~~~~~~~~~~~~
+
+Putting it all together we arrive at a 5-th incarnation of iMage, presented below. I did not discuss the changes in +slideshow.opa+ required after changing from a map of image resources to +WSlideshow.config+ and in the presentation of images to also show the captions (author, title, description) but both are trivial and should not be very surprising. As usual, click run to see the app in action. Or http://tutorials.opalang.org/iMage-05/?images=http://tutorials.opalang.org/iMage-05/resources/img-data-imagen.txt[click here] to see it running with a custom argument in the URL (+http://tutorials.opalang.org/iMage-05/?images=http://tutorials.opalang.org/iMage-05/resources/img-data-imagen.txt+, so with http://tutorials.opalang.org/iMage-05/resources/img-data-imagen.txt[this] configuration file). If you feel like creating your own slideshow to watch with iMage, please give me a shout in the comments :)
 
 ++++
 <div class="ftabs">
@@ -159,3 +258,5 @@ include::../examples/iMage-05/slideshow.opa[]
 </div>
 <span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-05">Run</A></span>
 ++++
+
+We still have some ground to cover with iMage, but it's mostly eye-candy that is left. Therefore I'm starting to think about a next app for a next walk-through on the blog -- ideas/suggestions/requests very welcome!
