@@ -4,7 +4,7 @@ resources = @static_resource_directory("resources")
 
 main_server="94.23.204.210"
 
-show_example(ex) =
+show_example(ex, url_suffix) =
   Modal = WNotification
   src_code_id = "src_code"
   src_code_modal_config =
@@ -71,7 +71,7 @@ show_example(ex) =
   page =
     <div id="header">{header}</div>
     <div id="container">
-      <iframe src="http://{main_server}:{ex.port}" />
+      <iframe src="http://{main_server}:{ex.port}{url_suffix}" />
     </>
   Resource.styled_page("Hands on Opa: {ex.name}", ["/resources/style/style.css"], page)
 
@@ -105,7 +105,7 @@ urls =
   | [x | xs] ->
     (parser
     | "/{x.name}/{x.name}.zip" -> Examples.pack(x)
-    | "/{x.name}" -> show_example(x)
+    | "/{x.name}" suffix=("/" .*)? -> show_example(x, Option.map(Text.to_string, suffix) ? "")
     | res={aux(xs)} -> res
     )
   aux(examples)
