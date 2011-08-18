@@ -1,0 +1,20 @@
+[[chapter_opa_licence_contribs]]
+
+Opa: licence, contributions
+---------------------------
+
+Hey there. No tutorial today. Instead I want to talk about two important and related topics: Opa's licence and contributions to Opa. The former you often write to us about; the latter we wish you'd write more about ;).
+
+Licence
+~~~~~~~
+
+We often receive feedback in the form: _``Opa is great... but can I use it for a corporate project?''_. So let's set the record straight and talk a bit about licencing.
+
+Opa is http://en.wikipedia.org/wiki/Free_software[Free Software] and is released with an http://en.wikipedia.org/wiki/AGPL[GNU Affero General Public Licence, version 3 (AGPLv3)] licence. We mostly receive two types of questions. Firstly, _``if using AGPL Opa to develop an app does it need to be AGPL, too?''_ -- yes, it does. Secondly, what does AGPL licence, entail? This cannot be answered as concisely but I suggest you take a look at the http://en.wikipedia.org/wiki/AGPL[Wikipedia page] or http://www.gnu.org/licenses/agpl-3.0.html[the GNU page] or, if you are like me and prefer more down to earth explanations, at this http://fi.am/entry/agplv3-explained[AGPLv3 explained page].
+
+Probably the most important implication of AGPL is that it requires you to provide a way for your users to download the sources of the application. In fact Opa facilitates that by automatically en-riching the server (in release mode) to serve the source code of the application at a special +/\_internal_/src_code+ URL.
+
+But this is not the end of the story. We believe in http://en.wikipedia.org/wiki/Free_software[free software] (hence the AGPL licence) but we also understand that it may not be very suitable for commercial users of Opa. Such users will be able to obtain a private licence (paid). This will allow them to keep their sources closed if they wish to do so and will provide us with funds to further develop and improve Opa -- win-win situation :). If you are interested in more details about obtaining such a licence, do not hesitate to contact mailto:sales@mlstate.com[sales@mlstate.com], where we will try to answer all your questions (including pricing).
+
+Contributions
+~~~~~~~~~~~~~
