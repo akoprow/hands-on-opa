@@ -1,20 +1,38 @@
-[[chapter_opa_licence_contribs]]
+[[chapter_opa_license_contribs]]
 
-Opa: licence, contributions
+Opa: license, contributions
 ---------------------------
 
-Hey there. No tutorial today. Instead I want to talk about two important and related topics: Opa's licence and contributions to Opa. The former you often write to us about; the latter we wish you'd write more about ;).
+Hey there. No tutorial today. Instead I want to shortly talk about two important and related topics: Opa's license and contributions to Opa. The former you often write to us about; the latter we wish you'd write more about ;). But first a short announcement.
 
-Licence
+[caption="Update"]
+[NOTE]
+=======================
+By popular request the deadline of the http://challenge.opalang.org[Opa Developer Challenge] was just postponed until 17/10/2011. More information here http://opalang.org/challenge/newsletters.xmlt[here]. Didn't hear about the challenge yet? Check out the http://challenge.opalang.org[challenge website] and get busy coding for attractive prizes :).
+=======================
+
+License
 ~~~~~~~
 
-We often receive feedback in the form: _``Opa is great... but can I use it for a corporate project?''_. So let's set the record straight and talk a bit about licencing.
+We often receive feedback in the form: _``Opa is great... but can I use it for a corporate project?''_. So let's set the record straight and talk a bit about licensing.
 
-Opa is http://en.wikipedia.org/wiki/Free_software[Free Software] and is released with an http://en.wikipedia.org/wiki/AGPL[GNU Affero General Public Licence, version 3 (AGPLv3)] licence. We mostly receive two types of questions. Firstly, _``if using AGPL Opa to develop an app does it need to be AGPL, too?''_ -- yes, it does. Secondly, what does AGPL licence, entail? This cannot be answered as concisely but I suggest you take a look at the http://en.wikipedia.org/wiki/AGPL[Wikipedia page] or http://www.gnu.org/licenses/agpl-3.0.html[the GNU page] or, if you are like me and prefer more down to earth explanations, at this http://fi.am/entry/agplv3-explained[AGPLv3 explained page].
+Opa is http://en.wikipedia.org/wiki/Free_and_open_source_software[free and open software] and is released with an http://en.wikipedia.org/wiki/AGPL[GNU Affero General Public License, version 3 (AGPLv3)]. We mostly receive two types of questions. Firstly, _``if I'm using AGPL Opa to develop an app does it need to be AGPL, too?''_. Long story short -- yes, it does. Secondly, what does AGPL license, entail? This cannot be answered as concisely but I suggest you take a look at the http://en.wikipedia.org/wiki/AGPL[Wikipedia page] or http://www.gnu.org/licenses/agpl-3.0.html[the GNU page] or, if you are like me and prefer more down to earth explanations, at this http://fi.am/entry/agplv3-explained[AGPLv3 explained page].
 
-Probably the most important implication of AGPL is that it requires you to provide a way for your users to download the sources of the application. In fact Opa facilitates that by automatically en-riching the server (in release mode) to serve the source code of the application at a special +/\_internal_/src_code+ URL.
+Probably the most important implication of AGPL is that it requires you to provide a way for your users to download the sources of the application. In fact Opa facilitates that by automatically enriching the server (in release mode) to serve the source code of the application at a special +/\_internal_/src_code+ URL.
 
-But this is not the end of the story. We believe in http://en.wikipedia.org/wiki/Free_software[free software] (hence the AGPL licence) but we also understand that it may not be very suitable for commercial users of Opa. Such users will be able to obtain a private licence (paid). This will allow them to keep their sources closed if they wish to do so and will provide us with funds to further develop and improve Opa -- win-win situation :). If you are interested in more details about obtaining such a licence, do not hesitate to contact mailto:sales@mlstate.com[sales@mlstate.com], where we will try to answer all your questions (including pricing).
+But this is not the end of the story. We believe in http://en.wikipedia.org/wiki/Free_software[free software] (hence the AGPL license) but we also understand that it may not be very suitable for commercial users of Opa. Such users will be able to obtain a private license (paid). This will allow them to keep their sources closed if they wish to do so and will provide us with funds to further develop and improve Opa -- win-win situation :). If you are interested in more details about obtaining such a license, do not hesitate to contact mailto:sales@mlstate.com[sales@mlstate.com], where we will try to answer all your questions (including pricing).
 
 Contributions
 ~~~~~~~~~~~~~
+
+We strongly believe in collaboration. We spend many years working hard on Opa. Once we thought it's ready to see the light of the day we https://github.com/MLstate/opalang[released it's sources] and made it available for the community at large. Since then we got plenty of positive feedback, for which we are very grateful. However, we are aware that to make Opa the best language there is (side note: Bill Shankly once said: ``Aim for the sky and you'll reach the ceiling. Aim for the ceiling and you'll stay on the floor.''), there is still plenty of work to be done.
+
+We hope that from now on we will not be alone on this journey. One of the great things about free and open software is that it makes it easy for people to work on it together to make it even better. We certainly hope for an Opa community that will do just that. How can you help?
+
+Opa is a fairly big project. You can take a look and grab its sources https://github.com/MLstate/opalang[here]. Opa is written in http://ocaml.org[Ocaml], so if you want to contribute to the compiler, Ocaml knowledge would be very helpful. It's a great and fairly popular language, so investing time in learning it will be a time well-spent. If you have an idea on what you'd like to do it's probably a good first step to get in touch with us -- maybe we're already working on the feature, or maybe we can provide you with some useful hints or pointers?
+
+If tinkling with the compiler sounds too scary; not to worry. There are other ways in which you can help. The simplest would probably be contributing the Opa libraries that you write for your Opa projects.
+
+Another idea: Opa comes with support for Emacs and Vim. We just https://github.com/MLstate/opa-eclipse-plugin[released] a plug-in for http://en.wikipedia.org/wiki/Eclipse_(software)[Eclipse]. At the moment it's very simplistic and we are looking for Eclipse gurus that could help us evolving it into a more complete plug-in that would make it nice and easy to write Opa code in the Eclipse environment.
+
+In any case: if you're interested in contributing to Opa you can reach us at mailto:contributions@opalang.org[contributions@opalang.org]. Any help with making Opa the great language of the future will be greatly appreciated :).
