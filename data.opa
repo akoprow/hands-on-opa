@@ -1,76 +1,92 @@
 type blog_article =
   { title : string
   ; post : Uri.uri
+  ; descr : xhtml
   }
 
 // ===============================================================
 // manual articles
 // ===============================================================
-mk_manual_article(~{at title}) : blog_article =
+mk_manual_article(~{at title descr}) : blog_article =
   uri = "http://opalang.org/resources/book/index.html#{at}"
   wrong_uri() = error("Wrong manual URI: {uri}")
   post = Option.lazy_default(wrong_uri, Uri.of_string(uri))
-  ~{post title}
+  ~{post title descr=<>{descr}</>}
 
 intro_opa = mk_manual_article(
   { at="_introducing_opa"
   ; title="Introducing Opa"
+  ; descr="What is Opa. What is it good for. What web development problems does it address."
   })
 getting_opa = mk_manual_article(
   { at="Getting_Opa"
   ; title="Getting Opa"
+  ; descr="How to install Opa. How to build it from sources."
   })
 hello_chat = mk_manual_article(
   { at="_hello_chat"
   ; title="Hello, chat"
+  ; descr="How does communication, concurrency and distribution work. Real-time distributed web chat in just a screenful of Opa."
   })
 hello_wiki = mk_manual_article(
   { at="_hello_wiki"
   ; title="Hello, wiki"
+  ; descr="How to persist data. Developing a simple wiki."
   })
 hello_wiki_rest = mk_manual_article(
   { at="_hello_web_services"
   ; title="Hello, web services"
+  ; descr="How to develop REST services."
   })
 hello_wiki_rest_client = mk_manual_article(
   { at="_hello_web_services_client"
   ; title="Hello, web services client"
+  ; descr="How to access a REST service."
   })
 hello_scalability = mk_manual_article(
   { at="_hello_scalability"
   ; title="Hello, scalability"
+  ; descr="Distribution and load balancing, i.e. why scalability is easy with Opa"
   })
 hello_recaptcha = mk_manual_article(
   { at="hello_recaptcha"
   ; title="Hello, reCaptcha (and the rest of the world)"
+  ; descr="How to access external APIs. Using Google's reCaptcha service."
   })
 core_language = mk_manual_article(
   { at="_the_core_language"
   ; title="The core language"
+  ; descr="Overview of the core Opa language."
   })
 developing_web = mk_manual_article(
   { at="_developing_for_the_web"
   ; title="Developing for the web"
+  ; descr="Aspects and extensions of the language crucial for web development."
   })
 the_database = mk_manual_article(
   { at="_the_database"
   ; title="The Database"
+  ; descr="Storage and persistence features of Opa"
   })
 running_executables = mk_manual_article(
   { at="_running_executables"
   ; title="Running Executables"
+  ; descr="Overview of the compiler, auxiliary tools and deployment of Opa apps."
   })
 filename_extensions = mk_manual_article(
   { at="_filename_extensions"
   ; title="Appendix A: Filename extensions"
+  ; descr="Common file extensions and their use in the Opa ecosystem."
   })
 bindings = mk_manual_article(
   { at="_bindings_with_other_languages"
   ; title="Appendix B: Bindings with other languages"
+  ; descr="How to use libraries in JavaScript, Ocaml or C. Foreign function interface of Opa."
   })
 type_system = mk_manual_article(
   { at="The_type_system"
   ; title="Appendix C: The type system"
+  ; descr="Overview of Opa's type system"
   })
 
 manual_articles = [ intro_opa, getting_opa, hello_chat, hello_wiki, hello_wiki_rest, hello_wiki_rest_client, hello_scalability, hello_recaptcha, core_language, developing_web, the_database, running_executables, filename_extensions, bindings, type_system ]
@@ -82,7 +98,7 @@ mk_hands_on_article(~{at title}) : blog_article =
   uri = "http://blog.opalang.org/{at}"
   wrong_uri() = error("Wrong article URI: {uri}")
   post = Option.lazy_default(wrong_uri, Uri.of_string(uri))
-  ~{post title}
+  ~{post title descr=<></>}
 
 hello_opa = mk_hands_on_article(
   { at="2011/06/hello-opa-what-is-opa-to-quote-manual.html"
@@ -177,3 +193,5 @@ blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, 
 // all examples
 // ===============================================================
 examples = manual_examples ++ blog_examples
+
+//examples = [{ name="hello_web"  port=5008 article=hello_web        srcs=@static_include_directory("examples/hello_web") }]

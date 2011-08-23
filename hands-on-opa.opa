@@ -79,6 +79,7 @@ show_example(ex, url_suffix) =
 show_manual_article(article) =
   <li class=linkicon32-doc>
     <a target="_blank" href={article.post}>{article.title}</>
+    {article.descr}
   </>
 
 index() =
