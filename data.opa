@@ -99,102 +99,102 @@ mk_hands_on_article(~{at title descr ty}) : blog_article =
   uri = "http://blog.opalang.org/{at}"
   wrong_uri() = error("Wrong article URI: {uri}")
   post = Option.lazy_default(wrong_uri, Uri.of_string(uri))
-  ~{post title descr=<>{descr}</> article_type={blog_post=ty}}
+  ~{post title ~descr article_type={blog_post=ty}}
 
 hello_opa = mk_hands_on_article(
   { at="2011/06/hello-opa-what-is-opa-to-quote-manual.html"
   ; title="Hello Opa"
-  ; descr=""
+  ; descr=<>Blog introduction. What is Opa. And why it rocks.</>
   ; ty={discussion}
   })
 hello_web = mk_hands_on_article(
   { at="2011/06/first-steps-hello-web-in-opa.html"
   ; title="First steps: \"Hello web\" in Opa"
-  ; descr=""
+  ; descr=<>A bit about Opa's syntax. Basics of HTML manipulation in Opa. Basics of main entry points of Opa programs. How to compile your first Opa program. How to deploy it (also on many machines).</>
   ; ty={tutorial}
   })
 weekend_chat_1 = mk_hands_on_article(
   { at="2011/07/weekend-chat-about-opa-matthieu-guffroy.html"
   ; title="Weekend chat about Opa: Matthieu Guffroy"
-  ; descr=""
+  ; descr=<>Matthieu tells about his experience with Opa while writing <a href="https://github.com/mattgu74/OpaCms">OpaCms</a>.</>
   ; ty={weekend_chat}
   })
 interactivity = mk_hands_on_article(
   { at="2011/07/interactivity-even-handling.html"
   ; title="Interactivity, event handling"
-  ; descr=""
+  ; descr=<>How to handle events in Opa and write interactive apps. How application distribution works in Opa.</>
   ; ty={tutorial}
   })
 questions_1 = mk_hands_on_article(
   { at="2011/07/readers-questions-1.html"
   ; title="Reader's questions #1"
-  ; descr=""
+  ; descr=<></>
   ; ty={questions}
   })
 db_intro = mk_hands_on_article(
   { at="2011/07/very-gentle-introduction-to-db-and.html"
   ; title="(Very) gentle introduction to DB and records"
-  ; descr=""
+  ; descr=<>Basics of Opa persistency. Basics of Opa records.</>
   ; ty={tutorial}
   })
 weekend_chat_2 = mk_hands_on_article(
   { at="2011/07/weekend-chat-about-opa-austin-seipp.html"
   ; title="Weekend chat about Opa: Austin Seipp"
-  ; descr=""
+  ; descr=<>Austin speaks about his experience of developing <a href="https://github.com/thoughtpolice/opaque">opaque</a> -- a simple, markdown-powered blog engine</>
   ; ty={weekend_chat}
   })
 challenge = mk_hands_on_article(
   { at="2011/07/opa-developer-challenge-is-on.html"
   ; title="Opa Developer Challenge is on!"
-  ; descr=""
+  ; descr=<>Take part in Opa Developer Challenge and win awesome prizes.</>
   ; ty={announcement}
   })
 image_intro = mk_hands_on_article(
   { at="2011/07/image-developing-image-viewer-in-opa.html"
   ; title="iMage: developing an image viewer in Opa"
-  ; descr=""
+  ; descr=<>Announcing iMage and its upcoming walk-through on the blog.</>
   ; ty={image}
   })
 image_resources = mk_hands_on_article(
   { at="2011/07/image-part-1-dealing-with-external.html"
   ; title="iMage: part 1, Dealing with external resources"
-  ; descr=""
+  ; descr=<>The basics of Opa templating. How to handle external resources, such as images, in your app. How to work with CSS.</>
   ; ty={image}
   })
 challenge_reminder = mk_hands_on_article(
   { at="2011/07/reminder-opa-developer-challenge.html"
   ; title="Reminder: Opa Developer Challenge"
-  ; descr=""
+  ; descr=<></>
   ; ty={announcement}
   })
 trx = mk_hands_on_article(
   { at="2011/07/trx-parsing-in-opa.html"
   ; title="TRX: parsing in Opa"
-  ; descr=""
+  ; descr=<>About Parsing Expressions Grammars (PEGs). How to handle string parsing in Opa.</>
   ; ty={tutorial}
   })
 unit_testing = mk_hands_on_article(
-  { at="2011/08/unit_testing_and_parsing.html"
+  { at="2011/08/more-parsing-and-unit-testing.html"
   ; title="More parsing and unit-testing"
-  ; descr=""
+  ; descr=<>More details about parsing. How to do unit-testing.</>
   ; ty={tutorial}
   })
 image_structuring = mk_hands_on_article(
   { at="2011/08/image-part-2-files-packages-modules.html"
   ; title="iMage: part 2, Files, packages, modules"
-  ; descr=""
+  ; descr=<>About files, packages and modules in Opa. How to split bigger projects into logical components.</>
   ; ty={image}
   })
 image_parsing = mk_hands_on_article(
   { at="2011/08/image-part-3-parsing-external.html"
   ; title="iMage: part 3, Parsing external configuration"
-  ; descr=""
+  ; descr=<>How to put into practice previously obtained skills of writing parsers. How to change application behavior, based on the accessed URL. How to have more than one server declaration.</>
   ; ty={image}
   })
 license_contribs = mk_hands_on_article(
   { at="2011/08/opa-license-contributions.html"
   ; title="Opa: license, contributions"
-  ; descr=""
+  ; descr=<>About Opa's license and how to contribute to the project.</>
   ; ty={discussion}
   })
 
