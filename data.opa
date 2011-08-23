@@ -12,6 +12,14 @@ mk_manual_article(~{at title}) : blog_article =
   post = Option.lazy_default(wrong_uri, Uri.of_string(uri))
   ~{post title}
 
+intro_opa = mk_manual_article(
+  { at="_introducing_opa"
+  ; title="Introducing Opa"
+  })
+getting_opa = mk_manual_article(
+  { at="Getting_Opa"
+  ; title="Getting Opa"
+  })
 hello_chat = mk_manual_article(
   { at="_hello_chat"
   ; title="Hello, chat"
@@ -28,10 +36,44 @@ hello_wiki_rest_client = mk_manual_article(
   { at="_hello_web_services_client"
   ; title="Hello, web services client"
   })
+hello_scalability = mk_manual_article(
+  { at="_hello_scalability"
+  ; title="Hello, scalability"
+  })
 hello_recaptcha = mk_manual_article(
   { at="hello_recaptcha"
   ; title="Hello, reCaptcha (and the rest of the world)"
   })
+core_language = mk_manual_article(
+  { at="_the_core_language"
+  ; title="The core language"
+  })
+developing_web = mk_manual_article(
+  { at="_developing_for_the_web"
+  ; title="Developing for the web"
+  })
+the_database = mk_manual_article(
+  { at="_the_database"
+  ; title="The Database"
+  })
+running_executables = mk_manual_article(
+  { at="_running_executables"
+  ; title="Running Executables"
+  })
+filename_extensions = mk_manual_article(
+  { at="_filename_extensions"
+  ; title="Appendix A: Filename extensions"
+  })
+bindings = mk_manual_article(
+  { at="_bindings_with_other_languages"
+  ; title="Appendix B: Bindings with other languages"
+  })
+type_system = mk_manual_article(
+  { at="The_type_system"
+  ; title="Appendix C: The type system"
+  })
+
+manual_articles = [ intro_opa, getting_opa, hello_chat, hello_wiki, hello_wiki_rest, hello_wiki_rest_client, hello_scalability, hello_recaptcha, core_language, developing_web, the_database, running_executables, filename_extensions, bindings, type_system ]
 
 // ===============================================================
 // blog articles

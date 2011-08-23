@@ -31,6 +31,9 @@ a:hover {
   top: 3px;
   left: 20px;
 }
+#logo img {
+  margin: 2px auto !important;
+}
 #header_right {
   position: absolute;
   z-index: 20;
@@ -85,6 +88,8 @@ iframe {
   height: 50px;
   background: url("/resources/img/article.png") no-repeat;
 }
+
+
 #src_code a, #article a {
   display: block;
   text-align: center;

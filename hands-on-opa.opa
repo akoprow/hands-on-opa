@@ -76,6 +76,11 @@ show_example(ex, url_suffix) =
     <script src="resources/ga.js" type="text/javascript"></script>
   Resource.styled_page("Hands on Opa: {ex.name}", ["/resources/style/style.css"], page)
 
+show_manual_article(article) =
+  <li class=linkicon32-doc>
+    <a target="_blank" href={article.post}>{article.title}</>
+  </>
+
 index() =
   header =
     <div id=#title>
@@ -89,15 +94,41 @@ index() =
         Go to opalang.org
       </>
     </>
+  blog_articles = <ul></ul>
+  manual_articles = <ul>{List.map(show_manual_article, manual_articles)}</ul>
   page =
     <div id="header">{header}</div>
     <div id="container">
-      <div class=coming_soon>
-        An index page with all articles and tutorials coming soon...
+      <div class="intro_wrap">
+        <div class="intro">
+          <div class="centered">
+            <h1>Learn Opa... by examples!</>
+            <h3>Below you'll find a number of demos/articles about Opa, both from the manual and from the blog, that will allow you to learn Opa by examples.</>
+          </>
+        </>
+      </>
+      <div class="content_wrap">
+        <div class="content">
+          <div class="block">
+            <div class="col50 white-bg">
+              <h3>Blog articles</>
+              {blog_articles}
+            </>
+            <div class="col50 col-right white-bg">
+              <h3>Examples</>
+            </>
+          </>
+          <div class="block">
+            <div class="col50 white-bg">
+              <h3>Manual articles</>
+              {manual_articles}
+            </>
+          </>
+        </>
       </>
     </>
   Resource.styled_page("Hands on Opa: Opa tutorials",
-    ["/resources/style/style.css"], page)
+    ["http://opalang.org/css/style.css", "/resources/style/style.css"], page)
 
 urls =
   rec aux =
