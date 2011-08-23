@@ -76,8 +76,20 @@ show_example(ex, url_suffix) =
     <script src="resources/ga.js" type="text/javascript"></script>
   Resource.styled_page("Hands on Opa: {ex.name}", ["/resources/style/style.css"], page)
 
-show_manual_article(article) =
-  <li class=linkicon32-doc>
+show_article(article) =
+  icon =
+    match article.article_type with
+    | {manual_chapter} -> "document"
+    | {blog_post=bp} ->
+        match bp with
+        | {image} -> "image"
+        | {tutorial} -> "wrench"
+        | {discussion} -> "users"
+        | {weekend_chat} -> "messages"
+        | {questions} -> "help"
+        | {announcement} -> "clipboard"
+  <li>
+    <span class="icon32 icon-{icon}"></>
     <a target="_blank" href={article.post}>{article.title}</>
     {article.descr}
   </>
@@ -95,8 +107,8 @@ index() =
         Go to opalang.org
       </>
     </>
-  blog_articles = <ul></ul>
-  manual_articles = <ul>{List.map(show_manual_article, manual_articles)}</ul>
+  blog_articles = <ul>{List.map(show_article, blog_articles)}</ul>
+  manual_articles = <ul>{List.map(show_article, manual_articles)}</ul>
   page =
     <div id="header">{header}</div>
     <div id="container">

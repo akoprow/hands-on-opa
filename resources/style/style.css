@@ -191,3 +191,9 @@ div.coming_soon {
   margin-top: 3px;
   padding: 3px 10px;
 }
+#container ul li {
+  list-style-type: none;
+  background-image: none !important;
+  padding: 0px !important;
+  border-bottom: 1px dotted black;
+}
