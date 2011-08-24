@@ -4,7 +4,7 @@ resources = @static_resource_directory("resources")
 
 main_server="94.23.204.210"
 
-show_example(ex, url_suffix) =
+example_page(ex, url_suffix) =
   Modal = WNotification
   src_code_id = "src_code"
   src_code_modal_config =
@@ -94,7 +94,19 @@ show_article(article) =
     {article.descr}
   </>
 
-index() =
+show_example(ex) =
+  <article class="opalang_apps">
+    <a target="_blank" href="http://tutorials.opalang.org/{ex.name}">
+      <img src="http://opalang.org/opalang_apps/screen/54" class="opalang_apps_screenshot" />
+    </>
+    <div class="opalang_apps_content">
+      <div class="opalang_apps_title">
+        <a target="_blank" href="http://tutorials.opalang.org/{ex.name}">{ex.name}</>
+      </>
+    </>
+  </>
+
+index_page() =
   header =
     <div id=#title>
       Hands on Opa: learn Opa by examples!
@@ -109,6 +121,7 @@ index() =
     </>
   blog_articles = <ul>{List.map(show_article, blog_articles)}</ul>
   manual_articles = <ul>{List.map(show_article, manual_articles)}</ul>
+  examples = List.map(show_example, examples)
   page =
     <div id="header">{header}</div>
     <div id="container">
@@ -123,16 +136,15 @@ index() =
       <div class="content_wrap">
         <div class="content">
           <div class="block">
-            <div class="col50 white-bg">
+            <div class="col50 white-bg fl-left">
               <h3>Blog articles</>
               {blog_articles}
             </>
-            <div class="col50 col-right white-bg">
+            <div class="col50 white-bg fl-right">
               <h3>Examples</>
+              {examples}
             </>
-          </>
-          <div class="block">
-            <div class="col50 white-bg">
+            <div class="col50 white-bg fl-left">
               <h3>Manual articles</>
               {manual_articles}
             </>
@@ -146,11 +158,11 @@ index() =
 urls =
   rec aux =
   | [] ->
-    (parser "/" -> index())
+    (parser "/" -> index_page())
   | [x | xs] ->
     (parser
     | "/{x.name}/{x.name}.zip" -> Examples.pack(x)
-    | "/{x.name}" suffix=("/" .*)? -> show_example(x, Option.map(Text.to_string, suffix) ? "")
+    | "/{x.name}" suffix=("/" .*)? -> example_page(x, Option.map(Text.to_string, suffix) ? "")
     | res={aux(xs)} -> res
     )
   aux(examples)

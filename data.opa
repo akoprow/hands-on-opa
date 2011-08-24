@@ -231,6 +231,6 @@ blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, 
 // ===============================================================
 // all examples
 // ===============================================================
-examples = manual_examples ++ blog_examples
+examples = blog_examples ++ manual_examples
 
 //examples = [] //{ name="hello_web"  port=5008 article=hello_web        srcs=@static_include_directory("examples/hello_web") }]

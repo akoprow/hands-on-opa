@@ -205,3 +205,15 @@ div.coming_soon {
 h3 {
   margin-bottom: 15px;
 }
+.fl-left {
+  float: left;
+}
+.fl-right {
+  float: right;
+}
+.opalang_apps {
+    width: 100% !important;
+}
+.col50 {
+    width: 46.5% !important;
+}
