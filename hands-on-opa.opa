@@ -95,16 +95,28 @@ show_article(article) =
   </>
 
 show_example(ex) =
-  <article class="opalang_apps">
-    <a target="_blank" href="http://tutorials.opalang.org/{ex.name}">
-      <img src="http://opalang.org/opalang_apps/screen/54" class="opalang_apps_screenshot" />
-    </>
-    <div class="opalang_apps_content">
-      <div class="opalang_apps_title">
-        <a target="_blank" href="http://tutorials.opalang.org/{ex.name}">{ex.name}</>
+  if ex.main then
+    screen =
+      fn = "resources/img/screenshot/{ex.name}.png"
+      default = "resources/img/screenshot/default.png"
+      if Map.mem(fn, resources) then
+        fn
+      else
+        default
+    xhtml =
+      <article class="opalang_apps">
+        <a target="_blank" href="http://tutorials.opalang.org/{ex.name}">
+          <img src="{screen}" class="opalang_apps_screenshot" />
+        </>
+        <div class="opalang_apps_content">
+          <div class="opalang_apps_title">
+            <a target="_blank" href="http://tutorials.opalang.org/{ex.name}">{ex.name}</>
+          </>
+        </>
       </>
-    </>
-  </>
+    some(xhtml)
+  else
+    none
 
 index_page() =
   header =
@@ -121,7 +133,7 @@ index_page() =
     </>
   blog_articles = <ul>{List.map(show_article, blog_articles)}</ul>
   manual_articles = <ul>{List.map(show_article, manual_articles)}</ul>
-  examples = List.map(show_example, examples)
+  examples = List.filter_map(show_example, examples)
   page =
     <div id="header">{header}</div>
     <div id="container">

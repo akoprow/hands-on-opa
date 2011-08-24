@@ -213,6 +213,7 @@ h3 {
 }
 .opalang_apps {
     width: 100% !important;
+    height: 100px !important;
 }
 .col50 {
     width: 46.5% !important;

@@ -8,6 +8,7 @@ type example =
   ; port : int
   ; srcs : stringmap(Resource.resource)
   ; article : blog_article
+  ; main : bool
   }
 
 Examples = {{

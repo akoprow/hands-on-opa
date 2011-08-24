@@ -203,28 +203,28 @@ blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_
 // ===============================================================
 // manual examples
 // ===============================================================
-chat =             { name="hello_chat"             port=5010 article=hello_chat             srcs=@static_include_directory("examples/hello_chat")}
-wiki =             { name="hello_wiki"             port=5011 article=hello_wiki             srcs=@static_include_directory("examples/hello_wiki")}
-wiki_rest =        { name="hello_wiki_rest"        port=5012 article=hello_wiki_rest        srcs=@static_include_directory("examples/hello_wiki_rest")}
-wiki_rest_client = { name="hello_wiki_rest_client" port=5013 article=hello_wiki_rest_client srcs=@static_include_directory("examples/hello_wiki_rest_client")}
-recaptcha =        { name="hello_recaptcha"        port=5014 article=hello_recaptcha        srcs=@static_include_directory("examples/hello_recaptcha")}
+chat =             { main=true name="hello_chat"             port=5010 article=hello_chat             srcs=@static_include_directory("examples/hello_chat")}
+wiki =             { main=true name="hello_wiki"             port=5011 article=hello_wiki             srcs=@static_include_directory("examples/hello_wiki")}
+wiki_rest =        { main=true name="hello_wiki_rest"        port=5012 article=hello_wiki_rest        srcs=@static_include_directory("examples/hello_wiki_rest")}
+wiki_rest_client = { main=true name="hello_wiki_rest_client" port=5013 article=hello_wiki_rest_client srcs=@static_include_directory("examples/hello_wiki_rest_client")}
+recaptcha =        { main=true name="hello_recaptcha"        port=5014 article=hello_recaptcha        srcs=@static_include_directory("examples/hello_recaptcha")}
 
 manual_examples = [ chat, wiki, wiki_rest, wiki_rest_client, recaptcha ]
 
 // ===============================================================
 // blog examples
 // ===============================================================
-hello =      { name="hello_web"  port=5008 article=hello_web         srcs=@static_include_directory("examples/hello_web") }
-watch =      { name="watch"      port=5000 article=interactivity     srcs=@static_include_directory("examples/watch") }
-watch_slow = { name="watch_slow" port=5001 article=interactivity     srcs=@static_include_directory("examples/watch_slow")}
-counter =    { name="counter"    port=5002 article=db_intro          srcs=@static_include_directory("examples/counter")}
-iMage =      { name="iMage"      port=5003 article=image_intro       srcs=@static_include_directory("examples/iMage")}
-iMage_01 =   { name="iMage-01"   port=5004 article=image_resources   srcs=@static_include_directory("examples/iMage-01")}
-iMage_02 =   { name="iMage-02"   port=5005 article=image_resources   srcs=@static_include_directory("examples/iMage-02")}
-iMage_03 =   { name="iMage-03"   port=5006 article=image_resources   srcs=@static_include_directory("examples/iMage-03")}
-calculator = { name="calculator" port=5007 article=unit_testing      srcs=@static_include_directory("examples/calculator") }
-iMage_04 =   { name="iMage-04"   port=5009 article=image_structuring srcs=@static_include_directory("examples/iMage-04")}
-iMage_05 =   { name="iMage-05"   port=5015 article=image_parsing     srcs=@static_include_directory("examples/iMage-05")}
+hello =      { main=true  name="hello_web"  port=5008 article=hello_web         srcs=@static_include_directory("examples/hello_web") }
+watch =      { main=true  name="watch"      port=5000 article=interactivity     srcs=@static_include_directory("examples/watch") }
+watch_slow = { main=false name="watch_slow" port=5001 article=interactivity     srcs=@static_include_directory("examples/watch_slow")}
+counter =    { main=true  name="counter"    port=5002 article=db_intro          srcs=@static_include_directory("examples/counter")}
+iMage =      { main=true  name="iMage"      port=5003 article=image_intro       srcs=@static_include_directory("examples/iMage")}
+iMage_01 =   { main=false name="iMage-01"   port=5004 article=image_resources   srcs=@static_include_directory("examples/iMage-01")}
+iMage_02 =   { main=false name="iMage-02"   port=5005 article=image_resources   srcs=@static_include_directory("examples/iMage-02")}
+iMage_03 =   { main=false name="iMage-03"   port=5006 article=image_resources   srcs=@static_include_directory("examples/iMage-03")}
+calculator = { main=true  name="calculator" port=5007 article=unit_testing      srcs=@static_include_directory("examples/calculator") }
+iMage_04 =   { main=false name="iMage-04"   port=5009 article=image_structuring srcs=@static_include_directory("examples/iMage-04")}
+iMage_05 =   { main=false name="iMage-05"   port=5015 article=image_parsing     srcs=@static_include_directory("examples/iMage-05")}
 
 blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05 ]
 
