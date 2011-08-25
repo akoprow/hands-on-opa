@@ -77,19 +77,19 @@ example_page(ex, url_suffix) =
   Resource.styled_page("Hands on Opa: {ex.name}", ["/resources/style/style.css"], page)
 
 show_article(article) =
-  icon =
+  (icon, desc) =
     match article.article_type with
-    | {manual_chapter} -> "document"
+    | {manual_chapter} -> ("document", "chapter of the manual")
     | {blog_post=bp} ->
         match bp with
-        | {image} -> "image"
-        | {tutorial} -> "wrench"
-        | {discussion} -> "users"
-        | {weekend_chat} -> "messages"
-        | {questions} -> "help"
-        | {announcement} -> "clipboard"
+        | {image} -> ("image", "iMage app walk-through")
+        | {tutorial} -> ("wrench", "tutorial")
+        | {discussion} -> ("users", "a discussion post")
+        | {weekend_chat} -> ("messages", "weekend chat about Opa")
+        | {questions} -> ("help", "user questions")
+        | {announcement} -> ("clipboard", "announcement")
   <li>
-    <span class="icon32 icon-{icon}"></>
+    <span class="icon32 icon-{icon}" title="{desc}" />
     <a target="_blank" href={article.post}>{article.title}</>
     {article.descr}
   </>
