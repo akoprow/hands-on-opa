@@ -105,6 +105,11 @@ unique_articles(l) =
         aux([x | acc], xs)
   aux([], List.rev(l))
 
+@client learn_action(id)(_) =
+  _ = Dom.transition(#{id},
+    Dom.Effect.with_duration({slow}, Dom.Effect.toggle()))
+  void
+
 show_example(ex : example) =
   match ex.details with
   | {invisible} -> none
@@ -131,10 +136,6 @@ show_example(ex : example) =
       match deps with
       | [] -> <>This example is explained in the {show_article(ex.article)}</>
       | _ -> <>This example is introduced in the {show_article(ex.article)} and then further explained in the following ones:<ol>{List.map(show_dep, dep_arts)}</></>
-    learn_action(_) =
-      _ = Dom.transition(#{articles_id},
-        Dom.Effect.with_duration({slow}, Dom.Effect.toggle()))
-      void
     xhtml =
       run = "http://tutorials.opalang.org/{ex.name}"
       <article class="opalang_apps">
@@ -150,7 +151,7 @@ show_example(ex : example) =
           </>
           <div class="opalang_apps_source">
             <a target="_blank" class="button" href="{run}">Run</>
-            <a target="_blank" class="button" onclick={learn_action}>Learn</>
+            <a target="_blank" class="button" onclick={learn_action(articles_id)}>Learn</>
           </>
           <div class="opalang_apps_learn clear hidden" id={articles_id}>
             {learn}
