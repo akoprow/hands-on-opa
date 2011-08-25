@@ -6,11 +6,11 @@ html, body {
   margin: 0;
   padding: 0;
 }
-a, a:link, a:visited {
+#header a, #header a:link, #header a:visited {
   color: #0B67B2;
   text-decoration: none;
 }
-a:hover {
+#header a:hover {
   color: #0B4D86;
   text-decoration: underline;
 }
@@ -44,7 +44,7 @@ a:hover {
   margin-right: 10px;
   display: inline-block;
   background-color: #CFCFD0;
-  color: #252525;
+  color: #252525 !important;
   font-size: 0.9em;
   padding: 4px 8px;
   border-radius: 0 0 5px 5px;
@@ -213,8 +213,13 @@ h3 {
 }
 .opalang_apps {
     width: 100% !important;
-    height: 100px !important;
+    height: inherit !important;
+    border-bottom: 1px dotted black;
 }
 .col50 {
     width: 46.5% !important;
+}
+.opalang_apps_descr a {
+    display: inline !important;
+    float: none !important;
 }

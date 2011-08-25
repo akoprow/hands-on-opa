@@ -203,34 +203,46 @@ blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_
 // ===============================================================
 // manual examples
 // ===============================================================
-chat =             { main=true name="hello_chat"             port=5010 article=hello_chat             srcs=@static_include_directory("examples/hello_chat")}
-wiki =             { main=true name="hello_wiki"             port=5011 article=hello_wiki             srcs=@static_include_directory("examples/hello_wiki")}
-wiki_rest =        { main=true name="hello_wiki_rest"        port=5012 article=hello_wiki_rest        srcs=@static_include_directory("examples/hello_wiki_rest")}
-wiki_rest_client = { main=true name="hello_wiki_rest_client" port=5013 article=hello_wiki_rest_client srcs=@static_include_directory("examples/hello_wiki_rest_client")}
-recaptcha =        { main=true name="hello_recaptcha"        port=5014 article=hello_recaptcha        srcs=@static_include_directory("examples/hello_recaptcha")}
+chat_descr = <p>A web chat application (in 20 LOC!).</><p>Learn how communication works in Opa.</>
+wiki_descr = <p>A simple wiki application</><p>Learn how to safely use user-defined content in your app.</>
+wiki_r_descr = <p>A variant of the wiki application, accessible via a REST API.</><p>Learn how to design REST web services and manage URI queries.</>
+wiki_rc_descr = <p>A variant of the wiki application, using the REST wiki as its back-end.</><p>Learn how to access distant REST services and how to handle command-line arguments to programs.</>
+recaptcha_descr = <p>A simple app show-casing use of Google's <a target="_blank" href="http://recaptcha.net">reCaptcha API</></><p>Learn how to plug-in external APIs to Opa via its Binding System Library (BSL).</>
+
+chat =             { details={descr=chat_descr}      name="hello_chat"             port=5010 article=hello_chat             srcs=@static_include_directory("examples/hello_chat")}
+wiki =             { details={descr=wiki_descr}      name="hello_wiki"             port=5011 article=hello_wiki             srcs=@static_include_directory("examples/hello_wiki")}
+wiki_rest =        { details={descr=wiki_r_descr}    name="hello_wiki_rest"        port=5012 article=hello_wiki_rest        srcs=@static_include_directory("examples/hello_wiki_rest")}
+wiki_rest_client = { details={descr=wiki_rc_descr}   name="hello_wiki_rest_client" port=5013 article=hello_wiki_rest_client srcs=@static_include_directory("examples/hello_wiki_rest_client")}
+recaptcha =        { details={descr=recaptcha_descr} name="hello_recaptcha"        port=5014 article=hello_recaptcha        srcs=@static_include_directory("examples/hello_recaptcha")}
 
 manual_examples = [ chat, wiki, wiki_rest, wiki_rest_client, recaptcha ]
 
 // ===============================================================
 // blog examples
 // ===============================================================
-hello =      { main=true  name="hello_web"  port=5008 article=hello_web         srcs=@static_include_directory("examples/hello_web") }
-watch =      { main=true  name="watch"      port=5000 article=interactivity     srcs=@static_include_directory("examples/watch") }
-watch_slow = { main=false name="watch_slow" port=5001 article=interactivity     srcs=@static_include_directory("examples/watch_slow")}
-counter =    { main=true  name="counter"    port=5002 article=db_intro          srcs=@static_include_directory("examples/counter")}
-iMage =      { main=true  name="iMage"      port=5003 article=image_intro       srcs=@static_include_directory("examples/iMage")}
-iMage_01 =   { main=false name="iMage-01"   port=5004 article=image_resources   srcs=@static_include_directory("examples/iMage-01")}
-iMage_02 =   { main=false name="iMage-02"   port=5005 article=image_resources   srcs=@static_include_directory("examples/iMage-02")}
-iMage_03 =   { main=false name="iMage-03"   port=5006 article=image_resources   srcs=@static_include_directory("examples/iMage-03")}
-calculator = { main=true  name="calculator" port=5007 article=unit_testing      srcs=@static_include_directory("examples/calculator") }
-iMage_04 =   { main=false name="iMage-04"   port=5009 article=image_structuring srcs=@static_include_directory("examples/iMage-04")}
-iMage_05 =   { main=false name="iMage-05"   port=5015 article=image_parsing     srcs=@static_include_directory("examples/iMage-05")}
+hello_descr = <p>The simplest «Hello web» program.</><p>Learn the basics first.</>
+watch_descr = <p>A program showing current time, updated every second.</><p>Learn how client code is generated automatically from Opa.</>
+counter_descr = <p>A simple button counting all its presses since the inception of the program.</><p>Learn how persistence (database) works in Opa.</>
+iMage_descr = <p>A configurable image viewer</><p>Learn how to build complex UI interfaces and use external configuration for your apps.</>
+calc_descr = <p>A simple calculator.</><p>Learn how to do parsing in Opa.</>
+
+hello =      { details={descr=hello_descr}  name="hello_web"  port=5008 article=hello_web srcs=@static_include_directory("examples/hello_web")}
+watch =      { details={descr=watch_descr}  name="watch"      port=5000 article=interactivity     srcs=@static_include_directory("examples/watch") }
+watch_slow = { details={invisible}          name="watch_slow" port=5001 article=interactivity     srcs=@static_include_directory("examples/watch_slow")}
+counter =    { details={descr=counter_descr} name="counter"   port=5002 article=db_intro          srcs=@static_include_directory("examples/counter")}
+iMage =      { details={descr=iMage_descr}  name="iMage"      port=5003 article=image_intro       srcs=@static_include_directory("examples/iMage")}
+iMage_01 =   { details={invisible}          name="iMage-01"   port=5004 article=image_resources   srcs=@static_include_directory("examples/iMage-01")}
+iMage_02 =   { details={invisible}          name="iMage-02"   port=5005 article=image_resources   srcs=@static_include_directory("examples/iMage-02")}
+iMage_03 =   { details={invisible}          name="iMage-03"   port=5006 article=image_resources   srcs=@static_include_directory("examples/iMage-03")}
+calculator = { details={descr=calc_descr}   name="calculator" port=5007 article=unit_testing      srcs=@static_include_directory("examples/calculator") }
+iMage_04 =   { details={invisible}          name="iMage-04"   port=5009 article=image_structuring srcs=@static_include_directory("examples/iMage-04")}
+iMage_05 =   { details={invisible}          name="iMage-05"   port=5015 article=image_parsing     srcs=@static_include_directory("examples/iMage-05")}
 
 blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05 ]
 
 // ===============================================================
 // all examples
 // ===============================================================
-examples = blog_examples ++ manual_examples
+examples : list(example) = blog_examples ++ manual_examples
 
 //examples = [] //{ name="hello_web"  port=5008 article=hello_web        srcs=@static_include_directory("examples/hello_web") }]

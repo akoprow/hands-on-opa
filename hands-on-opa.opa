@@ -94,8 +94,13 @@ show_article(article) =
     {article.descr}
   </>
 
-show_example(ex) =
-  if ex.main then
+learn(ex) = _e ->
+  void
+
+show_example(ex : example) =
+  match ex.details with
+  | {invisible} -> none
+  | ~{descr} ->
     screen =
       fn = "resources/img/screenshot/{ex.name}.png"
       default = "resources/img/screenshot/default.png"
@@ -104,19 +109,25 @@ show_example(ex) =
       else
         default
     xhtml =
+      run = "http://tutorials.opalang.org/{ex.name}"
       <article class="opalang_apps">
-        <a target="_blank" href="http://tutorials.opalang.org/{ex.name}">
+        <a target="_blank" href="{run}">
           <img src="{screen}" class="opalang_apps_screenshot" />
         </>
         <div class="opalang_apps_content">
           <div class="opalang_apps_title">
-            <a target="_blank" href="http://tutorials.opalang.org/{ex.name}">{ex.name}</>
+            <a target="_blank" href="{run}">{ex.name}</>
+          </>
+          <div class="opalang_apps_descr">
+            {descr}
+          </>
+          <div class="opalang_apps_source">
+            <a target="_blank" class="button" href="{run}">Run</>
+            <a target="_blank" class="button" onclick={learn(ex)}>Learn</>
           </>
         </>
       </>
     some(xhtml)
-  else
-    none
 
 index_page() =
   header =
