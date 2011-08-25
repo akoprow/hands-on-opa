@@ -3,12 +3,14 @@ type plugin =
   ; files : list(string)
   }
 
+type example_details = {invisible} / {descr : xhtml; deps : list(example)}
+
 type example =
   { name : string
   ; port : int
   ; srcs : stringmap(Resource.resource)
-  ; article : blog_article
-  ; details : {invisible} / {descr : xhtml}
+  ; article : article
+  ; details : example_details
   }
 
 Examples = {{

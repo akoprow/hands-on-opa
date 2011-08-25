@@ -94,13 +94,22 @@ show_article(article) =
     {article.descr}
   </>
 
-learn(ex) = _e ->
-  void
+unique_articles(l) =
+  rec aux(acc, l) =
+    match l with
+    | [] -> acc
+    | [x | xs] ->
+      if List.mem(x, acc) then
+        aux(acc, xs)
+      else
+        aux([x | acc], xs)
+  aux([], List.rev(l))
 
 show_example(ex : example) =
   match ex.details with
   | {invisible} -> none
-  | ~{descr} ->
+  | ~{deps descr} ->
+    articles_id = Dom.fresh_id()
     screen =
       fn = "resources/img/screenshot/{ex.name}.png"
       default = "resources/img/screenshot/default.png"
@@ -108,6 +117,24 @@ show_example(ex : example) =
         fn
       else
         default
+    dep_arts = List.map(_.article, deps) |> unique_articles
+    show_article_short(article) = <a href={article.post}>{article.title}</>
+    show_article(article) =
+      prefix =
+        match article.article_type with
+        | {manual_chapter} -> <>manual chapter</>
+        | {blog_post=_} -> <>blog post</>
+      res = <>{prefix} {show_article_short(article)}</>
+      res
+    show_dep(dep) = <li>{show_article_short(dep)}</>
+    learn =
+      match deps with
+      | [] -> <>This example is explained in the {show_article(ex.article)}</>
+      | _ -> <>This example is introduced in the {show_article(ex.article)} and then further explained in the following ones:<ol>{List.map(show_dep, dep_arts)}</></>
+    learn_action(_) =
+      _ = Dom.transition(#{articles_id},
+        Dom.Effect.with_duration({slow}, Dom.Effect.toggle()))
+      void
     xhtml =
       run = "http://tutorials.opalang.org/{ex.name}"
       <article class="opalang_apps">
@@ -123,7 +150,10 @@ show_example(ex : example) =
           </>
           <div class="opalang_apps_source">
             <a target="_blank" class="button" href="{run}">Run</>
-            <a target="_blank" class="button" onclick={learn(ex)}>Learn</>
+            <a target="_blank" class="button" onclick={learn_action}>Learn</>
+          </>
+          <div class="opalang_apps_learn clear hidden" id={articles_id}>
+            {learn}
           </>
         </>
       </>

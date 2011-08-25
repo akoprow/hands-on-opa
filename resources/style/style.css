@@ -219,7 +219,14 @@ h3 {
 .col50 {
     width: 46.5% !important;
 }
-.opalang_apps_descr a {
+.opalang_apps_descr a, .opalang_apps_learn a {
     display: inline !important;
     float: none !important;
+}
+.hidden {
+    display: none;
+}
+.opalang_apps_learn {
+    padding: 8px;
+    background: #FFFFC0;
 }
