@@ -1,0 +1,76 @@
+[[chapter_hello_bootstrap]]
+
+``Hello Bootstrap'' in Opa
+--------------------------
+
+Hello, dear readers. Adam is on holidays (enjoy them, Adam !), and I, another
+Opa addict, will try to keep this blog a lively virtual place. I want to share
+with you an event that happened last week. An apparently insignificant event: a
+company in the Valley published its HTML+CSS basic toolkit. Not just any
+company, of course, since we're talking about Twitter. Yet, we're only talking
+about CSS, not about a revolutionary one-tier functional language for the web
+and the cloud, if you see what I mean...
+
+You can find the project at: http://twitter.github.com/bootstrap, and its
+GitHub repository here: https://github.com/twitter/bootstrap.
+
+The buzz around it has been huge since then, and many developpers who want
+something that looks good without pain, just love it. As a simple evidence of
+this enthusiasm, it reached the top 10 of the most vatched projects on GitHub in
+less than a week.
+
+In Opa, of course, it's very easy to integrate any external CSS. One of the
+simplest way, is to use +Resource.styled_page+. Yet, we wanted to do more. We
+wanted to make it *really* easy ot use bootstrap. Plus, we wanted to extend it a
+bit, by providing standard icons compatible with the style. So we created a
+package in the standard library for this.
+
+It was not a big deal:
+
+* to load Bootstrap's CSS transparently (upon inclusion of the package), we used +Resource.register_external_css+;
+
+* to include our home-made, Bootstrap-compatible, icons:
+
+** we put them in a directory, and used +@static_include_directory+ on it;
+
+** we used the +DynamicResource+ module to publish each of the image at a URL;
+
+** we defined CSS classes using these URLs in Opa (rather than externally), in order to use inserts, e.g.:
++
+[source, css]
+------------------------
+.icon.icon-black {background: {get_img("icons16-black.png")} no-repeat;}
+------------------------
++
+** then we asked Opa to transparently register these classes declarations with
+   the (rather undocumented) function +Client_code.register_css_declaration+.
+
+But you, dear users, don't have to care about all this internal soup. What you
+need to know is that, now, to take benefit of Twitter's great CSS framework
+augmented with our nice icons, you only have to:
+
+[source, opa]
+------------------------
+import stdlib.themes.bootstrap
+------------------------
+
+Simple enough ?
+
+So here's how our venerable +hello_chat.opa+ now looks like (we just plugged in
+Bootstrap's classes names):
+
+[source, opa]
+------------------------
+include::../examples/hello_chat/hello_chat.opa[]
+------------------------
+
+And it's companion CSS file is now much simpler:
+[source, css]
+------------------------
+include::../examples/hello_chat/resources/css.css[]
+------------------------
+
+You can see it live at opalang.org:
+++++
+<span class="run"><A target="_blank" href="http://chat.opalang.org/">Run</A></span>
+++++
