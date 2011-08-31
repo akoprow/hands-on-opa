@@ -46,6 +46,8 @@ include::image_p3_parsing.adoc[]
 
 include::opa_licence_contribs.adoc[]
 
+include::sessions.adoc[]
+
 Pending posts
 -------------
 * Opa records

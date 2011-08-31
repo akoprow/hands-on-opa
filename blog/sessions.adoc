@@ -1,0 +1,183 @@
+[[chapter_sessions]]
+Sessions: handling state, communication and concurrency in Opa
+--------------------------------------------------------------
+
+As François-Régis mentioned in the previous post (hey, thanks for taking over and making the show go on :) I'm on holidays now. I rarely have access to the internet so this is the main reason why I don't answer comments and won't post much. Please bare with me; I'll be back on 13th of September and then it will again be business as usual. But since I got a chance I decided to make this one sun-charged post while still on holidays :). Ok, let's get started.
+
+http://opalang.org/resources/doc/index.html#session.opa.html/!/[Sessions] are a very central concept in Opa. And as things stand I don't think enough attention is devoted to them in the manual (we received a lot of compliments about the state of the docs and we're happy to hear you like them, but I think there are still things that can be improved). I've been meaning to write about sessions for a longer while and I think it's high time to do that.
+
+[icons=None, caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* About state encapsulation using sessions.
+* About event-driven style of programming with sessions.
+* How communication is accomplished in Opa (yes, you guessed it, with sessions).
+=======================
+
+Sessions
+~~~~~~~~
+
+In case you haven't realized yet, Opa is a functional language (although not pure, as the database manipulations and many client-side operations are impure). That means that there are no variables. This can come as a shocker to some of you not used to this style of programming and the words: _``How the heck can I program anything without variables??''_ seem to be coming to one's lips. Well, it turns out you can. In fact: it turns out such a programming style has huge benefits; listing them is beyond the scope of this article, I'll only hint: think about debugging and testing (another hint: a pure function will give the same result for the same arguments. Always. Yes, that's a good thing).
+
+Still, there are times when you simply need to have a state. And to modify it. Not to worry, sessions can do that for you in a safe and elegant manner. So what are they exactly? The description from the standard library is a good start:
+
+_``A session is a unit of state and concurrency. A session can be created on a server or on a client, and can be shared between several servers.''_
+
+A session is just some value (session's state) and a message handler. Messages can be send to the sessions and upon receipt are handled by the handler, which in turn can change the session's state (or terminate it). Big part of the magic is that it doesn't matter where is the session and where are you sending the message from -- client and server or two different servers; whatever the scenario things will just work (of course the location of the session relative to the location of the message sender can have a huge impact on performance, so making sure the session is where it should be is often a good place to start when tweaking your app's performance).
+
+Let's see how can we create a session:
+
+[source, opa]
+------------------------
+type Session.instruction('state) =
+        {set: 'state} /** Carry on with a new value of the state value.*/
+      / {unchanged}   /** Carry on with the same state.*/
+      / {stop}        /** Stop this session. Any further message will be ignored */
+
+Session.make : 'state, ('state, 'message -> Session.instruction('state)) -> channel('message)
+------------------------
+
+A +Session.instruction+ can either change the state of the session (+set+), leave it unchanged (+unchanged+) or terminate the session (+stop+). We can create a new session with +Session.make+ that takes two arguments: initial state of the session and a message handler, i.e., a function that given the state and a message can do some work and then respond with +Session.instruction+.
+
++Session.make+ after creating the session gives us a +channel+. We can then send messages to this channel with:
+
+[source, opa]
+------------------------
+send : channel('message), 'message -> void
+------------------------
+
+...and that's mostly it. There are more things that sessions can do and I encourage you to browse the http://opalang.org/resources/doc/index.html#session.opa.html/!/[Session API] but those two functions are the backbone of Opa sessions.
+
+Simple? Quite so, yes. But don't be fooled by the simplicity (actually something being simple is often an indication of a good design, not of lack of versatility) -- sessions are mighty animals. They're powerful. They're very important. You better learn them if you want to become an Opa-ninja.
+
+Example
+~~~~~~~
+
+Remember the simple watch example we developer <<chapter_interactivity,a while back>>? For convenience let me put the source code here.
+
+[source, opa]
+------------------------
+include::../examples/watch/watch.opa[]
+------------------------
+++++
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/watch">Run</A></span>
+++++
+
+It's a very simple code but it has one annoying feature: we need to repeat the id of the +<span>+ element; first we mention it when we create the element in the +page()+ function and then when we modify the time in +show_time()+. In order to avoid easy mistakes that id was factored out as a constant. That's a good practice but let's see a different approach with sessions.
+
+Let's try to implement a small abstraction for an interactive HTML fragment -- we will call it just that, a _fragment_. According to Opa's taxonomy it is a component, so following our naming practice it will be put in a module +CFragment+.
+
+Such a fragment should be able to render itself and then to possibly re-render itself upon a _notification_. To make it more interesting we will also equip it with some state, so that it will be able to render its new version based both on the incoming notification and its previous state and it will be able to subsequently modify this state.
+
+Let's start defining a type for an answer to a notification send to a fragment.
+
+[source, opa]
+------------------------
+package hands-on-opa.fragment
+
+type CFragment.action('state) =
+  { re_render : option(xhtml)
+  ; change_state : option('state)
+  }
+------------------------
+
+such an answer can (optionally) request re-rendering of the HTML and (optionally) change fragment's state. Let me present the rest of the code of this fragment abstraction and then I'll try to explain what's happening.
+
+[source, opa]
+------------------------
+@abstract type CFragment.fragment('msg) = channel('msg)
+
+CFragment =
+{{
+
+  @private on_notification(id, handler, state, msg) =
+    res = handler(state, msg)
+    re_render(xhtml) = Dom.transform([#{id} <- xhtml])
+    do Option.iter(re_render, res.re_render)
+    match res.change_state with
+    | {none} -> {unchanged}
+    | {some=new_state} -> {set=new_state}
+
+  create(init_state : 'state, init_xhtml : xhtml,
+         handler : 'state, 'msg -> CFragment.action
+        ) : (xhtml, CFragment.fragment('t)) =
+    id = Dom.fresh_id()
+    xhtml = <span id={id}>{init_xhtml}</>
+    session = Session.make(init_state, on_notification(id, handler, _, _))
+    (xhtml, session)
+
+  notify(fragment : CFragment.fragment('msg), msg : 'msg) : void =
+    Session.send(fragment, msg)
+
+}}
+------------------------
+
+First of all we will implement the fragment using a session, so an initialized fragment is just represented by a channel. However, due to the +@abstract+ keyword this representation will not be visible from outside of the package +hands-on-opa.fragment+. That means that we will be able to manipulate fragments only using functions exposed by the +CFragment+ module -- a neat way to accomplishing abstraction and ensure invariants on data.
+
+The +create+ function takes 3 arguments:
+
+* +init_state+: the initial state of the fragment,
+* +init_xhtml+: the initial XHTML representation of the fragment,
+* +handler+: the handler for fragment notifications, which given the +state+ and the incoming +msg+ should return a +CFragment.action+ indicating how to handle this event.
+
+What happens within the function is that we obtain a fresh DOM id, wrap the +init_xhtml+ with a +<span>+ with that id, create a session with the +init_state+ and finally return a pair of the XHTML for the fragment and the fragment itself (which as I mentioned we represent with a session).
+
+The message handler for the session, +on_notification+, uses the +handler+ given in the +create+ function to decide what to do with the incoming notification. It optionally re-renders the XHTML (using the produced id) and optionally modifies the state of the session (i.e. fragment).
+
+Finally we expose a +notify+ function which let's us send notifications to the fragment. Remember that the +CFragment.fragment+ type is abstract so anywhere outside of this package it is *not* visible as a session. So if we did not expose this functionality, users of this module would not be able to send messages using +Session.send+.
+
+Ok, time to use our fragment component to implement the timer functionality. Below is the final code:
+
+++++
+<div class="ftabs">
+++++
+* <<watch, watch.opa>>
+* <<fragment, fragment.opa>>
+++++
+<div id="watch">
+++++
+[source,opa]
+---------------------
+include::../examples/watch_fragment/watch.opa[]
+---------------------
+++++
+</div>
+<div id="fragment">
+++++
+[source,opa]
+---------------------
+include::../examples/wach_fragment/fragment.opa[]
+---------------------
+++++
+</div>
+</div>
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/watch_fragment">Run</A></span>
+++++
+
+The +show_time+ function converts a +Date.date+ to its +xhtml+ representation. The +on_msg+ function reacts to notifications send to the timer fragment -- we don't use the state, handle only one type of messages, namely requests to update the timer +{update=date}+ and instruct the fragment to re-render itself with +show_time(date)+.
+
+In the +page()+ function we first create a fragment with empty state (+void+), +show_time(Date.now())+ as the initial representation and +on_msg+ as the notification handler -- this gives us initial HTML (+timer_xhtml+) and the fragment itself (+timer+). The +update_timer()+ function sends a notification to the timer asking it to update itself with +Date.now()+. Finally we schedule calls to +update_timer+ every second (or 1000 milliseconds) and return the initial HTML, +timer_xhtml+.
+
+[icons=None, caption="Exercise"]
+[NOTE]
+=======================
+Note that in the above code the +timer+ fragment lives on the server, which means that every timer update will make a round trip to the server. It's equivalent to the slow variant of this example that we developer in the <<chapter_interactivity, original timer post>>. How would you fix that? (i.e. make the timer update fully in the browser without any communication with the server).
+=======================
+
+Uff. We're done. Only after writing this explanation I realized that this example can be quite heavy. Please take your time to slowly go through it and understand it (and if you're lost give me a shout in the comments... just please be patient if I don't react before coming back from holidays). If you really want to nail it down I'd suggest experimenting with this example, or developing something of your own.
+
+Now, let's sit back and evaluate what we've achieved. The code is certainly not simpler than what we started with -- on the contrary. However, the +CFragment+ module is a useful abstraction that can be re-used in different contexts (maybe it should even make its way to Opa's stdlib?).
+
+The code in +watch.opa+ may not look simpler than what we had, but I'd argue it's cleaner. Imagine a more complex code with many fragments being updated in different places, by different triggers. Before we had dirty, direct DOM manipulations and all it took for things to go wrong was to make a typo in element's id or mistakenly use another id.
+
+Now we replaced that with an event-based update system. To update a fragment we need to pass it to +CFragment.notify+ so we cannot notify a non-existing fragment (though it can still happen that we forget to place the fragment within a page, resulting in the update having no effect). And fragments with different functionalities will likely respond to different type of notifications, so, to some extent, the type system will help us detect attempts at updating a wrong fragment.
+
+_Open a mental parenthesis for a side note_. By the way, we received some complaints that in spite of all the fancy features, Opa is in some sense quite low-level because it work on the level of HTML. I'll be the first to agree with some criticism of Opa (it's a very new language after all), but I cannot agree with this one. To begin whatever framework/language you believe in ultimately pages *are* just HTML (unless what you believe in is Flash, but in that case I'd suggest you consider learning HTML, and fast). Abstracting it away, building something on top of HTML and exposing only this more high-level language to the developer is of course possible. But is that a good thing? I think at one time or another it'll come back biting your head; for instance when one wants to do something more fancy which is possible in HTML but was lost in the abstraction (and preserving all the features while simplifying the formalism is not an easy task).
+
+But even more importantly: you can do that in Opa. No one stops you from building some higher-level abstraction over HTML -- in fact Opa is quite well equipped to do so! In a sense, this is already slowly happening with extensions to our library of widgets and components which are higher-level elements to build pages with. Another interesting development in this direction is the http://opalang.org/resources/doc/index.html#template.opa.html/!/[Templating machinery], which allows, err, templating. Finally there is no reason not to develop a domain-specific language in Opa that could be used to replace (or complement) HTML markup, although I'm not aware of any efforts in that direction (and frankly personally I don't see a need for that).
+
+Long story short: Opa maps to HTML in a very truthful manner. And that's good. If you want some higher-level framework on top, Opa is well equipped to handle that too. _End of the side note._
+
+Ok, time to wrap up this post. I'm not sure how successful I was in persuading you that sessions are important (and powerful) (and versatile). If I didn't, not to worry, we'll see them over and over again on this blog and I hope that eventually I'll prove my point.
