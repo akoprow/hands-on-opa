@@ -197,8 +197,22 @@ license_contribs = mk_hands_on_article(
   ; descr=<>About Opa's license and how to contribute to the project.</>
   ; ty={discussion}
   })
+/*
+bootstrap = mk_hands_on_article(
+  { at=""
+  ; title=""
+  ; descr=<></>
+  ; ty={discussion}
+  })
+*/
+sessions = mk_hands_on_article(
+  { at=""
+  ; title="Sessions: Opa's communication mechanism"
+  ; descr=<>About state encapsulation using sessions. About event-driven style of programming with sessions. How communication is accomplished in Opa.</>
+  ; ty={tutorial}
+  })
 
-blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs ]
+blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, /*bootstrap,*/ sessions ]
 
 // ===============================================================
 // manual examples
@@ -225,20 +239,22 @@ watch_descr = <p>A program showing current time, updated every second.</><p>Lear
 counter_descr = <p>A simple button counting all its presses since the inception of the program.</><p>Learn how persistence (database) works in Opa.</>
 iMage_descr = <p>A configurable image viewer</><p>Learn how to build complex UI interfaces and use external configuration for your apps.</>
 calc_descr = <p>A simple calculator.</><p>Learn how to do parsing in Opa.</>
+watch_fr_descr = <p>A variant of the «timer» program using an 'HTML fragment' abstraction.</><p>Learn how to use sessions to hold state and program event-based updates</>
 
-hello : example=       { name="hello_web"  port=5008 article=hello_web         srcs=@static_include_directory("examples/hello_web")  details={descr=hello_descr deps=[]}}
-watch : example =      { name="watch"      port=5000 article=interactivity     srcs=@static_include_directory("examples/watch")      details={descr=watch_descr deps=[]}}
-watch_slow : example = { name="watch_slow" port=5001 article=interactivity     srcs=@static_include_directory("examples/watch_slow") details={invisible}}
-counter : example =    { name="counter"    port=5002 article=db_intro          srcs=@static_include_directory("examples/counter")    details={descr=counter_descr deps=[]}}
-iMage_01 : example =   { name="iMage-01"   port=5004 article=image_resources   srcs=@static_include_directory("examples/iMage-01")   details={invisible}}
-iMage_02 : example =   { name="iMage-02"   port=5005 article=image_resources   srcs=@static_include_directory("examples/iMage-02")   details={invisible}}
-iMage_03 : example =   { name="iMage-03"   port=5006 article=image_resources   srcs=@static_include_directory("examples/iMage-03")   details={invisible}}
-calculator : example = { name="calculator" port=5007 article=unit_testing      srcs=@static_include_directory("examples/calculator") details={descr=calc_descr deps=[]}}
-iMage_04 : example =   { name="iMage-04"   port=5009 article=image_structuring srcs=@static_include_directory("examples/iMage-04")   details={invisible}}
-iMage_05 : example =   { name="iMage-05"   port=5015 article=image_parsing     srcs=@static_include_directory("examples/iMage-05")   details={invisible}}
-iMage : example =      { name="iMage"      port=5003 article=image_intro       srcs=@static_include_directory("examples/iMage")      details={descr=iMage_descr deps=[iMage_01, iMage_02, iMage_03, iMage_04, iMage_05]}}
+hello : example=       { name="hello_web"      port=5008 article=hello_web         srcs=@static_include_directory("examples/hello_web")  details={descr=hello_descr deps=[]}}
+watch : example =      { name="watch"          port=5000 article=interactivity     srcs=@static_include_directory("examples/watch")      details={descr=watch_descr deps=[]}}
+watch_slow : example = { name="watch_slow"     port=5001 article=interactivity     srcs=@static_include_directory("examples/watch_slow") details={invisible}}
+counter : example =    { name="counter"        port=5002 article=db_intro          srcs=@static_include_directory("examples/counter")        details={descr=counter_descr deps=[]}}
+iMage_01 : example =   { name="iMage-01"       port=5004 article=image_resources   srcs=@static_include_directory("examples/iMage-01")       details={invisible}}
+iMage_02 : example =   { name="iMage-02"       port=5005 article=image_resources   srcs=@static_include_directory("examples/iMage-02")       details={invisible}}
+iMage_03 : example =   { name="iMage-03"       port=5006 article=image_resources   srcs=@static_include_directory("examples/iMage-03")       details={invisible}}
+calculator : example = { name="calculator"     port=5007 article=unit_testing      srcs=@static_include_directory("examples/calculator")     details={descr=calc_descr deps=[]}}
+iMage_04 : example =   { name="iMage-04"       port=5009 article=image_structuring srcs=@static_include_directory("examples/iMage-04")       details={invisible}}
+iMage_05 : example =   { name="iMage-05"       port=5015 article=image_parsing     srcs=@static_include_directory("examples/iMage-05")       details={invisible}}
+iMage : example =      { name="iMage"          port=5003 article=image_intro       srcs=@static_include_directory("examples/iMage")          details={descr=iMage_descr deps=[iMage_01, iMage_02, iMage_03, iMage_04, iMage_05]}}
+watch_fr : example =   { name="watch_fragment" port=5016 article=sessions          srcs=@static_include_directory("examples/watch_fragment") details={descr=watch_fr_descr deps=[]}}
 
-blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05 ]
+blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr ]
 
 // ===============================================================
 // all examples
