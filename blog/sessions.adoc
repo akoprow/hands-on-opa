@@ -148,7 +148,7 @@ include::../examples/watch_fragment/watch.opa[]
 ++++
 [source,opa]
 ---------------------
-include::../examples/wach_fragment/fragment.opa[]
+include::../examples/watch_fragment/fragment.opa[]
 ---------------------
 ++++
 </div>
