@@ -54,60 +54,34 @@ WSlideshow =
       </>
     Dom.transform([#{Id.photo} <- photo_container])
 
-  @private show_thumb(image) =
+  @private show_thumb(slideshow, image) =
     <div class=container>
-      <img onclick={_ -> show_img(image)} src={Uri.to_string(image.src)} />
+      <img onclick={_ -> Session.send(slideshow, {ShowImg=image})}
+        src={Uri.to_string(image.src)} />
     </>
 
+  @private slideshow_event(_state, msg) =
+    match msg with
+    | {ShowImg=img} ->
+        do show_img(img)
+        {unchanged}
+
   html(config) =
+    slideshow = Session.make(void, slideshow_event)
+    show_first_img = Session.send(slideshow, {ShowImg=List.head(config.images)})
     thumbs_css = css { width: {100 * List.length(config.images)}px }
     <div id=#{Id.main_title}>
       {config.title}
     </>
-    <div id=#{Id.slideshow}
-      onready={_ -> show_img(List.head(config.images))}>
+    <div id=#{Id.slideshow} onready={_ -> show_first_img}>
       <div id=#{Id.photo} />
       <div id=#{Id.thumbs_out}>
         <div id=#{Id.thumbs_in} style={thumbs_css}>
-          {List.map(show_thumb, config.images)}
+          {List.map(show_thumb(slideshow, _), config.images)}
         </>
       </>
     </>
 
-  @private ws = parser [ ]* -> void
-
-  @private eol = parser [\n] -> void
-
-  @private separator = parser "####" "#"* ws eol -> void
-
-  @private entry(label, content) =
-    parser "{label}:" ws res=content -> res
-
-  @private linkifier =
-    link = parser
-      "[" name=((!"]" .)*) "](" link=UriParser.uri ")" -> <a href={link}>{name}</>
-    msg_segment = parser
-    | ~link -> link
-    | s=((!link .)+) -> <>{s}</>
-    parser ls=msg_segment* -> <>{ls}</>
-
-  @private full_line_parser =
-    parser txt=((!eol .)*) eol ->
-      Parser.try_parse(linkifier, "{txt}") ? <></>
-
-  @private multi_line_parser =
-    parser lines=(!separator l=full_line_parser -> l)+ ->
-      XmlConvert.of_list_using(<></>, <br/>, <br/>, lines)
-
-  markup_parser : Parser.general_parser(WSlideshow.config) =
-    src = entry("Image", Uri.uri_parser)
-    link = entry("Link", Uri.uri_parser)
-    title  = entry("Title", full_line_parser)
-    author = entry("Author", full_line_parser)
-    image =
-      parser ~src ~link? ~title? ~author? eol? description=multi_line_parser? ->
-      ~{src link author title description} : WSlideshow.image
-    images = Rule.parse_list_sep(true, image, separator)
-    parser separator title=multi_line_parser ~images separator -> ~{title images}
+  markup_parser = SlideshowParser.markup_parser
 
 }}

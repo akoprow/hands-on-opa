@@ -14,6 +14,7 @@ $(function() { $( ".ftabs" ).tabs(); });
 </script>
 ++++
 
+////
 include::hello_opa.adoc[]
 
 include::first_steps.adoc[]
@@ -49,6 +50,9 @@ include::opa_licence_contribs.adoc[]
 include::hello_bootstrap.adoc[]
 
 include::sessions.adoc[]
+////
+
+include::image_p4_event_based_programming.adoc[]
 
 Pending posts
 -------------

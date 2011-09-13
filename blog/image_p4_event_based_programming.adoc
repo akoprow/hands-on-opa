@@ -1,0 +1,116 @@
+[[chapter_image_p4_events]]
+iMage: part 4, Event-based programming
+--------------------------------------
+
+I know, long time no post... I just came back from holidays and will try to get some fresh, new content ready for the blog.
+
+In the <<chapter_sessions, last post>> I talked about the importance of sessions. To illustrate that in this post I'll show you first how to modify the http://tutorials.opalang.org/iMage[iMage application] we <<chapter_image_p3_parsing, had so far>> to use sessions as the way of invoking and handling events. Then we'll extend this application with a new feature: it will automatically accomodate to the size of the browser window. I'll also explain why it would be difficult to add this feature in the previous non-sessions-based setting. Ready?
+
+[caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* More about sessions by using them for the http://tutorials.opalang.org/iMage[iMage application].
+* How to accomodate your layout to the size of the browser window (updating it upon window resizal).
+=======================
+
+Event based programming in Opa
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Let's see how can we modify our previous version of iMage to use sessions for event dispatching and handling. So far, there is only one type of event (more will come) in the app: clicking on an image thumbnail results in the full version of that image showing in the main window.
+
+There are only few small changes we need to introduce. If you forgot what we learned about sessions (or did not read the previous post) I suggest you skim over the <<chapter_sessions, post where I introduced them>>.
+
+Ok, so we used to have a +show_thumb(image)+ function that would generate a thumbnail, which would have an +onclick+ event attached to it. In the previous version that function looked like this:
+
+[source,opa]
+---------------------
+@private show_thumb(image) =
+  <div class=container>
+    <img onclick={_ -> show_img(image)} src={Uri.to_string(image.src)} />
+  </>
+---------------------
+
+So essentially on clicking the thumbnail it directly calls +show_img+ to display the full version of the clicked thmbnail. However now instead of performing the action we will just generate an event. So that function needs to take an extra parameter, which is the slideshow session and it becomes:
+
+[source,opa]
+---------------------
+@private show_thumb(slideshow, image) =
+  <div class=container>
+    <img onclick={_ -> Session.send(slideshow, {ShowImg=image})}
+      src={Uri.to_string(image.src)} />
+  </>
+---------------------
+
+So now when a thumbnail is clicked we just generate an event being a record with field +ShowImg+ and the value of that field being the clicked +image+. So far so good. The second change is that the +html+ function, which constructs the HTML code for the slideshow, now needs to create a session and pass it on to the +show_thumb+ function. So before we had this code (only relevant part shown):
+
+[source,opa]
+---------------------
+html(config) =
+  <div id=#{Id.thumbs_in} style={thumbs_css}>
+    {List.map(show_thumb, config.images)}
+  </>
+---------------------
+
+which now becomes:
+
+[source,opa]
+---------------------
+html(config) =
+  slideshow = Session.make(void, slideshow_event)
+  // ...
+  <div id=#{Id.thumbs_in} style={thumbs_css}>
+    {List.map(show_thumb(slideshow, _), config.images)}
+  </>
+---------------------
+
+We first create a session +slideshow+ with an empty state (+void+; that will change soon) and with a +slideshow_event+ function being the handler for session messages. For now we only have one type of messages, +\{ShowImg=image\}+, so it looks as follows:
+
+[source,opa]
+---------------------
+@private slideshow_event(_state, msg) =
+  match msg with
+  | {ShowImg=img} ->
+      do show_img(img)
+      {unchanged}
+---------------------
+
+It's actually much easier to do that than to explain, so if you followed those instructions and did the changes to the code yourself (highly recommended) then you'd realize that it was just a small re-structuring of the program. As a result instead of directly performing the action of showing an image we now send a message to a session and only its message handler does the actual work. What's the gain? It'll be very clear in a moment when we will extend the session with a state.
+
+For now here is the complete code, which, functionally, is absolutely equivalent to the previous version, only now employs sessions.
+
+++++
+<div class="ftabs">
+++++
+* <<iMage-06, iMage-06.opa>>
+* <<slideshow, slideshow.opa>>
+* <<slideshow_parser, slideshow_parser.opa>>
+++++
+<div id="iMage-06">
+++++
+[source,opa]
+---------------------
+include::../examples/iMage-06/iMage-06.opa[]
+---------------------
+++++
+</div>
+<div id="slideshow">
+++++
+[source,opa]
+---------------------
+include::../examples/iMage-06/slideshow.opa[]
+---------------------
+++++
+</div>
+<div id="slideshow_parser">
+++++
+[source,opa]
+---------------------
+include::../examples/iMage-06/slideshow_parser.opa[]
+---------------------
+++++
+</div>
+</div>
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-06">Run</A></span>
+++++
