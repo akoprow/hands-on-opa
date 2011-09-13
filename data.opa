@@ -197,14 +197,12 @@ license_contribs = mk_hands_on_article(
   ; descr=<>About Opa's license and how to contribute to the project.</>
   ; ty={discussion}
   })
-/*
 bootstrap = mk_hands_on_article(
-  { at=""
-  ; title=""
-  ; descr=<></>
+  { at="2011/08/bootstrap-in-opa-hello-dear-readers.html"
+  ; title="\"Hello Bootstrap\" in Opa"
+  ; descr=<>An article describing how to use Twitter's Bootstrap in Opa.</>
   ; ty={discussion}
   })
-*/
 sessions = mk_hands_on_article(
   { at=""
   ; title="Sessions: Opa's communication mechanism"
@@ -212,7 +210,7 @@ sessions = mk_hands_on_article(
   ; ty={tutorial}
   })
 
-blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, /*bootstrap,*/ sessions ]
+blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions ]
 
 // ===============================================================
 // manual examples
