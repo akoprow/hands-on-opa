@@ -1,0 +1,284 @@
+[[chapter_units]]
+Units of measurement: handling custom types
+-------------------------------------------
+
+Today we'll do a self-contained mini-tutorial to illustrate a few notions about custom types and user interface. Opa is still young and its standard library is missing some features that other languages have. Among these, there is support for units of measurement. I'll try to show you that adding such a support is easy, and can be done in a way transparent to users. To keep it simple for this tutorial, let's write a length converter handling meters and inches.
+
+[NOTE]
+=======================
+You will learn:
+
+* How to use custom types in a transparent way in your UI.
+* A possible design pattern for UI components.
+* How to separate application logic from user interface.
+* How to reduce client-server communication with the onready event.
+=======================
+
+Custom types
+~~~~~~~~~~~~
+
+We have already seen tons of type definitions in Opa. There are two reasonable choices to define a type to represent lengths. The first choice is to have a shallow type, where the unit plays a structuring role:
+
+[source, opa]
+------------------------
+type Length.length = { m : float } / { in : float }
+------------------------
+
+The second choice consists in nesting a type for units inside the type for lengths:
+
+[source, opa]
+------------------------
+type Length.unit = {m} / {in}
+type Length.length = { value : float; unit : Length.unit }
+------------------------
+
+Although it is more verbose, the second choice is often more usable in practice. It makes it more easy to reason independently on the value and unit of a length (for instance for printing).
+
+Type customizers
+~~~~~~~~~~~~~~~~
+
+We have already seen inserts, consisting in an arbitrary expression inside curly braces, +{...}+, in a string or in XHTML. Inserts work well for a few predefined types, but what happens with the type +Length.length+ we have just defined ? Imagine we have the following code snippet:
+
+[source, opa]
+------------------------
+EiffelTower = {{
+  ...
+  height : Length.length = { value = 324.; unit = {m} }
+  ...
+  show() =
+    ...
+    <div>
+      <h1>Eiffel Tower</h1>
+      ...
+      height: {height}
+      ...
+    </div>
+}}
+------------------------
+
+This code will compile (if you fill in the blanks), but the result will not be satisfactory. Instead of displaying the Eiffel Tower's height, you will get a message saying that Opa does not know how to make +xhtml+ (in fact even +xml+) from a value of type +Length.length+. If the set of types that can actually be printed was fixed, it would make sense to fail at compile-time. Here it compiles cleanly, because the set of printable types can be extended dynamically. Let's see how, in the case of type +Length.unit+:
+
+[source, opa]
+------------------------
+@xmlizer(Length.unit) unit_to_xhtml(u : Length.unit) =
+  match u with
+  | {m} -> <>m</>
+  | {in} -> <>in</>
+------------------------
+
+This is a normal definition of a function +unit_to_xhtml+, and the extra directive +@xmlizer(Length.unit)+ says that this function should be registered as the default printer (as XML) for values of type +Length.unit+. Since we want to make it the default printer, we do not really need to give it a name, so we can call it +_+ ("I don't care"), and we can also write it more compactly.
+
+[source, opa]
+------------------------
+@xmlizer(Length.unit) _ =
+  | {m} -> <>m</>
+  | {in} -> <>in</>
+------------------------
+
+We can now define a printer for +Length.length+:
+
+[source, opa]
+------------------------
+@xmlizer(Length.length) _ =
+  | ~{value unit} -> <>{Float.to_formatted_string(false, some(3), value)} {unit}</>
+------------------------
+
+Notice how +unit+ will be printed with the default printer that we just registered.
+
+We do not need it for the tutorial, but it is interesting to see how this mechanism works for polymorphic types. For instance, the standard library defines a +xmlizer+ for lists, as follows:
+
+[source, opa]
+------------------------
+@xmlizer(list('a)) list_to_xml(alpha_to_xml, l) =
+  Xml.create_fragment(List.map(alpha_to_xml, l))
+------------------------
+
+To register custom printers as strings (rather than as XHTML), the directive +@stringifier+ plays a similar role.
+
+UI components
+~~~~~~~~~~~~~
+
+A user interface component is a piece of XHTML, and functions related to user interaction with this piece of XHTML. For instance, we may define a type for input components:
+
+[source, opa]
+------------------------
+type Ui.getter('a) = { xhtml : xhtml; get : -> 'a }
+------------------------
+
+We may imagine several ways to let a user input values in a web page. Some of them may be very specific to the expected type (for instance, a color-picker), and some of them may be more generic. In an XHTML +input+ field, users may only input strings; but as long as we are able to provide a parsing function, we may write a generic (polymorphic) UI component:
+
+[source, opa]
+------------------------
+Ui = {{
+  ...
+  input(parse : string -> 'a) : Ui.getter('a) =
+    id = Dom.fresh_id();
+    {
+      xhtml = <input id={id} type="text"/>;
+      get() = parse(Dom.get_value(#{id}));
+    }
+  ...
+}}
+------------------------
+
+This may seem a bit of a complicated approach for something that, in the end, is no more than an input field. But we have gained in _modularity_ and _abstraction_: we know that the +get+ function is related to the piece of XHTML; this relation is done through an +id+, but this is hidden from the user of the component. This avoids risks of mistyping ids, for instance.
+
+We may provide another generic input components for discrete types, in the form of an XHTML select field. The standard way to access the selected option in a select field is to ask for its value, which is a string corresponding to a property of the option that is unrelated to what is actually displayed to the user. Retrieving the language-level value is often done via an ad-hoc function to match/parse/unserialize the string. Here, with our notion of component, we can abstract away from these necessary hacks. Internally, we use the index in the list given as argument as the value attribute, and this allows us to safely retrieve the corresponding value in the list.
+
+[source, opa]
+------------------------
+Ui = {{
+  ...
+  select(options : list('a)) : Ui.getter('a) =
+    id = Dom.fresh_id();
+    get() = List.unsafe_get(String.to_int(Dom.get_value(#{id})), options) :'a ;
+    {
+      xhtml =
+        <select id={id}>
+          { List.mapi(i, x -> <option value="{i}">{x}</option>, options) }
+        </select> ;
+      get = get
+    }
+  ...
+}}
+------------------------
+
+It's easy to combine components into "bigger" components. Let's build for instance a component to input a length, using an +Ui.input+ for its value and an +Ui.select+ for its unit.
+
+[source, opa]
+------------------------
+units : list(Length.unit) = [{m}, {in}]
+
+LengthUi = {{
+  input() : Ui.getter(option(Length.length)) =
+    unit = Ui.select(units)
+    value = Ui.input(Parser.float)
+    {
+      xhtml = <span>{value.xhtml}{unit.xhtml}</span>
+      get() = Option.map(value -> { ~value; unit = unit.get() }, value.get())
+    }
+}}
+------------------------
+
+The same job can be done for output components:
+
+[source, opa]
+------------------------
+type Ui.setter('a) = { xhtml : xhtml; set : 'a -> void }
+------------------------
+
+Knowing that the language allows us to specify how to render values of arbitrary types, we may write polymorphic output UI components in a simpler way: instead of passing around a basic display function, we may rely on the automatic conversion of values to XHTML. Here is an example:
+
+[source, opa]
+------------------------
+Ui = {{
+  ...
+  display() : Ui.setter('a) =
+    id = Dom.fresh_id();
+    {
+      xhtml = <span id={id} />;
+      set(x) =
+        do Dom.hide(#{id})
+        do Dom.transform([#{id} <- x])
+        _ = Dom.transition(#{id}, Dom.Effect.with_duration({slow}, Dom.Effect.show()))
+        void;
+    }
+  ...
+}}
+------------------------
+
+Separation of application logic and UI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In our small length converter application, the application logic is very simple: it essentially consists in the function:
+
+[source, opa]
+------------------------
+Length.convert(length : Length.length, unit : Length.unit) : Length.length
+------------------------
+
+We defined some generic UI components, in an independent file, and UI components specific to the types of the application (for instance, the module +LengthUi+). All this gets connected together in a UI function, that deals with user inputs, calls function of the application logic, and outputs results to the user:
+
+[source, opa]
+------------------------
+MainUi = {{
+  ...
+  interface() =
+    length = LengthUi.input()
+    unit = Ui.select(units)
+    display = Ui.display()
+    convert() =
+      match length.get() with
+      | {none} ->
+        display.set(<>invalid length</>)
+      | {some = l} ->
+        u = unit.get()
+        display.set(<>{ Length.convert(l, u) }</>)
+    <>
+      <h1>A simple unit converter</h1>
+      Convert { length.xhtml } to {unit.xhtml}
+      <button onclick={_ -> convert() }>convert</button>
+      { display.xhtml }
+    </>
+  ...
+}}
+------------------------
+
+In traditional web frameworks and templating mechanisms, separation of concerns is enforced by the specialization of languages: the application logic is implemented in the server language; the UI is implemented using HTML-like template and JavaScript. In Opa, we have removed this arbitrary separation; but it is still advisable to separate concerns, and it is mainly a matter of code organization, as I hope this example shows.
+
+Client-server optimization
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We are almost ready. We only need to launch a server that will answer the +MainUi.interface()+ for every URL:
+
+[source, opa]
+------------------------
+server = Server.one_page_server(" -- A simple length converter -- ", MainUi.interface)
+------------------------
+
+The application is fully functional, but when inspecting the network traffic with a suitable browser tool, we remark that there are many exchanges. This may sound strange, since the application does not use server-only features (like the database). In fact +MainUi.interface()+ is executed on the server (because it creates the page actually served to browsers), and all functions created by +MainUi.interface()+ (through UI components) are created on the server and will remain there. Although this seems very reasonable most of the time, the Opa team is currently trying to lift this restriction, to improve performances. For the moment, the problem is not too difficult to work-around: we only need to execute +MainUi.interface()+ on the client. This can be done thanks to the +onready+ event:
+
+[source, opa]
+------------------------
+MainUi = {{
+  ...
+  server_interface() =
+    <div onready={_ -> Dom.transform([#Body <- interface()])} />
+  ...
+}}
+
+server = Server.one_page_server(" -- A simple length converter -- ", MainUi.server_interface)
+------------------------
+
+The server will serve an almost empty page, that will self-initialize on the browser. This can harm indexing by web-crawlers, but for our concern, it's a perfectly acceptable solution.
+
+Full code
+~~~~~~~~~
+
+Below is the final code:
+
+++++
+<div class="ftabs">
+++++
+* <<units, units.opa>>
+* <<ui, ui.opa>>
+++++
+<div id="units">
+++++
+[source,opa]
+---------------------
+include::../examples/units/units.opa[]
+---------------------
+++++
+</div>
+<div id="ui">
+++++
+[source,opa]
+---------------------
+include::../examples/units/ui.opa[]
+---------------------
+++++
+</div>
+</div>
+++++
+

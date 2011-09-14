@@ -52,6 +52,9 @@ include::hello_bootstrap.adoc[]
 include::sessions.adoc[]
 ////
 
+include::units.adoc[]
+
+////
 include::image_p4_event_based_programming.adoc[]
 
 Pending posts
@@ -65,3 +68,5 @@ Pending posts
 * Sessions: the core of Opa's communication
 * Dates (+ Date printing/parsing?)
 * Opa widgets: Date printer
+
+////
