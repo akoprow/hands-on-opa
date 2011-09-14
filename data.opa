@@ -204,9 +204,15 @@ bootstrap = mk_hands_on_article(
   ; ty={discussion}
   })
 sessions = mk_hands_on_article(
-  { at=""
+  { at="2011/09/sessions-handling-state-communication.html"
   ; title="Sessions: Opa's communication mechanism"
   ; descr=<>About state encapsulation using sessions. About event-driven style of programming with sessions. How communication is accomplished in Opa.</>
+  ; ty={tutorial}
+  })
+unit_conversion=mk_hands_on_article(
+  { at=""
+  ; title="Units of measurement: handling custom types"
+  ; descr=<>How to use custom types in a transparent way in your UI, design UI components, separate application logic from user interface and reduce client-server communication with the onready event.</>
   ; ty={tutorial}
   })
 
@@ -238,10 +244,11 @@ counter_descr = <p>A simple button counting all its presses since the inception 
 iMage_descr = <p>A configurable image viewer</><p>Learn how to build complex UI interfaces and use external configuration for your apps.</>
 calc_descr = <p>A simple calculator.</><p>Learn how to do parsing in Opa.</>
 watch_fr_descr = <p>A variant of the «timer» program using an 'HTML fragment' abstraction.</><p>Learn how to use sessions to hold state and program event-based updates</>
+units_descr = <p>A simple converter for length units</><p>Learn how to: use custom types in a transparent way in your UI, design UI components, separate application logic from user interface and reduce client-server communication with the onready event.</>
 
-hello : example=       { name="hello_web"      port=5008 article=hello_web         srcs=@static_include_directory("examples/hello_web")  details={descr=hello_descr deps=[]}}
-watch : example =      { name="watch"          port=5000 article=interactivity     srcs=@static_include_directory("examples/watch")      details={descr=watch_descr deps=[]}}
-watch_slow : example = { name="watch_slow"     port=5001 article=interactivity     srcs=@static_include_directory("examples/watch_slow") details={invisible}}
+hello : example=       { name="hello_web"      port=5008 article=hello_web         srcs=@static_include_directory("examples/hello_web")      details={descr=hello_descr deps=[]}}
+watch : example =      { name="watch"          port=5000 article=interactivity     srcs=@static_include_directory("examples/watch")          details={descr=watch_descr deps=[]}}
+watch_slow : example = { name="watch_slow"     port=5001 article=interactivity     srcs=@static_include_directory("examples/watch_slow")     details={invisible}}
 counter : example =    { name="counter"        port=5002 article=db_intro          srcs=@static_include_directory("examples/counter")        details={descr=counter_descr deps=[]}}
 iMage_01 : example =   { name="iMage-01"       port=5004 article=image_resources   srcs=@static_include_directory("examples/iMage-01")       details={invisible}}
 iMage_02 : example =   { name="iMage-02"       port=5005 article=image_resources   srcs=@static_include_directory("examples/iMage-02")       details={invisible}}
@@ -251,8 +258,9 @@ iMage_04 : example =   { name="iMage-04"       port=5009 article=image_structuri
 iMage_05 : example =   { name="iMage-05"       port=5015 article=image_parsing     srcs=@static_include_directory("examples/iMage-05")       details={invisible}}
 iMage : example =      { name="iMage"          port=5003 article=image_intro       srcs=@static_include_directory("examples/iMage")          details={descr=iMage_descr deps=[iMage_01, iMage_02, iMage_03, iMage_04, iMage_05]}}
 watch_fr : example =   { name="watch_fragment" port=5016 article=sessions          srcs=@static_include_directory("examples/watch_fragment") details={descr=watch_fr_descr deps=[]}}
+units : example =      { name="unit_converter" port=5017 article=unit_conversion   srcs=@static_include_directory("examples/unit_converter") details={descr=units_descr deps=[]}}
 
-blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr ]
+blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr, units ]
 
 // ===============================================================
 // all examples

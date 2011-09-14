@@ -26,6 +26,9 @@ input {
   -moz-outline-radius: 7px 7px;
   -moz-outline-offset: 0;
 }
-select, button {
+select {
   font-size: 20px;
+}
+button {
+  font-size: 30px;
 }
