@@ -1,1 +1,1 @@
-opa ui.opa units.opa -o units.exe
+opa ui.opa units.opa -o unit_converter.exe
