@@ -1,4 +1,4 @@
-all: index.html
+all: blogspot
 
 blogspot: index.html
 	./subst
