@@ -1,8 +1,8 @@
-#calc {
+#converter {
   width: 700px;
-  height: 75px;
+  height: 240px;
   margin: auto;
-  margin-top: 75px;
+  margin-top: 25px;
   text-align: center;
   background-color: #EFEFEF;
   border: 2px solid #DDD;
@@ -14,25 +14,18 @@
   -webkit-box-shadow: 0px 0px 20px black;
   -moz-box-shadow: 0px 0px 20px black;
   padding: 20px;
-}
-#expr {
   font-size: 30px;
-  width: 250px;
+}
+input {
+  margin: 7px;
+  width: 100px;
+  font-size: 30px;
   outline: auto 5px gold;
   outline-offset: -2px;
   -moz-outline: gold solid 2px;
   -moz-outline-radius: 7px 7px;
   -moz-outline-offset: 0;
 }
-#equals {
-  font-size: 30px;
-  padding: 0px 7px;
-  margin: 0px 10px;
-}
-#answer {
-  font-size: 30px;
-}
-#error {
-  color: red;
-  margin-top: 5px;
+select, button {
+  font-size: 20px;
 }
