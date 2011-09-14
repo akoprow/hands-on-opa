@@ -267,7 +267,7 @@ Below is the final code:
 ++++
 [source,opa]
 ---------------------
-include::../examples/units/units.opa[]
+include::../examples/unit_converter/units.opa[]
 ---------------------
 ++++
 </div>
@@ -275,10 +275,11 @@ include::../examples/units/units.opa[]
 ++++
 [source,opa]
 ---------------------
-include::../examples/units/ui.opa[]
+include::../examples/unit_converter/ui.opa[]
 ---------------------
 ++++
 </div>
 </div>
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/unit_converter">Run</A></span>
 ++++
 
