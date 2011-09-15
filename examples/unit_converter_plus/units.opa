@@ -1,5 +1,6 @@
 package hands-on-opa.units.main
 import hands-on-opa.units.ui
+import stdlib.themes.bootstrap
 
 type Length.unit = {cm} / {m} / {ft} / {in}
 type Length.length = { value : float; unit : Length.unit }
@@ -35,31 +36,34 @@ Length = {{
 }}
 
 LengthUi = {{
-  input() : Ui.getter(option(Length.length)) =
+  control() : Ui.editable(option(Length.length)) =
     unit = Ui.select(units)
-    value = Ui.input(Parser.float)
+    float_printer =
+    | {none} -> ""
+    | {some=f} -> "{f}"
+    value = Ui.input(float_printer, Parser.float)
     {
       xhtml = <span>{value.xhtml}{unit.xhtml}</span>
       get() = Option.map(value -> { ~value; unit = unit.get() }, value.get())
+      set(v) =
+        match v with
+        | {none} ->
+            do value.set(none)
+            void
+        | {some=v} ->
+            do unit.set(v.unit)
+            do value.set(some(v.value))
+            void
     }
 }}
 
 MainUi = {{
   interface() =
-    length = LengthUi.input()
-    unit = Ui.select(units)
-    display = Ui.display()
-    convert() =
-      match length.get() with
-      | {none} ->
-        display.set(<>invalid length</>)
-      | {some = l} ->
-        u = unit.get()
-        display.set(<>{l} = { Length.convert(l, u) }</>)
-    <div id=#converter>
-      <p>Convert { length.xhtml } to {unit.xhtml}</p>
-      <button onclick={_ -> convert() }>convert</button>
-      <p>{ display.xhtml }</p>
+    length1 = LengthUi.control()
+    length2 = LengthUi.control()
+    <div class="container">
+      <h1>Length converter demo</>
+      {length1.xhtml} = {length2.xhtml}
     </>
 
   server_interface() =
