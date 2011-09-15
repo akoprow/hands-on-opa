@@ -1,0 +1,34 @@
+#converter {
+  width: 700px;
+  height: 240px;
+  margin: auto;
+  margin-top: 25px;
+  text-align: center;
+  background-color: #EFEFEF;
+  border: 2px solid #DDD;
+  border-radius: 10px;
+  background: #F2F2ED;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  box-shadow: 0px 0px 20px black;
+  -webkit-box-shadow: 0px 0px 20px black;
+  -moz-box-shadow: 0px 0px 20px black;
+  padding: 20px;
+  font-size: 30px;
+}
+input {
+  margin: 7px;
+  width: 100px;
+  font-size: 30px;
+  outline: auto 5px gold;
+  outline-offset: -2px;
+  -moz-outline: gold solid 2px;
+  -moz-outline-radius: 7px 7px;
+  -moz-outline-offset: 0;
+}
+select {
+  font-size: 20px;
+}
+button {
+  font-size: 30px;
+}
