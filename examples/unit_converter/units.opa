@@ -1,5 +1,6 @@
 package hands-on-opa.units.main
 import hands-on-opa.units.ui
+import stdlib.themes.bootstrap
 
 type Length.unit = {cm} / {m} / {ft} / {in}
 type Length.length = { value : float; unit : Length.unit }
@@ -56,10 +57,13 @@ MainUi = {{
       | {some = l} ->
         u = unit.get()
         display.set(<>{l} = { Length.convert(l, u) }</>)
-    <div id=#converter>
-      <p>Convert { length.xhtml } to {unit.xhtml}</p>
-      <button onclick={_ -> convert() }>convert</button>
-      <p>{ display.xhtml }</p>
+    <div class="container">
+      <h1>Length converter demo</>
+      <p>
+        Convert { length.xhtml } to {unit.xhtml}
+        <button class="primary btn" onclick={_ -> convert() }>convert</button>
+        { display.xhtml }
+      </>
     </>
 
   server_interface() =
