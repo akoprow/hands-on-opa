@@ -14,9 +14,6 @@ units : list(Length.unit) = [{cm}, {m}, {in}, {ft}]
   | {ft} -> <>ft</>
   | {in} -> <>in</>
 
-@xmlizer(Length.length) _ =
-  | ~{value unit} -> <>{Float.to_formatted_string(false, some(3), value)} {unit}</>
-
 Length = {{
   @private ratio(~{from to} : Length.conversion) : float =
     if from == to then 1.
@@ -35,35 +32,48 @@ Length = {{
     { value = length.value * ratio({from=length.unit; to=unit}); ~unit }
 }}
 
+type LengthUi.editable = Ui.editable(Length.length)
+
 LengthUi = {{
-  control() : Ui.editable(option(Length.length)) =
-    unit = Ui.select(units)
+  control() : LengthUi.editable =
     float_printer =
     | {none} -> ""
-    | {some=f} -> "{f}"
-    value = Ui.input(float_printer, Parser.float)
+    | {some=f} ->Float.to_formatted_string(false, some(3), f)
+    unit = Ui.select(units)
+    unit_value = Ui.input(float_printer, Parser.float)
     {
-      xhtml = <span>{value.xhtml}{unit.xhtml}</span>
-      get() = Option.map(value -> { ~value; unit = unit.get() }, value.get())
-      set(v) =
-        match v with
-        | {none} ->
-            do value.set(none)
-            void
-        | {some=v} ->
-            do unit.set(v.unit)
-            do value.set(some(v.value))
-            void
+      xhtml(onchange) =
+        <span>{unit_value.xhtml(onchange)}{unit.xhtml(onchange)}</span>
+      value =
+      {
+        get() =
+          { value = unit_value.value.get() ? 0.
+          ; unit = unit.value.get()
+          }
+        set(v) =
+          do unit.value.set(v.unit)
+          do unit_value.value.set(some(v.value))
+          void
+      }
     }
+
+  convert(from : LengthUi.editable, to : LengthUi.editable) =
+    ->
+      res_unit = to.value.get().unit
+      res_value = Length.convert(from.value.get(), res_unit)
+      to.value.set(res_value)
+
 }}
 
 MainUi = {{
   interface() =
     length1 = LengthUi.control()
     length2 = LengthUi.control()
+    change1 = LengthUi.convert(length1, length2)
+    change2 = LengthUi.convert(length2, length1)
     <div class="container">
       <h1>Length converter demo</>
-      {length1.xhtml} = {length2.xhtml}
+      {length1.xhtml({onchange = change1})} = {length2.xhtml({onchange = change2})}
     </>
 
   server_interface() =
