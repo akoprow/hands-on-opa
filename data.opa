@@ -210,13 +210,13 @@ sessions = mk_hands_on_article(
   ; ty={tutorial}
   })
 unit_conversion=mk_hands_on_article(
-  { at=""
+  { at="2011/09/units-of-measurement-handling-custom.html"
   ; title="Units of measurement: handling custom types"
   ; descr=<>How to use custom types in a transparent way in your UI, design UI components, separate application logic from user interface and reduce client-server communication with the onready event.</>
   ; ty={tutorial}
   })
 
-blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions ]
+blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions, unit_conversion ]
 
 // ===============================================================
 // manual examples
@@ -266,5 +266,4 @@ blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, 
 // all examples
 // ===============================================================
 examples : list(example) = blog_examples ++ manual_examples
-
-//examples = [] //{ name="hello_web"  port=5008 article=hello_web        srcs=@static_include_directory("examples/hello_web") }]
+//examples = [hello]
