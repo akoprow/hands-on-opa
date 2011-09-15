@@ -190,12 +190,21 @@ Ui = {{
 Separation of application logic and UI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-In our small length converter application, the application logic is very simple: it essentially consists in the function:
+In our small length converter application, the application logic is very simple: it essentially consists in the conversion function:
 
 [source, opa]
 ------------------------
-Length.convert(length : Length.length, unit : Length.unit) : Length.length
+@private ratio(~{from to} : Length.conversion) : float =
+  if from == to then 1.
+  else match ~{from to} with
+    | {from={in} to={m}} -> 0.0254
+    | _ -> 1. / ratio({from=to to=from})
+
+convert(length : Length.length, unit : Length.unit) : Length.length =
+  { value = length.value * ratio({from=length.unit; to=unit}); ~unit }
 ------------------------
+
+The +ratio+ function provides a ratio between two units and the +convert+ function uses it to convert values from a certain unit to another.
 
 We defined some generic UI components, in an independent file, and UI components specific to the types of the application (for instance, the module +LengthUi+). All this gets connected together in a UI function, that deals with user inputs, calls function of the application logic, and outputs results to the user:
 
@@ -213,12 +222,11 @@ MainUi = {{
         display.set(<>invalid length</>)
       | {some = l} ->
         u = unit.get()
-        display.set(<>{ Length.convert(l, u) }</>)
-    <>
-      <h1>A simple unit converter</h1>
-      Convert { length.xhtml } to {unit.xhtml}
+        display.set(<>{l} = { Length.convert(l, u) }</>)
+    <div id=#converter>
+      <p>Convert { length.xhtml } to {unit.xhtml}</p>
       <button onclick={_ -> convert() }>convert</button>
-      { display.xhtml }
+      <p>{ display.xhtml }</p>
     </>
   ...
 }}
@@ -233,7 +241,7 @@ We are almost ready. We only need to launch a server that will answer the +MainU
 
 [source, opa]
 ------------------------
-server = Server.one_page_server(" -- A simple length converter -- ", MainUi.interface)
+server = Server.one_page_server("A simple length converter", MainUi.interface)
 ------------------------
 
 The application is fully functional, but when inspecting the network traffic with a suitable browser tool, we remark that there are many exchanges. This may sound strange, since the application does not use server-only features (like the database). In fact +MainUi.interface()+ is executed on the server (because it creates the page actually served to browsers), and all functions created by +MainUi.interface()+ (through UI components) are created on the server and will remain there. Although this seems very reasonable most of the time, the Opa team is currently trying to lift this restriction, to improve performances. For the moment, the problem is not too difficult to work-around: we only need to execute +MainUi.interface()+ on the client. This can be done thanks to the +onready+ event:
@@ -247,15 +255,60 @@ MainUi = {{
   ...
 }}
 
-server = Server.one_page_server(" -- A simple length converter -- ", MainUi.server_interface)
+server = Server.one_page_server("A simple length converter", MainUi.server_interface)
 ------------------------
 
 The server will serve an almost empty page, that will self-initialize on the browser. This can harm indexing by web-crawlers, but for our concern, it's a perfectly acceptable solution.
 
-Full code
-~~~~~~~~~
+Adding more units
+~~~~~~~~~~~~~~~~~
 
-Below is the final code:
+The version presented so far contains only two units -- meters and inches -- which does not make for very exciting conversions :). To illustrate the work required to extend it with more units let's add two more: centimeters and feet. First we need to extend the type of units and the list of all units:
+
+[source, opa]
+------------------------
+type Length.unit = {cm} / {m} / {ft} / {in}
+units : list(Length.unit) = [{cm}, {m}, {in}, {ft}]
+------------------------
+
+then our XML converter becomes:
+
+[source, opa]
+------------------------
+@xmlizer(Length.unit) _ =
+  | {cm} -> <>cm</>
+  | {m} -> <>m</>
+  | {ft} -> <>ft</>
+  | {in} -> <>in</>
+------------------------
+
+and finally the +ratio+ function needs extension too. Not to inspect all possible pairs of units (very error-prone) we will base our conversion on +meters+ and will explicitly provide conversion rations from all units to meters (based on all-knowing http://en.wikipedia.org/wiki/Conversion_of_units#Length[Wikipedia]); then we get conversions from meters to other units inverting those ratios and if a conversion between some other units (none meters) is requested then we convert in two steps: first to meters and then to the requested unit. So the +ratio+ function now becomes:
+
+[source, opa]
+------------------------
+@private ratio(~{from to} : Length.conversion) : float =
+  if from == to then 1.
+  else match ~{from to} with
+       | {~from to={m}} ->
+           (match from with
+           | {cm} -> 0.01
+           | {m} -> 1.
+           | {in} -> 0.0254
+           | {ft} -> 0.3048
+           )
+       | {from={m} to=_} -> 1. / ratio({from=to to=from})
+       | _ -> ratio({~from to={m}}) * ratio({from={m} ~to})
+------------------------
+
+And... we're done! I'd like to point out two important aspects:
+
+* Firstly, we are in a strongly typed setting, and once we extended the +Length.unit+ enumeration type forgetting any other step we presented would result in complains from the compiler (about non-exhaustive pattern-matching). You may not be very impressed as you'd probably get the same benefit for enumeration types in any decent language, it's worth noting that Opa's algebraic types go far beyond simple enumerations and you will still get this nice feature for those more complex types (we'll talk more about such more complex types soon).
+* Secondly, note that in our exercise in adding more units we only touched the logic part of the application, without changing anything in the presentation layer (as presentation indeed does not change).
+
+Final version
+~~~~~~~~~~~~~
+
+Below is the final code of our application. Click +Run+ to play with its running demo.
 
 ++++
 <div class="ftabs">
@@ -282,4 +335,3 @@ include::../examples/unit_converter/ui.opa[]
 </div>
 <span class="run"><A target="_blank" href="http://tutorials.opalang.org/unit_converter">Run</A></span>
 ++++
-
