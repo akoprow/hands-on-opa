@@ -4,3 +4,6 @@ input {
 select {
   width: 60px !important;
 }
+input[readonly] {
+  background-color: #F5F5F5 !important;
+}

@@ -35,12 +35,12 @@ Length = {{
 type LengthUi.editable = Ui.editable(Length.length)
 
 LengthUi = {{
-  control() : LengthUi.editable =
+  control(params) : LengthUi.editable =
     float_printer =
     | {none} -> ""
     | {some=f} ->Float.to_formatted_string(false, some(3), f)
     unit = Ui.select(units)
-    unit_value = Ui.input(float_printer, Parser.float)
+    unit_value = Ui.input(params, float_printer, Parser.float)
     {
       xhtml(onchange) =
         <span>{unit_value.xhtml(onchange)}{unit.xhtml(onchange)}</span>
@@ -67,13 +67,12 @@ LengthUi = {{
 
 MainUi = {{
   interface() =
-    length1 = LengthUi.control()
-    length2 = LengthUi.control()
-    change1 = LengthUi.convert(length1, length2)
-    change2 = LengthUi.convert(length2, length1)
+    length1 = LengthUi.control({readonly=false})
+    length2 = LengthUi.control({readonly=true})
+    change = LengthUi.convert(length1, length2)
     <div class="container">
       <h1>Length converter demo</>
-      {length1.xhtml({onchange = change1})} = {length2.xhtml({onchange = change2})}
+      {length1.xhtml({onchange = change})} = {length2.xhtml({onchange = change})}
     </>
 
   server_interface() =

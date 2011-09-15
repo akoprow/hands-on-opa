@@ -25,11 +25,16 @@ Ui = {{
       }
     }
 
-  input(print : 'a -> string, parse : string -> 'a) : Ui.editable('a) =
+  input(params : {readonly: bool}, print : 'a -> string, parse : string -> 'a)
+    : Ui.editable('a) =
     id = Dom.fresh_id()
     {
       xhtml(~{onchange}) =
-        <input id={id} type="text" onkeyup={_ -> onchange()} />
+        xhtml = <input id={id} type="text" onkeyup={_ -> onchange()} />
+        if params.readonly then
+          Xhtml.add_attribute("readonly", "readonly", xhtml)
+        else
+          xhtml
       value =
       {
         get() = parse(Dom.get_value(#{id}))
