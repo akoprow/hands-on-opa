@@ -151,7 +151,7 @@ show_example(ex : example) =
           </>
           <div class="opalang_apps_source">
             <a target="_blank" class="button" href="{run}">Run</>
-            <a target="_blank" class="button" onclick={learn_action(articles_id)}>Learn</>
+            <a class="button" onclick={learn_action(articles_id)}>Learn</>
           </>
           <div class="opalang_apps_learn clear hidden" id={articles_id}>
             {learn}
