@@ -266,5 +266,5 @@ blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, 
 // ===============================================================
 // all examples
 // ===============================================================
-examples : list(example) = blog_examples ++ manual_examples
-//examples = [hello]
+//examples : list(example) = blog_examples ++ manual_examples
+examples = [hello]

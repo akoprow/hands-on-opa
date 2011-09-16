@@ -1,209 +1,46 @@
-html, body {
-  position: absolute;
-  height: 100%;
-  max-height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-#header a, #header a:link, #header a:visited {
-  color: #0B67B2;
-  text-decoration: none;
-}
-#header a:hover {
-  color: #0B4D86;
-  text-decoration: underline;
-}
-#header {
-  position: absolute;
-  top: 0px;
-  width: 100%;
-  height: 50px;
-  background: #333;
-  color: #CCC;
-  border-bottom: 1px solid #ECECEC;
-  border-top: 3px solid #FF9238;
-  box-shadow: 0 0 5px #AAA;
-}
-#logo {
-  position: absolute;
-  z-index: 20;
-  top: 3px;
-  left: 20px;
-}
-#logo img {
-  margin: 2px auto !important;
-}
-#header_right {
-  position: absolute;
-  z-index: 20;
-  right: 0px;
-}
-#opalang {
-  vertical-align: top;
-  margin-right: 10px;
-  display: inline-block;
-  background-color: #CFCFD0;
-  color: #252525 !important;
-  font-size: 0.9em;
-  padding: 4px 8px;
-  border-radius: 0 0 5px 5px;
-  font-family: 'Lucida Grande', Arial, sans-serif;
-  font-size: 12px;
-  font-weight: normal;
-  text-shadow: white 0px 1px 0px;
+body {
+  padding-top: 40px;
 }
 iframe {
   position: absolute;
   height: 100%;
   width: 100%;
-  border: none;
+  border: none
 }
-#container {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  overflow: auto;
-  top: 55px;
-}
-#title {
-  position: absolute;
-  display: block;
-  width: 100%;
-  text-align: center;
+.topbar h2 {
+  float: left;
+  margin-left: -20px;
+  color: white;
+  padding: 8px 20px 12px;
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 1;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   font-variant: small-caps;
-  font-size: 1.4em;
-  margin-top: 10px;
 }
-#src_code {
-  display: inline-block;
-  width: 222px;
-  height: 50px;
-  background: url("/resources/img/src-code.png") no-repeat;
+.topbar h2:before {
+  content: "Hands-on-Opa: ";
 }
-#article {
+.topbar ul {
+  float: right !important;
+}
+#logo {
+  width: 128px;
+  height: 25px;
+  z-index: 19;
+  float: left;
+}
+#logo a {
+  width: 128px;
+  height: 76px;
   display: inline-block;
-  margin-right: 10px;
-  width: 146px;
-  height: 50px;
-  background: url("/resources/img/article.png") no-repeat;
+  background: url(http://opalang.org/img/opa-logo-orange.png) no-repeat 0 0;
+  overflow: visible;
 }
 
-
-#src_code a, #article a {
-  display: block;
-  text-align: center;
-  font-variant: small-caps;
-  font-size: 1.4em;
-  margin-top: 8px;
-  color: #030;
-  text-shadow: 0.1em 0.1em 0.2em black;
-}
-.src_code_top {
-  background: #88F;
-  padding: 15px;
-  font-variant: small-caps;
-  height: 20px;
-  color: white;
-  text-shadow: 0.1em 0.1em 0.2em #333;
-  font-size: 1.3em;
-  text-align: center;
-}
-.src_code_content {
-  height: 480px;
-  overflow: auto;
-}
-.src_code_main {
-  background: white;
-  border: 2px solid #DDD;
-  border-radius: 10px;
-  -webkit-border-radius: 10px;
-  -moz-border-radius: 10px;
-  box-shadow: 0px 0px 20px black;
-  -webkit-box-shadow: 0px 0px 20px black;
-  -moz-box-shadow: 0px 0px 20px black;
-}
-#src_code_close {
-  display: block;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 32px;
-  height: 0;
-  color: white;
-  padding: 32px 0 0 0;
-  overflow: hidden;
-  background: #222;
-  border: 3px solid white;
-  -moz-border-radius: 32px;
-  -webkit-border-radius: 32px;
-  border-radius: 32px;
-  box-shadow: 0 0 6px #000000, 1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), 1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3);
-  -ms-box-shadow: 0 0 6px #000000, 1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), 1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3);
-  -moz-box-shadow: 0 0 6px #000000, 1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), 1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0 0 6px #000000, 1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px 1.6px 1.6px rgba(0, 0, 0, 0.3), 1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3), -1.6px -1.6px 1.6px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  -moz-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-}
-#src_code_close:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
-#src_code_close:before {
-  content: "\D7";
-  display: block;
-  text-align: center;
-  width: 32px;
-  position: absolute;
-  top: -3.2px;
-  left: 0;
-  font-size: 32px;
-  line-height: 32px;
-  font-family: "Helvetica Neue", Consolas, Verdana, Tahoma, Calibri, Helvetica, Menlo, "Droid Sans", sans-serif;
-}
-.action {
-  display: inline-block;
-  border: 1px dotted black;
-  padding-right: 5px;
-  margin-top: 2px;
-}
-.action:hover {
-  background-color: #AAF;
-  border: 1px solid #333;
-}
-div.coming_soon {
-  text-align: center;
-  font-size: 24px;
-  color: #888;
-  margin-top: 150px;
-}
-#compile_instr {
-  color: black;
-  display: inline-block;
-  margin-top: 3px;
-  margin-left: 10px;
-  vertical-align: top;
-}
-#compile_instr pre {
-  color: white;
-  background: black;
-  margin-top: 3px;
-  padding: 3px 10px;
-}
-#container ul li {
-  list-style-type: none;
-  background-image: none !important;
-  border-bottom: 1px dotted black;
-  padding: 3px 0px !important;
-  min-height: 32px;
-}
 .icon32 {
   float: left;
   margin-right: 5px;
-}
-h3 {
-  margin-bottom: 15px;
 }
 .fl-left {
   float: left;

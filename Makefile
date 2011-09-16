@@ -9,14 +9,17 @@ all: clean pack $(EXE)
 
 pack: $(ZIPPED_EXAMPLES)
 
-$(MAIN).exe: $(MAIN).opa data.opa examples.opa bash.opp
-	$(OPA) $^ -o $@
+$(MAIN).exe: $(MAIN).opack $(shell cat $(MAIN).opack)
+	$(OPA) $< -o $@
 
 .PHONY: stop
 stop:
 	pgrep -fx "./$(EXE) --port 5099" | xargs -r kill
 
 bash.opp: bash.ml
+	opa-plugin-builder $^ -o $@
+
+bootstrap.opp: bootstrap.js
 	opa-plugin-builder $^ -o $@
 
 examples/%/pack.zip: examples/%
