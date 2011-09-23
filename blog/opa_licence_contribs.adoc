@@ -1,5 +1,4 @@
 [[chapter_opa_license_contribs]]
-
 Opa: license, contributions
 ---------------------------
 

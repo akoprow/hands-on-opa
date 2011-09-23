@@ -50,14 +50,18 @@ include::opa_licence_contribs.adoc[]
 include::hello_bootstrap.adoc[]
 
 include::sessions.adoc[]
-////
 
 include::units.adoc[]
 
-//include::image_p4_event_based_programming.adoc[]
+include::units_ctd.adoc[]
 
+//include::image_p4_event_based_programming.adoc[]
 ////
 
+include::opa_licence_again.adoc[]
+
+
+////
 Pending posts
 -------------
 * Opa records
@@ -69,5 +73,4 @@ Pending posts
 * Sessions: the core of Opa's communication
 * Dates (+ Date printing/parsing?)
 * Opa widgets: Date printer
-
 ////

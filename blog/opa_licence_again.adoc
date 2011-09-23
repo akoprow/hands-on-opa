@@ -1,0 +1,56 @@
+[[chapter_opa_license_again]]
+Opa license strikes again
+-------------------------
+
+[caption="Gist"]
+[NOTE]
+=======================
+Take away summary: *now you can use Opa for free without disclosing sources of your Opa apps*; read on for more details.
+=======================
+
+More and more people are trying out Opa, which makes us very happy. Also many of you recognize the need for a language like Opa and applaud our efforts (see for instance some comments on https://twitter.com/#!/opalang[Twitter]) -- thank you for that. But of course you also have many ideas for improvements :). I think the two features that we received most complaints about are: the database and the license. We're hard at work trying to improve the former and I believe we might have just found out how to fix the latter. And that's what this post will be about.
+
+The problem
+~~~~~~~~~~~
+
+Almost all of the complains could be summarized as follows:
+
+_I want to play with Opa; possibly develop a service with it. Since it's just playing around I'm not ready to pay for a proprietary license. But at the same time, as the service may one day grow into a profitable enterprise, I don't want to open its sources._
+
+Some people were very clear that this is a deal-breaker for them. One of the comments to the <<chapter_opa_license_contribs, original post>> about Opa license read:
+
+_I love your product. I hate your license. Please change it._
+
+another one:
+
+_I will never use this software until you abandon this control-freak licensing scheme._
+
+We did not exactly change it but we made sure to address your complains and, effectively, make them go away (we hope). However, before I explain how, let me shortly comment on why did we choose this ``control-freak'' licensing scheme in the first place.
+
+Why AGPL?
+~~~~~~~~~
+
+Having access to the code of the software one is running, the ability to study and change it, are _user freedoms_, fundamental to http://en.wikipedia.org/wiki/Free_software[Free Software]. Especially if you're coming from the ``Linux world'' chances are you understand the importance of these freedoms. Explaining those values is beyond the scope of this article, but for interested readers I suggest taking a look at http://www.fsf.org[The Free Software Foundation], which has many great resources on the subject.
+
+Why AGPLv3? It's the license recommended by http://www.fsf.org[Free Software Foundation] for any software that will commonly be run over a network, such as web application, which are the primary category of Opa software. http://en.wikipedia.org/wiki/Affero_General_Public_License[AGPL] (or: Affero GPL, or: Affero General Public License) was designed to close the ``application service provider loophole'', which comes from the fact that as software leaves personal computers and runs on servers, users often loose the aforementioned freedoms.
+
+AGPL is used by some successful projects such as http://www.mongodb.org/[MongoDB] (high-performance, schema-free, document-oriented database) or https://joindiaspora.com/[Diaspora] (a decentralized alternative to social network services like Facebook) or http://www.sugarcrm.com/crm/[SugarCRM] (affordable web-based CRM solution for small- and medium-sized businesses), although http://en.wikipedia.org/wiki/Affero_General_Public_License#Example_of_web_applications_under_AGPL[few projects] use that license.
+
+The implication of the AGPL license entices developers to create open source applications in Opa. Our main idea behind this license choice was indeed to encourage rapid growth of the open sourced code base of Opa powered by community contributions (especially as we believe that Opa's strong typing system helps with writing reusable code).
+
+The solution
+~~~~~~~~~~~~
+
+We believe in the values behind our initial choice of the AGPL license for Opa. But at the same time we understand and respect your complaints about the license. We don't want to loose any valuable members of the community because of this issue so:
+
+*From today onwards we provide a https://mlstate.com/pages/buy[free proprietary Opa license] for companies with revenue not exceeding $1M*. Please note that, unlike paid license, it comes with no added services, such as training or support.
+
+That means that in the typical scenario discussed above (I want to try to form a start-up with Opa) you can now proceed as follows:
+
+Play around:: play around with your ideas in Opa. Since you're doing it on your own you can use the AGPL license (which only obliges you to distribute the sources to your users, which would just be your developers/testers team for now). At the same time you know that when ready to go public you can acquire a free proprietary license (unless you're already making millions).
+Go into beta:: when ready to go to Beta ask us for a free proprietary license. (Of course there is nothing stopping you from doing that upfront but I'm just running here on the assumption that you just don't want to bother while not knowing whether your ideas will work into anything serious). You may also consider getting some (paid) support.
+Get rich:: (hopefully) watch your service and the size of your wallet grow :)
+
+''''
+
+We're trying to listen to our community. We hope that this decision did resolve your concerns about Opa licensing. By all means please tell us what you think!

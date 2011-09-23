@@ -4,6 +4,7 @@ Units of measurement: handling custom types
 
 Today we'll do a self-contained mini-tutorial to illustrate a few notions about custom types and user interface. Opa is still young and its standard library is missing some features that other languages have. Among these, there is support for units of measurement. I'll try to show you that adding such a support is easy, and can be done in a way transparent to users. To keep it simple for this tutorial, let's write a length converter handling meters and inches.
 
+[icons=None, caption="Summary"]
 [NOTE]
 =======================
 You will learn:
