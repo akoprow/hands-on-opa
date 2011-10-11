@@ -2,9 +2,9 @@
 iMage: part 4, Event-based programming
 --------------------------------------
 
-I know, long time no post... I just came back from holidays and will try to get some fresh, new content ready for the blog.
+I know, long time no post... There's a lot happening here at MLstate, some of which I hope to talk about shortly on the blog, but all that means that sometimes it's just hard to find time to get some fresh, new content ready for the blog.
 
-In the <<chapter_sessions, last post>> I talked about the importance of sessions. To illustrate that in this post I'll show you first how to modify the http://tutorials.opalang.org/iMage[iMage application] we <<chapter_image_p3_parsing, had so far>> to use sessions as the way of invoking and handling events. Then we'll extend this application with a new feature: it will automatically accomodate to the size of the browser window. I'll also explain why it would be difficult to add this feature in the previous non-sessions-based setting. Ready?
+In a <<chapter_sessions, recent post>> I talked about the importance of sessions. To illustrate that in this post I'll show you first how to modify the http://tutorials.opalang.org/iMage[iMage application] we <<chapter_image_p3_parsing, had so far>> to use sessions as the way of invoking and handling events. Then we'll extend this application with a new feature: it will automatically accomodate to the size of the browser window. I'll also explain why it would be difficult to add this feature in the previous non-sessions-based setting. Ready?
 
 [caption="Summary"]
 [NOTE]
@@ -20,7 +20,7 @@ Event based programming in Opa
 
 Let's see how can we modify our previous version of iMage to use sessions for event dispatching and handling. So far, there is only one type of event (more will come) in the app: clicking on an image thumbnail results in the full version of that image showing in the main window.
 
-There are only few small changes we need to introduce. If you forgot what we learned about sessions (or did not read the previous post) I suggest you skim over the <<chapter_sessions, post where I introduced them>>.
+There are only few small changes we need to introduce. If you forgot what we learned about sessions (or did not read the previous post) I suggest you go back and re-read the <<chapter_sessions, post where I introduced them>> -- you'll need this knowledge to understand what's happening here.
 
 Ok, so we used to have a +show_thumb(image)+ function that would generate a thumbnail, which would have an +onclick+ event attached to it. In the previous version that function looked like this:
 
@@ -32,7 +32,7 @@ Ok, so we used to have a +show_thumb(image)+ function that would generate a thum
   </>
 ---------------------
 
-So essentially on clicking the thumbnail it directly calls +show_img+ to display the full version of the clicked thmbnail. However now instead of performing the action we will just generate an event. So that function needs to take an extra parameter, which is the slideshow session and it becomes:
+So essentially on clicking the thumbnail it directly calls +show_img+ to display the full version of the clicked thumbnail. However now instead of performing the action we will just generate an event. So that function needs to take an extra parameter, which is the slideshow session and it becomes:
 
 [source,opa]
 ---------------------
@@ -43,7 +43,7 @@ So essentially on clicking the thumbnail it directly calls +show_img+ to display
   </>
 ---------------------
 
-So now when a thumbnail is clicked we just generate an event being a record with field +ShowImg+ and the value of that field being the clicked +image+. So far so good. The second change is that the +html+ function, which constructs the HTML code for the slideshow, now needs to create a session and pass it on to the +show_thumb+ function. So before we had this code (only relevant part shown):
+Now when a thumbnail is clicked we just generate an event being a record with field +ShowImg+ and the value of that field being the clicked +image+. So far so good. The second change is that the +html+ function, which constructs the HTML code for the slideshow, now needs to create a session and pass it on to the +show_thumb+ function. So before we had this code (only relevant part shown):
 
 [source,opa]
 ---------------------
@@ -114,3 +114,46 @@ include::../examples/iMage-06/slideshow_parser.opa[]
 </div>
 <span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-06">Run</A></span>
 ++++
+
+Layout reactive to window resizing
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+++++
+<div class="ftabs">
+++++
+* <<iMage-07, iMage-07.opa>>
+* <<slideshow, slideshow.opa>>
+* <<slideshow_parser, slideshow_parser.opa>>
+++++
+<div id="iMage-07">
+++++
+[source,opa]
+---------------------
+include::../examples/iMage-07/iMage-07.opa[]
+---------------------
+++++
+</div>
+<div id="slideshow">
+++++
+[source,opa]
+---------------------
+include::../examples/iMage-07/slideshow.opa[]
+---------------------
+++++
+</div>
+<div id="slideshow_parser">
+++++
+[source,opa]
+---------------------
+include::../examples/iMage-07/slideshow_parser.opa[]
+---------------------
+++++
+</div>
+</div>
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-07">Run</A></span>
+++++
+
+What next?
+~~~~~~~~~~
+
+Working on and explaining iMage is fun, but I realized that by now the example outgrew it's tutorial-size and it is becoming difficult to build 

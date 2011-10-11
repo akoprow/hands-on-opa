@@ -64,9 +64,9 @@ WSlideshow =
     wx = state.width
     wy = state.height
     do Dom.set_width(#{Id.slideshow}, wx)
-    do Dom.set_width(#{Id.thumbs}, wx)
-    do Dom.set_width(#{Id.img_container}, wx)
-    do Dom.set_height(#{Id.img_container}, wy)
+    do Dom.set_width(#{Id.thumbs_out}, wx)
+    do Dom.set_width(#{Id.photo}, wx)
+    do Dom.set_height(#{Id.photo}, wy)
     do Dom.set_style(#{Id.img}, css {max-width: {wx}px; max-height: {wy}px})
     void
 
@@ -83,14 +83,15 @@ WSlideshow =
         (height_px * aspect_x / aspect_y, height_px)
     {state with width=wx height=wy}
 
-  @private slideshow_event(slideshow, state, msg) =
+  @client @private slideshow_event(slideshow, state, msg) =
     match msg with
     | {ShowImg=img} ->
         do show_img(img)
         {unchanged}
     | {StartSlideshow} ->
-        do Session.send(slideshow, {WindowResized})
-        _ = Dom.bind(Dom.select_window(), {resize}, resize)
+        resize() = Session.send(slideshow, {WindowResized})
+        _ = Dom.bind(Dom.select_window(), {resize}, (_ -> resize()))
+        do resize()
         {unchanged}
     | {WindowResized} ->
         new_state = update_window_size(state)
@@ -99,12 +100,16 @@ WSlideshow =
 
   html(config) =
     slideshow_state = { img_no=List.length(config.images) width=0 height=0 }
-    val rec slideshow = Session.make(slideshow_state, slideshow_event(slideshow, _, _))
+    rec val slideshow = Session.make(slideshow_state, slideshow_event(slideshow, _, _))
     thumbs_css = css { width: {100 * slideshow_state.img_no}px }
+    onready(_) =
+      do Session.send(slideshow, {StartSlideshow})
+      do Session.send(slideshow, {ShowImg=List.head(config.images)})
+      void
     <div id=#{Id.main_title}>
       {config.title}
     </>
-    <div id=#{Id.slideshow} onready={_ -> Session.send(slideshow, {StartSlideshow})}>
+    <div id=#{Id.slideshow} onready={onready}>
       <div id=#{Id.photo} />
       <div id=#{Id.thumbs_out}>
         <div id=#{Id.thumbs_in} style={thumbs_css}>
