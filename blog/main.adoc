@@ -54,11 +54,17 @@ include::sessions.adoc[]
 include::units.adoc[]
 
 include::units_ctd.adoc[]
-////
-
-include::image_p4_event_based_programming.adoc[]
 
 include::opa_licence_again.adoc[]
+
+include::dotCloud.adoc[]
+
+include::challenge_closing.adoc[]
+////
+
+//include::image_p4_event_based_programming.adoc[]
+
+include::i18n.adoc[]
 
 ////
 Pending posts

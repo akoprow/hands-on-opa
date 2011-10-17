@@ -1,0 +1,19 @@
+[[chapter_i18n]]
+Parlez vous Opa? I.e. Opa & internationalization (i18n)
+-------------------------------------------------------
+
+One of the good things about web services is that they give an opportunity to easily reach audiences all over the world. Marketing aside, about the only thing you will need is to translate your pages and made them accessible in other languages. This process is known as http://en.wikipedia.org/wiki/Internationalization_and_localization[internationalization], which, to save some keystrokes, is often abbreviated by i18n (18 being the number of letters in the complete word). Today I'm happy to announce that Opa provides support for this process that I will try to describe in this post.
+
+[icons=None, caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* How to create multilingual sites with Opa.
+* And how to do so in a translators-friendly manner.
+=======================
+
+Internal approach
+~~~~~~~~~~~~~~~~~
+
+To illustrate this approach let's create a very simple application that just says ``Hello'' in one of http://listverse.com/2008/06/26/top-10-most-spoken-languages-in-the-world[the 10 most spoken languages in the world].
