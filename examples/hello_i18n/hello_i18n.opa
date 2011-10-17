@@ -29,9 +29,9 @@ lang_to_string =
 | "fr" -> "French"
 | s -> error("lang_to_string({s}) = ???")
 
-lang_to_xhtml(lang) = <>{lang_to_string(lang)}</>
+render_lang = lang_to_string
 
-selected_lang_to_xhtml(lang) =
+render_sel_lang(lang) =
   flags =
   | "zh" -> ["cn"]
   | "en" -> ["gb", "us"]
@@ -44,7 +44,7 @@ selected_lang_to_xhtml(lang) =
   | "id" -> ["id"]
   | "fr" -> ["fr"]
   | _    -> []
-  mk_flag(code) = <img src="/resources/flags/{code}.png" />;
+  mk_flag(code) = <img class=flag src="/resources/flags/{code}.png" />;
   <>{List.map(mk_flag, flags(lang))} {lang_to_string(lang)}</>
 
 WI18n = {{
@@ -54,27 +54,20 @@ WI18n = {{
     do Client.reload()
     void
 
-  select_lang(langs : list(I18n.language),
-              render_sel : I18n.language -> xhtml,
-              render_opt : I18n.language -> xhtml) =
+  select_lang(langs : list(I18n.language), lang_to_string, lang_to_xhtml) =
     id = Dom.fresh_id()
     sel_lang = I18n.lang()
     change_language() =
       lang = Dom.get_value(#{id})
       set_lang(lang)
     lang_entry(lang) =
-      opt =
-        <option value="{lang}">
-          {render_opt(lang)}
-        </>
-      if lang == sel_lang then
-        Xhtml.add_attribute("selected", "", opt)
-      else
-        opt
+      <option value="{lang}">
+        {lang_to_string(lang)}
+      </>;
     <>
-      {render_sel(sel_lang)}
-      <select id={id} onchange={_ -> change_language()}>
-        {"Change language"}
+      {lang_to_xhtml(sel_lang)} |
+      <select class=span3 id={id} onchange={_ -> change_language()}>
+        <option>Change language</>
         {List.map(lang_entry, langs)}
       </>
     </>
@@ -82,9 +75,15 @@ WI18n = {{
 }}
 
 page() =
-  <>{WI18n.select_lang(supported_langs, selected_lang_to_xhtml, lang_to_xhtml)}</>
-  <h1>{@i18n(hello)}</>
+  <div class=container>
+    <>{WI18n.select_lang(supported_langs, render_lang, render_sel_lang)}</>
+    <h1>{@i18n(hello)}</>
+  </>
 
 flags = @static_resource_directory("resources/flags")
 server = Server.one_page_bundle("i18n test", [flags], [], page)
 
+css = css
+  .flag {
+    margin: 0px 2px;
+  }
