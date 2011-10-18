@@ -1,0 +1,16 @@
+[[chapter_challenge_closing]]
+Opa Developer Challenge: closing time
+-------------------------------------
+
+The end of the submission period for the http://challenge.opalang.org[Opa Developer Challenge] is around the corner. By http://www.timeanddate.com/worldclock/fixedtime.html?iso=20111017T2359[23:59, Monday 17 October 2011 GMT] you need to http://opalang.org/challenge/submissions.xmlt[submit your application]. Few rules to keep in mind:
+
+* The application website that you submit *must* contain the complete source code (with resources etc.). We suggest using http://github.com[GitHub] project page.
+* Please use a correct category for your application.
+* Please submit a screenshot that nicely illustrates the application (it will be viewed at 100x100 resolution!).
+* Your sources must contain a README file that must contain:
+** short description of your app,
+** short compilation instructions (note that you should automate the build process so that this should be as simple as invoking +make+ or +make all+ or similar),
+** precise version number of the Opa compiler that you used to develop your app.
+
+Hope you had fun coding in Opa and we hope to see many interesting submissions!
+
