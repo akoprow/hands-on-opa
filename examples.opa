@@ -46,7 +46,7 @@ Examples = {{
   deploy(e) : void =
     do Log.info("HOP", "Deploying <{e.name}>")
     do check(e)
-//    do compile(e)
+    do compile(e)
     do rerun(e)
     void
 

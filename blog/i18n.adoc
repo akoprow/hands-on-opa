@@ -1,6 +1,9 @@
 [[chapter_i18n]]
-Parlez vous Opa? I.e. Opa & internationalization (i18n)
--------------------------------------------------------
+Parlez vous Opa?
+----------------
+
+Opa & internationalization (i18n)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 One of the good things about web services is that they give an opportunity to easily reach audiences all over the world. Marketing aside, about the only thing you will need is to translate your pages and made them accessible in other languages. This process is known as http://en.wikipedia.org/wiki/Internationalization_and_localization[internationalization], which, to save some keystrokes, is often abbreviated by i18n (18 being the number of letters in the complete word). Today I'm happy to announce that Opa provides support for this process that I will try to describe in this post.
 
@@ -17,3 +20,51 @@ Internal approach
 ~~~~~~~~~~~~~~~~~
 
 To illustrate this approach let's create a very simple application that just says ``Hello'' in one of http://listverse.com/2008/06/26/top-10-most-spoken-languages-in-the-world[the 10 most spoken languages in the world].
+
+Opa now provides support for translations by means of its +@i18n+ directive. As usually an example is worth a thousand words so let's start with one. Here is a single language version of ``Hello'':
+
+[source, opa]
+------------------------
+hello = "Hello"
+page() = <h1>{hello}</>
+server = one_page_server("hello in English", page)
+------------------------
+
+and it's translated version could look some like this:
+
+[source, opa]
+------------------------
+hello =
+| "zh" -> "Ni hao"              // Mandarin
+| "en" -> "Hello"               // English
+| "hu" -> "Namaste"             // Hindustani
+| "es" -> "Hola"                // Spanish
+| "ru" -> "Zdravstvuite"        // Russian
+| "ar" -> "Al salaam a’alaykum" // Arabic
+| "bn" -> "Ei Je"               // Bengali
+| "pt" -> "Bom dia"             // Portuguese
+| "id" -> "Selamat pagi"        // Indonesian
+| "fr" -> "Bonjour"             // French
+| _    -> "Eee... hello?"       // default
+
+page() = <h1>{@i18n(hello)}</>
+server = one_page_server("multi-language hello", page)
+------------------------
+
+So two main changes: +hello+ used to be a string value and now it's replaced with a function from a language code (+I18n.language+) to a string (please note that the default value needs to be provided). By the way this mechanism is not restricted to string values; we can as well translate +xhtml+ fragments, +image+ values etc. The second required change is to enclose the use of +hello+ with the +@i18n+ directive.
+
+Now what happens when we execute this program? You will see one of the greetings and which one depends on your language preferences in the browser (to be more precise the +Accept-language+ field in the HTTP request is used to determine that).
+
+So far so good. Depending on the browser settings is usually a good default, but it's an equally good idea to give users control over the language of the website they are seeing. How can we do that in Opa?
+
+All the answers lie in the http://doc.opalang.org/api/#i18n.opa.html/!/value_stdlib.core.i18n.I18n[+I18n+] module. The http://doc.opalang.org/api/#i18n.opa.html/!/value_stdlib.core.i18n.I18n.lang[+I18n.lang()+] function let's us inspect the currently selected language and http://doc.opalang.org/api/#i18n.opa.html/!/value_stdlib.core.i18n.I18n.set_lang[+I18.set_lang(lang)+] allows us to change it (on a per-user basis; stored in a cookie). Please note that those changes will only take effect on the next page request so to make them immediate we need to refresh the page with http://doc.opalang.org/api/#client.opa.html/!/value_stdlib.web.client.Client.reload[+Client.reload+].
+
+The above explanation should be enough to write a simple widget allowing one to change the language of the page. One day possibly this widget will be standarized and put in the standard library of Opa; for now we implement it in the +WI18n+ module below. Here is the complete multi-lingual ``Hello'' application, which allows users to choose their preferred language.
+
+[source, opa]
+------------------------
+include::../examples/hello_i18n/hello_i18n.opa[]
+------------------------
+++++
+<span class="run"><A target="_blank" href="http://tutorials.opalang.org/hello_i18n">Run</A></span>
+++++

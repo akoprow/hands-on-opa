@@ -209,14 +209,32 @@ sessions = mk_hands_on_article(
   ; descr=<>About state encapsulation using sessions. About event-driven style of programming with sessions. How communication is accomplished in Opa.</>
   ; ty={tutorial}
   })
-unit_conversion=mk_hands_on_article(
+unit_conv=mk_hands_on_article(
   { at="2011/09/units-of-measurement-handling-custom.html"
   ; title="Units of measurement: handling custom types"
   ; descr=<>How to use custom types in a transparent way in your UI, design UI components, separate application logic from user interface and reduce client-server communication with the onready event.</>
   ; ty={tutorial}
   })
+unit_conv_plus=mk_hands_on_article(
+  { at="2011/09/units-of-measurement-improving-ux.html"
+  ; title="Units of measurement: improving UX"
+  ; descr=<>More about useful UI design patterns. How to create reactive apps. How to boost their looks with Bootstrap.</>
+  ; ty={tutorial}
+  })
+licence_again=mk_hands_on_article(
+  { at="2011/09/opa-license-strikes-again.html"
+  ; title="Opa license strikes again"
+  ; descr=<>Announcing free proprietary Opa license.</>
+  ; ty={discussion}
+  })
+i18n=mk_hands_on_article(
+  { at=""
+  ; title="Parlez vous Opa?"
+  ; descr=<>How to create multilingual sites with Opa. And how to do so in a translators-friendly manner.</>
+  ; ty={tutorial}
+  })
 
-blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions, unit_conversion ]
+blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions, unit_conv, unit_conv_plus, licence_again, i18n ]
 
 // ===============================================================
 // manual examples
@@ -245,6 +263,7 @@ iMage_descr = <p>A configurable image viewer</><p>Learn how to build complex UI 
 calc_descr = <p>A simple calculator.</><p>Learn how to do parsing in Opa.</>
 watch_fr_descr = <p>A variant of the «timer» program using an 'HTML fragment' abstraction.</><p>Learn how to use sessions to hold state and program event-based updates</>
 units_descr = <p>A simple converter for length units</><p>Learn how to: use custom types in a transparent way in your UI, design UI components, separate application logic from user interface and reduce client-server communication with the onready event.</>
+i18n_descr = <p>Example showing how to translate Opa apps to other languages and how to allow users to choose their preferred language.</>
 
 hello : example=       { name="hello_web"           port=5008 article=hello_web         srcs=@static_include_directory("examples/hello_web")           details={descr=hello_descr deps=[]}}
 watch : example =      { name="watch"               port=5000 article=interactivity     srcs=@static_include_directory("examples/watch")               details={descr=watch_descr deps=[]}}
@@ -258,13 +277,14 @@ iMage_04 : example =   { name="iMage-04"            port=5009 article=image_stru
 iMage_05 : example =   { name="iMage-05"            port=5015 article=image_parsing     srcs=@static_include_directory("examples/iMage-05")            details={invisible}}
 iMage : example =      { name="iMage"               port=5003 article=image_intro       srcs=@static_include_directory("examples/iMage")               details={descr=iMage_descr deps=[iMage_01, iMage_02, iMage_03, iMage_04, iMage_05]}}
 watch_fr : example =   { name="watch_fragment"      port=5016 article=sessions          srcs=@static_include_directory("examples/watch_fragment")      details={descr=watch_fr_descr deps=[]}}
-units : example =      { name="unit_converter"      port=5017 article=unit_conversion   srcs=@static_include_directory("examples/unit_converter")      details={invisible}}
-units_plus : example = { name="unit_converter_plus" port=5018 article=unit_conversion   srcs=@static_include_directory("examples/unit_converter_plus") details={descr=units_descr deps=[units]}}
+units : example =      { name="unit_converter"      port=5017 article=unit_conv         srcs=@static_include_directory("examples/unit_converter")      details={invisible}}
+units_plus : example = { name="unit_converter_plus" port=5018 article=unit_conv_plus    srcs=@static_include_directory("examples/unit_converter_plus") details={descr=units_descr deps=[units]}}
+hello_i18n : example = { name="hello_i18n"          port=5019 article=i18n              srcs=@static_include_directory("examples/hello_i18n")          details={descr=i18n_descr deps=[]}}
 
-blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr, units, units_plus ]
+blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr, units, units_plus, hello_i18n ]
 
 // ===============================================================
 // all examples
 // ===============================================================
-//examples : list(example) = blog_examples ++ manual_examples
-examples = [hello]
+examples : list(example) = blog_examples ++ manual_examples
+//examples = [hello]

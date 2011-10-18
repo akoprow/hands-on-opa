@@ -22,7 +22,7 @@ The simplest Opa program
 Here it is:
 [source, opa]
 ------------------------
-server = Server.one_page_server("Hello", ( -> <>Hello web</>))
+include::../examples/hello_web/hello_web.opa[]
 ------------------------
 ++++
 <span class="run"><A target="_blank" href="http://tutorials.opalang.org/hello_web">Run</A></span>
