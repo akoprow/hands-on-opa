@@ -16,7 +16,7 @@ hello =
 | "fr" -> "Bonjour"             // French
 | _    -> "Eee... hello?"       // default
 
-lang_to_string =
+lang_to_string =   // FIXME This should come from stdlib I18n module
 | "zh" -> "Mandarin"
 | "en" -> "English"
 | "hu" -> "Hindu"
@@ -56,16 +56,13 @@ WI18n = {{
 
   select_lang(langs : list(I18n.language), lang_to_string, lang_to_xhtml) =
     id = Dom.fresh_id()
-    sel_lang = I18n.lang()
-    change_language() =
-      lang = Dom.get_value(#{id})
-      set_lang(lang)
+    change_language() = Dom.get_value(#{id}) |> set_lang
     lang_entry(lang) =
       <option value="{lang}">
         {lang_to_string(lang)}
       </>;
     <>
-      {lang_to_xhtml(sel_lang)} |
+      {@i18n(lang_to_xhtml)} |
       <select class=span3 id={id} onchange={_ -> change_language()}>
         <option>Change language</>
         {List.map(lang_entry, langs)}

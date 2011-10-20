@@ -51,7 +51,7 @@ page() = <h1>{@i18n(hello)}</>
 server = one_page_server("multi-language hello", page)
 ------------------------
 
-So two main changes: +hello+ used to be a string value and now it's replaced with a function from a language code (+I18n.language+) to a string (please note that the default value needs to be provided). By the way this mechanism is not restricted to string values; we can as well translate +xhtml+ fragments, +image+ values etc. The second required change is to enclose the use of +hello+ with the +@i18n+ directive.
+So two main changes: +hello+ used to be a string value and now it's replaced with a function from a language code (+I18n.language+) to a string (please note that the default value needs to be provided). By the way this mechanism is not restricted to string values; we can as well translate +xhtml+ fragments, +image+ values etc. The second required change is to enclose the use of +hello+ with the +@i18n+ directive. The language op-codes are http://www.w3.org/International/articles/language-tags/#rfc[RFC 5646] compliant and based on the http://www.iana.org/assignments/language-subtag-registry[IANA registry] (as http://www.w3.org/International/articles/language-tags/#overview[advised by W3C]).
 
 Now what happens when we execute this program? You will see one of the greetings and which one depends on your language preferences in the browser (to be more precise the +Accept-language+ field in the HTTP request is used to determine that).
 
@@ -59,7 +59,7 @@ So far so good. Depending on the browser settings is usually a good default, but
 
 All the answers lie in the http://doc.opalang.org/api/#i18n.opa.html/!/value_stdlib.core.i18n.I18n[+I18n+] module. The http://doc.opalang.org/api/#i18n.opa.html/!/value_stdlib.core.i18n.I18n.lang[+I18n.lang()+] function let's us inspect the currently selected language and http://doc.opalang.org/api/#i18n.opa.html/!/value_stdlib.core.i18n.I18n.set_lang[+I18.set_lang(lang)+] allows us to change it (on a per-user basis; stored in a cookie). Please note that those changes will only take effect on the next page request so to make them immediate we need to refresh the page with http://doc.opalang.org/api/#client.opa.html/!/value_stdlib.web.client.Client.reload[+Client.reload+].
 
-The above explanation should be enough to write a simple widget allowing one to change the language of the page. One day possibly this widget will be standarized and put in the standard library of Opa; for now we implement it in the +WI18n+ module below. Here is the complete multi-lingual ``Hello'' application, which allows users to choose their preferred language.
+The above explanation should be enough to write a simple widget allowing one to change the language of the page. One day possibly this widget will be standardized and put in the standard library of Opa; for now we implement it in the +WI18n+ module below. Here is the complete multi-lingual ``Hello'' application, which allows users to choose their preferred language.
 
 [source, opa]
 ------------------------
@@ -68,3 +68,10 @@ include::../examples/hello_i18n/hello_i18n.opa[]
 ++++
 <span class="run"><A target="_blank" href="http://tutorials.opalang.org/hello_i18n">Run</A></span>
 ++++
+
+The +@i18n+ directive is a nice, clean translation solution embedded in the language. It has the great advantage that it's not restricted to string translations and easily allows translating XHTML fragments or images (i.e. providing different images depending on user's preferred language). Another great aspect is that translation functions are just regular Opa functions and, as such, can enjoy all the power of the language to construct its output and can be passed around as (higher-order) function arguments; in fact we already took advantage of that in the +WI18n.select_lang+ function above, where both +lang_to_string+ and +lang_to_xhtml+ are translation functions and where we write: +@i18n(lang_to_xhtml)+.
+
+However, in spite of all those advantages, this solution suffers from one important problem: your translations are mixed up in the source code. This may not be a problem in a one-person project where the developer herself provides the translations, or does not mind to do some extra work to embed otherwise obtained translations in it. However, it will hardly work in a bigger project, with many messages and many translators, who will most likely not be familiar with Opa. This is why Opa provides a second approach to internationalization.
+
+External approach
+~~~~~~~~~~~~~~~~~
