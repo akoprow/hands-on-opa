@@ -16,6 +16,8 @@ You will learn:
 * And how to do so in a translators-friendly manner.
 =======================
 
+WARNING: This is a new feature and will require a recent version of Opa (>= 719).
+
 Internal approach
 ~~~~~~~~~~~~~~~~~
 
@@ -51,7 +53,7 @@ page() = <h1>{@i18n(hello)}</>
 server = one_page_server("multi-language hello", page)
 ------------------------
 
-So two main changes: +hello+ used to be a string value and now it's replaced with a function from a language code (+I18n.language+) to a string (please note that the default value needs to be provided). By the way this mechanism is not restricted to string values; we can as well translate +xhtml+ fragments, +image+ values etc. The second required change is to enclose the use of +hello+ with the +@i18n+ directive. The language op-codes are http://www.w3.org/International/articles/language-tags/#rfc[RFC 5646] compliant and based on the http://www.iana.org/assignments/language-subtag-registry[IANA registry] (as http://www.w3.org/International/articles/language-tags/#overview[advised by W3C]).
+So two main changes: +hello+ used to be a string value and now it's replaced with a function from a language code (http://doc.opalang.org/api/index.html#i18n_language.opa.html/!/type_stdlib.core.i18n.I18n.language[+I18n.language+]) to a string (note that the default value needs to be provided, by means of the pattern-matching catch-all +_+). By the way this mechanism is not restricted to string values; we can as well translate +xhtml+ fragments, +image+ values etc. The second required change is to enclose the use of +hello+ with the +@i18n+ directive. The language op-codes are http://www.w3.org/International/articles/language-tags/#rfc[RFC 5646] compliant and based on the http://www.iana.org/assignments/language-subtag-registry[IANA registry] (as http://www.w3.org/International/articles/language-tags/#overview[advised by W3C]).
 
 Now what happens when we execute this program? You will see one of the greetings and which one depends on your language preferences in the browser (to be more precise the +Accept-language+ field in the HTTP request is used to determine that).
 
@@ -71,7 +73,113 @@ include::../examples/hello_i18n/hello_i18n.opa[]
 
 The +@i18n+ directive is a nice, clean translation solution embedded in the language. It has the great advantage that it's not restricted to string translations and easily allows translating XHTML fragments or images (i.e. providing different images depending on user's preferred language). Another great aspect is that translation functions are just regular Opa functions and, as such, can enjoy all the power of the language to construct its output and can be passed around as (higher-order) function arguments; in fact we already took advantage of that in the +WI18n.select_lang+ function above, where both +lang_to_string+ and +lang_to_xhtml+ are translation functions and where we write: +@i18n(lang_to_xhtml)+.
 
-However, in spite of all those advantages, this solution suffers from one important problem: your translations are mixed up in the source code. This may not be a problem in a one-person project where the developer herself provides the translations, or does not mind to do some extra work to embed otherwise obtained translations in it. However, it will hardly work in a bigger project, with many messages and many translators, who will most likely not be familiar with Opa. This is why Opa provides a second approach to internationalization.
+However, in spite of all those advantages, this solution suffers from one important problem: your translations are mixed up in the source code. This may not be a problem in a one-person project where the developer herself provides the translations, or does not mind to do some extra work to embed otherwise obtained translations in it. However, it will hardly scale to a bigger project, with many messages and many translators involved, who will most likely not be familiar with Opa. This is why Opa provides a second approach to internationalization.
 
 External approach
 ~~~~~~~~~~~~~~~~~
+
+As remarked above we need a way to separate coding and translating activities. This can be accomplished with the following process.
+
+(1) To use external translations use the same +@i18n+ directive but providing it with a string literal (serving as the ID of the message) instead of an expression. So the above:
+
+[source, opa]
+------------------------
+<h1>{@i18n(hello)}</>
+------------------------
+
+can be replaced with:
+
+[source, opa]
+------------------------
+<h1>{@i18n("hello")}</>
+------------------------
+
+(2) When we compile this program as before we will just see ``hello'' regardless of the language. However, the idea is to instead invoke Opa with the translation switch +--i18n-template-opa+ providing it with an (existing) directory for (project-wide) translations:
+
+[source, bash]
+------------------------
+opa --i18n-template-opa hello_i18n.opa --i18n-dir translations
+------------------------
+
+(3) That will create a +translation_example.translation.opa+ file in the +translations+ directory, where the +translation_example+ is the name of the package of the main program.
+
+WARNING: This method works best if all project files reside in some package, which is a preferred method of work for bigger projects anyway.
+
+This file has the following content:
+
+[source, opa]
+------------------------
+package translation_example.translation
+import stdlib.core.i18n
+
+// Template for hello_i18n.opa
+// "hello"
+// string, 64
+__i18n_5d41402abc4b2a76b9719d911017c592()= match I18n.lang()
+  _   -> "hello"
+------------------------
+
+It will contain all the messages that require translation in all the files from a given package. They are valid Opa programs but they are simple enough to be edited by non-technical people.
+
+The long sequence +5d41...+ is an automatically-generated identifier, which is chosen in such a way that it is likely to remain constant upon simple program manipulations (for instance when the location of the message in the source file changes, due to other modifications in the program).
+
+(4) Edit the translation file. In our case it should look something like this:
+
+[source, opa]
+------------------------
+package translation_example.translation
+import stdlib.core.i18n
+
+// Template for hello_i18n.opa
+// "hello"
+// string, 64
+__i18n_5d41402abc4b2a76b9719d911017c592()= match I18n.lang()
+| "zh" -> "Ni hao"              // Mandarin
+| "en" -> "Hello"               // English
+| "hu" -> "Namaste"             // Hindustani
+| "es" -> "Hola"                // Spanish
+| "ru" -> "Zdravstvuite"        // Russian
+| "ar" -> "Al salaam a’alaykum" // Arabic
+| "bn" -> "Ei Je"               // Bengali
+| "pt" -> "Bom dia"             // Portuguese
+| "id" -> "Selamat pagi"        // Indonesian
+| "fr" -> "Bonjour"             // French
+| _    -> "Eee... hello?"       // default
+------------------------
+
+(5) Compile the translations:
+
+[source, opa]
+------------------------
+opa translations/translation_example.translation.opa
+------------------------
+
+(6) Compile the program with its translations:
+
+[source, opa]
+------------------------
+opa hello_i18n.opa --i18n-dir translations
+------------------------
+
+(7) Whenever you recompile your application *and* the translation messages change (for instance new ones are added) the old translation file will be backed-up, a new one will be generated and the compiler will warn you that you need to merge them. For now this merging process is manual (are you friends with http://meld.sourceforge.net/[+meld+] already?).
+
+And that's it. This process does require a bit of a set-up but we're looking at ways to improve it -- see below.
+
+''''
+
+This is a very new feature in Opa and we are looking at ways of improving it, in particular:
+
+* Better support for default translations. For now we just use Opa's pattern-matching catch-all (+_+), however in practice this default translation will be one of the languages (say, English) and we do not want to repeat its translation twice, nor to enforce the following pattern:
+
+[source, opa]
+------------------------
+hello =
+en = "Hello"               // English
+| "en" -> en
+...
+| _    -> en
+------------------------
+
+* The external approach, especially without tooling, like (semi-)automatic merging, is rather heavy. Instead of providing Opa-specific tools for translations we eventually plan to replace the Opa custom translation code with standard http://en.wikipedia.org/wiki/GNU_gettext[PO-files]. That would allow one to use all the existing tools and the work-flow that many translators are already familiar with.
+
+Anything we should add to this list? As usual, we are looking for feedback from our users so: speak up! :).

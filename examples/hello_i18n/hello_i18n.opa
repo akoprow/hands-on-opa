@@ -1,3 +1,4 @@
+package translation_example
 import stdlib.themes.bootstrap
 import stdlib.web.client
 

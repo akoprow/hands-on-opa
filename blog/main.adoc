@@ -57,10 +57,10 @@ include::units_ctd.adoc[]
 
 include::opa_licence_again.adoc[]
 
-include::dotCloud.adoc[]
-
 include::challenge_closing.adoc[]
 ////
+
+//include::dotCloud.adoc[]
 
 //include::image_p4_event_based_programming.adoc[]
 
