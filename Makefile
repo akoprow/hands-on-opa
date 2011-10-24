@@ -19,9 +19,6 @@ stop:
 bash.opp: bash.ml
 	opa-plugin-builder $^ -o $@
 
-bootstrap.opp: bootstrap.js
-	opa-plugin-builder $^ -o $@
-
 examples/%/pack.zip: examples/%
 	cd examples && zip -r ../$@ $*
 
