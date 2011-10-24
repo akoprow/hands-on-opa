@@ -233,6 +233,12 @@ i18n=mk_hands_on_article(
   ; descr=<>How to create multilingual sites with Opa. And how to do so in a translators-friendly manner.</>
   ; ty={tutorial}
   })
+forms=mk_hands_on_article(
+  { at=""
+  ; title="Handling forms in Opa"
+  ; descr=<>How to create and handle forms.</>
+  ; ty={tutorial}
+  })
 
 blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions, unit_conv, unit_conv_plus, licence_again, i18n ]
 
@@ -264,6 +270,7 @@ calc_descr = <p>A simple calculator.</><p>Learn how to do parsing in Opa.</>
 watch_fr_descr = <p>A variant of the «timer» program using an 'HTML fragment' abstraction.</><p>Learn how to use sessions to hold state and program event-based updates</>
 units_descr = <p>A simple converter for length units</><p>Learn how to: use custom types in a transparent way in your UI, design UI components, separate application logic from user interface and reduce client-server communication with the onready event.</>
 i18n_descr = <p>Example showing how to translate Opa apps to other languages and how to allow users to choose their preferred language.</>
+hello_forms_descr = <p>Example showing how to develop forms with Opa.</>
 
 hello : example=       { name="hello_web"           port=5008 article=hello_web         srcs=@static_include_directory("examples/hello_web")           details={descr=hello_descr deps=[]}}
 watch : example =      { name="watch"               port=5000 article=interactivity     srcs=@static_include_directory("examples/watch")               details={descr=watch_descr deps=[]}}
@@ -280,8 +287,9 @@ watch_fr : example =   { name="watch_fragment"      port=5016 article=sessions  
 units : example =      { name="unit_converter"      port=5017 article=unit_conv         srcs=@static_include_directory("examples/unit_converter")      details={invisible}}
 units_plus : example = { name="unit_converter_plus" port=5018 article=unit_conv_plus    srcs=@static_include_directory("examples/unit_converter_plus") details={descr=units_descr deps=[units]}}
 hello_i18n : example = { name="hello_i18n"          port=5019 article=i18n              srcs=@static_include_directory("examples/hello_i18n")          details={descr=i18n_descr deps=[]}}
+hello_forms :example = { name="hello_forms"         port=5020 article=forms             srcs=@static_include_directory("examples/hello_forms")         details={descr=hello_forms_descr deps=[]}}
 
-blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr, units, units_plus, hello_i18n ]
+blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr, units, units_plus, hello_i18n, hello_forms ]
 
 // ===============================================================
 // all examples
