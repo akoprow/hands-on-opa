@@ -287,9 +287,9 @@ watch_fr : example =   { name="watch_fragment"      port=5016 article=some(sessi
 units : example =      { name="unit_converter"      port=5017 article=some(unit_conv)         srcs=@static_include_directory("examples/unit_converter")      details={invisible}}
 units_plus : example = { name="unit_converter_plus" port=5018 article=some(unit_conv_plus)    srcs=@static_include_directory("examples/unit_converter_plus") details={descr=units_descr deps=[units]}}
 hello_i18n : example = { name="hello_i18n"          port=5019 article=none                    srcs=@static_include_directory("examples/hello_i18n")          details={descr=i18n_descr deps=[]}}
-hello_forms :example = { name="hello_forms"         port=5028 article=none                    srcs=@static_include_directory("examples/hello_forms")         details={descr=hello_forms_descr deps=[]}}
+//hello_forms :example = { name="hello_forms"         port=5028 article=none                    srcs=@static_include_directory("examples/hello_forms")         details={descr=hello_forms_descr deps=[]}}
 
-blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr, units, units_plus, hello_i18n, hello_forms ]
+blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr, units, units_plus, hello_i18n /*, hello_forms*/ ]
 
 // ===============================================================
 // all examples
