@@ -22,6 +22,10 @@ bash.opp: bash.ml
 examples/%/pack.zip: examples/%
 	cd examples && zip -r ../$@ $*
 
+.PHONY: compile
+compile: $(EXE)
+	./$(EXE) --recompile
+
 .PHONY: run
 run: $(EXE)
 	./$(EXE) --port 5099
@@ -35,13 +39,20 @@ clean:
  -o -name '*.opp' \
  -o -name '*.opx*' \
  -o -name '_build'\
- -o -name '*.exe' \
  -o -name '*~' \
  -o -name 'pack.zip'`
+
+.PHONY: full-clean
+full-clean: clean
+	rm -rf `find . -name '*.exe'`
 
 .PHONY: blog
 blog:
 	make -C blog blogspot
 
+.PHONY: reduce-binaries
+reduce-binaries:
+	./reduce-binaries.sh
+
 .PHONY: deploy
-deploy: clean pack stop run
+deploy: full-clean pack stop compile reduce-binaries clean

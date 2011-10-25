@@ -9,7 +9,7 @@ type example =
   { name : string
   ; port : int
   ; srcs : stringmap(Resource.resource)
-  ; article : article
+  ; article : option(article)
   ; details : example_details
   }
 
@@ -43,13 +43,17 @@ Examples = {{
     _ = pack(e)
     void
 
-  deploy(e) : void =
+  deploy(recompile, e) : void =
     do Log.info("HOP", "Deploying <{e.name}>")
     do check(e)
-    do compile(e)
+    do
+      if recompile then
+        compile(e)
+      else
+        void
     do rerun(e)
     void
 
-  deploy_all = List.iter(deploy, _)
+  deploy_all(ex, recompile) = List.iter(deploy(recompile, _), ex)
 
 }}

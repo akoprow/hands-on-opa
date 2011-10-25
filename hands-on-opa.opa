@@ -27,9 +27,13 @@ example_page(ex, url_suffix) =
     <div id=#logo><a href="http://opalang.org" /></>
     <h2>{ex.name}</>
     <ul>
-      <li>
-        <a href={ex.article.post} target="_blank">Tutorial article</>
-      </>
+      {match ex.article with
+      | {none} -> <></>
+      | {some=article} ->
+          <li>
+            <a href={article.post} target="_blank">Tutorial article</>
+          </>
+      }
       <li>
         <a href="http://tutorials.opalang.org">Other tutorials</>
       </>
@@ -96,6 +100,9 @@ show_example(ex : example) =
   match ex.details with
   | {invisible} -> none
   | ~{deps descr} ->
+  match ex.article with
+  | {none} -> none
+  | {some=article} ->
     articles_id = Dom.fresh_id()
     screen =
       fn = "resources/img/screenshot/{ex.name}.png"
@@ -104,7 +111,7 @@ show_example(ex : example) =
         fn
       else
         default
-    dep_arts = List.map(_.article, deps) |> unique_articles
+    dep_arts = List.filter_map(_.article, deps) |> unique_articles
     show_article_short(article) = <a href={article.post}>{article.title}</>
     show_article(article) =
       prefix =
@@ -116,8 +123,8 @@ show_example(ex : example) =
     show_dep(dep) = <li>{show_article_short(dep)}</>
     learn =
       match deps with
-      | [] -> <>This example is explained in the {show_article(ex.article)}</>
-      | _ -> <>This example is introduced in the {show_article(ex.article)} and then further explained in the following ones:<ol>{List.map(show_dep, dep_arts)}</></>
+      | [] -> <>This example is explained in the {show_article(article)}</>
+      | _ -> <>This example is introduced in the {show_article(article)} and then further explained in the following ones:<ol>{List.map(show_dep, dep_arts)}</></>
     xhtml =
       run = "http://tutorials.opalang.org/{ex.name}"
       <article class="opalang_apps">
@@ -196,5 +203,16 @@ urls =
   aux(examples)
 
 server =
-  do Examples.deploy_all(examples)
+  recompile : CommandLine.family(bool)  = {
+    init = false
+    parsers = [{ CommandLine.default_parser with
+      names = ["--recompile"]
+      description = "Forces recompilation of all examples"
+      on_encounter(_) = {no_params=true}
+    }]
+    anonymous = []
+    title = "Hand-on-Opa"
+  }
+  needs_recompile = CommandLine.filter(recompile)
+  do Examples.deploy_all(examples, needs_recompile)
   Server.simple_bundle([resources], urls)
