@@ -1,0 +1,87 @@
+[[chapter_opa_in_the_cloud]]
+Programming in the cloud with Opa
+---------------------------------
+
+Admission: I'm a skeptic. Remember the early times of http://en.wikipedia.org/wiki/Google_docs[Google Docs] (or Google Labs Spreadsheets as they were called back in 2006). When I heard of the idea of an editor via the web, I though: _``Nah, this will never work''_. Guess what, I'm using it now heavily. And yes, it does work.
+
+For years here at http://mlstate.com[MLstate] we were dreaming about a world where _software development_ happens online. The basis of this idea would be a web-based programming IDE. Benefits? All you need to get going is a web browser. Change computers and your code is there. Forget about transferring files between computers (or forgetting to do so). Forget about disk failures. Embrace online collaboration (version controlling is great but what if you could edit a single file in real time together with your developer friend sitting on the other side of the globe?). What if you had a single button that would not only compile your project but also deploy it for you (in the cloud)? What if...
+
+image::http://opalang.org/img/opa-cloud-coding-experiment-white.png[]
+
+For all that to happen we needed a programming language that was up to the challenge and it was the driving force behind the creation of http://opalang.org[Opa]. We also needed an excellent cloud infrastructure and today we are happy to announce that, by partnering with https://www.dotcloud.com/[DotCloud], we got just that. DotCloud is a next generation http://en.wikipedia.org/wiki/PaaS[PaaS] solution and now the list of services it provides is http://docs.dotcloud.com/services/opa/[extended with Opa].
+
+I'm a skeptic. But now even I believe that the future of programming is in the cloud. And my believe in that is helped by the fact that today we, http://mlstate.com[MLstate], made a huge first step in that direction. Ladies and Gentleman, it's my pleasure to introduce to you the very first incarnation of the web programming IDE for Opa (is it developed in Opa? You bet!).
+
+++++
+<script src="http://code.opalang.org/plugin.js" type="text/javascript"></script><opacode height="400px" width="690px"> import stdlib.themes.bootstrap
+css = css
+#logo {
+  height: 32px;
+  margin: 10px 0 5px;
+  width: 61px;
+}
+#conversation {
+  margin-top:58px;
+  margin-bottom:40px;
+  overflow:auto;
+}
+.line {
+  border-bottom:1px solid #ddd;
+  padding-bottom:8px;
+  margin-bottom:8px;
+}
+.user, .message {padding-top:8px;}
+.userpic {
+  height: 40px;
+  width:40px;
+}
+.user {color: #000;font-weight:bold;}
+.message{color:#666;}
+#footer {
+  background:#eee;
+  position:fixed;
+  bottom:0;
+  left:0;
+  width:100%;
+  padding:10px 0;
+  text-align:left;
+}
+
+type message = {author: string /**The name of the author (arbitrary string)*/
+              ; text: string  /**Content entered by the user*/}
+
+@publish room = Network.cloud(&#34;room&#34;): Network.network(message)
+
+user_update(x: message) =
+  line = &#60;div class=&#34;row line&#34;&#62;
+  &#60;div class=&#34;span1 columns userpic&#34; /&#62;
+  &#60;div class=&#34;span2 columns user&#34;&#62;{x.author}:&#60;/div&#62;
+  &#60;div class=&#34;span13 columns message&#34;&#62;{x.text}
+  &#60;/div&#62;
+  &#60;/div&#62;
+  ignore(Dom.put_at_start(#conversation, Dom.of_xhtml(line)))
+
+broadcast(author) =
+  text = Dom.get_value(#entry)
+  message = {~author ~text}
+  do Network.broadcast(message, room)
+  Dom.clear_value(#entry)
+
+start() =
+  author = Random.string(8)
+  &#60;div class=&#34;topbar&#34;&#62;&#60;div class=&#34;fill&#34;&#62;&#60;div class=&#34;container&#34;&#62;&#60;div id=#logo&#62;&#60;h3&#62;OpaChat&#60;/h3&#62;&#60;/div&#62;&#60;/div&#62;&#60;/div&#62;&#60;/div&#62;
+  &#60;div id=#conversation class=&#34;container&#34; onready={_
+  -&#62; Network.add_callback(user_update, room)}&#62; &#60;/div&#62;
+  &#60;div id=#footer&#62;&#60;div class=&#34;container&#34;&#62;
+  &#60;input id=#entry class=&#34;xlarge&#34; onnewline={_ -&#62; broadcast(author)}/&#62;
+  &#60;div class=&#34;btn primary&#34; onclick={_ -&#62; broadcast(author)}&#62;Post&#60;/div&#62;
+  &#60;/div&#62;&#60;/div&#62;
+
+server = Server.one_page_server(&#34;Chat&#34;, -&#62; start()) </opacode><script type="text/javascript"> (new CodeOpalangPlugin()).init(); </script>
+++++
+
+What you see above in the chat example written in Opa. To get it running you'll need to be logged in on http://opalang.org, sign-up with http://dotcloud.com and provide your API key -- all of this is a one-time effort and it costs absolutely nothing. Also notice that the first time deployment will take much longer as we'll be getting your cloud ready :).
+
+Yes, not all features are there (yet): full screen mode, error highlighting, persistency, multiple files, multiple projects, online collaboration, ... But you can already start playing with Opa directly in the browser and get a feeling of what is coming. Setting-up a complete web application really can be as simple as a single click. Welcome to the programming revolution. And the best news is: it's very simple to embed this widget in your website; you can find more information about that http://opalang.org/opa_in_the_cloud.xmlt[here].
+
+//WARNING: Opa is evolving fast and the version of Opa on DotCloud will not always be the last one, hence you may have problems using Opa's latest features (as often described on this blog).
