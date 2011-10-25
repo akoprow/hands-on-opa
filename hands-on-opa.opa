@@ -1,66 +1,84 @@
 import stdlib.widgets.{core,notification}
-import stdlib.themes.bootstrap
 
 resources = @static_resource_directory("resources")
 
 main_server="94.23.204.210"
 
-bootstrap_topbar(content) =
-  <div class="topbar">
-    <div class="fill">
-      <div class="container">
-        {content}
-      </>
-    </>
-  </>
-
 example_page(ex, url_suffix) =
-  compile_with =
-    <span id=compile_instr>
-      Compile with:
-      <pre>{Examples.compilation_instructions(ex)}</>
+  Modal = WNotification
+  src_code_id = "src_code"
+  src_code_modal_config =
+    cl(id) = {class=["src_code_{id}"]}
+    { WNotification.default_config with style_box =
+        { sizex = 800
+        ; sizey = 500
+        ; style_top = cl("top")
+        ; style_content = cl("content")
+        ; style_buttons = WStyler.empty
+        ; style_main = cl("main")
+        }
+    }
+  src_code_modal_box =
+    xhtml =
+      <a class=action href="https://github.com/akoprow/hands-on-opa/tree/master/examples/{ex.name}">
+        <img src="/resources/img/github.png" />
+        See on GitHub
+      </>
+      <a class=action href="/{ex.name}/{ex.name}.zip">
+        <img src="/resources/img/download.png" />
+        Download
+      </>
+      <span id=compile_instr>
+        Compile with:
+        <pre>{Examples.compilation_instructions(ex)}</>
+      </>
+      <div class=coming_soon>
+        Source code browser coming soon...
+      </>
+    close(box_id) = _ -> Modal.destroy({default}, box_id)
+    { Modal.default_error(xhtml) with
+        title = <>Source code of the example: «{ex.name}»</>
+        buttons = {customized=box_id ->
+                     <span id=#src_code_close onclick={close(box_id)} />}
+    }
+  src_code_html =
+    Modal.html(src_code_modal_config, src_code_id)
+  src_code_modal_show() =
+    Modal.notify(src_code_modal_config, Modal.box_id(src_code_id), src_code_modal_box)
+  header =
+  <>
+    {src_code_html}
+    <a id=#logo href="/">
+      <img src="/resources/img/hands-on-opa.png" />
     </>
-  show_compilation_instructions(_) =
-    void
-//    <h3><a href="/">hands-on tutorials</></>
-  topbar =
-    <div id=#logo><a href="http://opalang.org" /></>
-    <h2>{ex.name}</>
-    <ul>
+    <div id=#header_right>
+      <a id=#opalang href="http://opalang.org">
+        Go to opalang.org
+      </>
       {match ex.article with
       | {none} -> <></>
       | {some=article} ->
-          <li>
-            <a href={article.post} target="_blank">Tutorial article</>
+          <div id=#article>
+            <a href={article.post} target="_blank">Article</>
           </>
       }
-      <li>
-        <a href="http://tutorials.opalang.org">Other tutorials</>
-      </>
-    </>
-    <ul class="nav secondary-nav">
-      <li class="menu">
-        <a class="menu" href="#">See code</>
-        <ul class="menu-dropdown">
-          <li>
-            <a target="_blank" href="https://github.com/akoprow/hands-on-opa/tree/master/examples/{ex.name}">Browse (GitHub)</>
-          </>
-          <li>
-            <a href="/{ex.name}/{ex.name}.zip">Download (zip)</>
-          </>
-          <li>
-            <a onclick={show_compilation_instructions}>Compilation instructions</>
-          </>
+      <div id=#src_code>
+        <a onclick={_ -> src_code_modal_show()}>
+          Source code
         </>
       </>
     </>
-  page =
-    <>
-      {bootstrap_topbar(topbar)}
-      <iframe src="http://{main_server}:{ex.port}{url_suffix}" />
-      <script src="resources/ga.js" type="text/javascript"></script>
+    <div id=#title>
+      {ex.name}
     </>
-  Resource.styled_page("Hands-on-Opa: {ex.name}", ["/resources/style/style.css"], page)
+  </>
+  page =
+    <div id="header">{header}</div>
+    <div id="container">
+      <iframe src="http://{main_server}:{ex.port}{url_suffix}" />
+    </>
+    <script src="resources/ga.js" type="text/javascript"></script>
+  Resource.styled_page("Hands on Opa: {ex.name}", ["/resources/style/style.css"], page)
 
 show_article(article) =
   (icon, desc) =
@@ -150,44 +168,52 @@ show_example(ex : example) =
     some(xhtml)
 
 index_page() =
-  topbar =
-    <div id=#logo><a href="http://opalang.org" /></>
-    <h2>Learn Opa by examples!</>
+  header =
+    <div id=#title>
+      Hands on Opa: learn Opa by examples!
+    </>
+    <a id=#logo href="/">
+      <img src="/resources/img/hands-on-opa.png" />
+    </>
+    <div id=#header_right>
+      <a id=#opalang href="http://opalang.org">
+        Go to opalang.org
+      </>
+    </>
   blog_articles = <ul>{List.map(show_article, blog_articles)}</ul>
   manual_articles = <ul>{List.map(show_article, manual_articles)}</ul>
   examples = List.filter_map(show_example, examples)
   page =
-  <>
-    {bootstrap_topbar(topbar)}
-    <div class="intro_wrap">
-      <div class="intro">
-        <div class="centered">
-          <h1>Learn Opa... by examples!</>
-          <h3>Below you'll find a number of demos/articles about Opa, both from the manual and from the blog, that will allow you to learn Opa by examples.</>
-        </>
-      </>
-    </>
-    <div class="content_wrap">
-      <div class="content">
-        <div class="block">
-          <div class="col50 white-bg fl-left">
-            <h3>Blog articles</>
-            {blog_articles}
-          </>
-          <div class="col50 white-bg fl-right">
-            <h3>Examples</>
-            {examples}
-          </>
-          <div class="col50 white-bg fl-left">
-            <h3>Manual articles</>
-            {manual_articles}
+    <div id="header">{header}</div>
+    <div id="container">
+      <div class="intro_wrap">
+        <div class="intro">
+          <div class="centered">
+            <h1>Learn Opa... by examples!</>
+            <h3>Below you'll find a number of demos/articles about Opa, both from the manual and from the blog, that will allow you to learn Opa by examples.</>
           </>
         </>
       </>
+      <div class="content_wrap">
+        <div class="content">
+          <div class="block">
+            <div class="col50 white-bg fl-left">
+              <h3>Blog articles</>
+              {blog_articles}
+            </>
+            <div class="col50 white-bg fl-right">
+              <h3>Examples</>
+              {examples}
+            </>
+            <div class="col50 white-bg fl-left">
+              <h3>Manual articles</>
+              {manual_articles}
+            </>
+          </>
+        </>
+      </>
     </>
-    <script src="resources/ga.js" type="text/javascript"></script>
-  </>
-  Resource.styled_page("Hands-on-Opa: Opa tutorials",
+  Resource.styled_page("Hands on Opa: Opa tutorials",
     ["http://opalang.org/css/style.css", "/resources/style/style.css"], page)
 
 urls =

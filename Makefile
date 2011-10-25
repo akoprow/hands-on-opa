@@ -9,8 +9,8 @@ all: clean pack $(EXE)
 
 pack: $(ZIPPED_EXAMPLES)
 
-$(MAIN).exe: $(MAIN).opack $(shell cat $(MAIN).opack)
-	$(OPA) $< -o $@
+$(MAIN).exe: $(MAIN).opa data.opa examples.opa bash.opp
+	$(OPA) $^ -o $@
 
 .PHONY: stop
 stop:

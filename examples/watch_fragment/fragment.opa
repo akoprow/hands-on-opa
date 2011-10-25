@@ -20,7 +20,7 @@ CFragment =
 
   create(init_state : 'state, init_xhtml : xhtml,
          handler : 'state, 'msg -> CFragment.action
-        ) : (xhtml, CFragment.fragment('msg)) =
+        ) : (xhtml, CFragment.fragment('t)) =
     id = Dom.fresh_id()
     xhtml = <span id={id}>{init_xhtml}</>
     session = Session.make(init_state, on_notification(id, handler, _, _))
