@@ -52,7 +52,7 @@ blog:
 
 .PHONY: reduce-binaries
 reduce-binaries:
-	./reduce-binaries.sh
+	upx -9 `find -name '*.exe'`
 
 .PHONY: deploy
 deploy: full-clean pack stop compile reduce-binaries clean
