@@ -35,7 +35,7 @@ Examples = {{
 
   rerun(e) =
     do execute("(pgrep -f {exe(e)} | grep -v $$ | xargs kill) || true")
-    do execute_parallel("{exe(e)} --port {e.port}")
+    do execute_parallel("{exe(e)} --port {e.port} --db-force-upgrade")
     void
 
   check(e) =

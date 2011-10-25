@@ -39,12 +39,12 @@ clean:
  -o -name '*.opp' \
  -o -name '*.opx*' \
  -o -name '_build'\
- -o -name '*~' \
- -o -name 'pack.zip'`
+ -o -name '*~'`
 
 .PHONY: full-clean
 full-clean: clean
-	rm -rf `find . -name '*.exe'`
+	rm -rf `find . -name '*.exe' \
+ -o -name 'pack.zip'`
 
 .PHONY: blog
 blog:
@@ -52,7 +52,7 @@ blog:
 
 .PHONY: reduce-binaries
 reduce-binaries:
-	upx -9 `find -name '*.exe'`
+	upx `find -name '*.exe'`
 
 .PHONY: deploy
 deploy: full-clean pack stop compile reduce-binaries clean

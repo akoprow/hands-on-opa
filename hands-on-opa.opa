@@ -242,3 +242,8 @@ server =
   needs_recompile = CommandLine.filter(recompile)
   do Examples.deploy_all(examples, needs_recompile)
   Server.simple_bundle([resources], urls)
+
+css = css
+  li {
+    clear: both;
+  }
