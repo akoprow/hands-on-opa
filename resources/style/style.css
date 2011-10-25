@@ -164,7 +164,7 @@ iframe {
 }
 .action {
   display: inline-block;
-  border: 1px dotted black;
+  border: 1px solid #DDD;
   padding-right: 5px;
   margin-top: 2px;
 }
@@ -194,7 +194,7 @@ div.coming_soon {
 #container ul li {
   list-style-type: none;
   background-image: none !important;
-  border-bottom: 1px dotted black;
+  border-bottom: 1px solid #DDD;
   padding: 3px 0px !important;
   min-height: 32px;
 }
@@ -214,7 +214,7 @@ h3 {
 .opalang_apps {
     width: 100% !important;
     height: inherit !important;
-    border-bottom: 1px dotted black;
+    border-bottom: 1px solid #DDD;
 }
 .col50 {
     width: 46.5% !important;

@@ -180,8 +180,8 @@ index_page() =
         Go to opalang.org
       </>
     </>
-  blog_articles = <ul>{List.map(show_article, blog_articles)}</ul>
-  manual_articles = <ul>{List.map(show_article, manual_articles)}</ul>
+  blog_articles = <ul class=unstyled>{List.map(show_article, blog_articles)}</ul>
+  manual_articles = <ul class=unstyled>{List.map(show_article, manual_articles)}</ul>
   examples = List.filter_map(show_example, examples)
   page =
     <div id="header">{header}</div>
@@ -242,8 +242,3 @@ server =
   needs_recompile = CommandLine.filter(recompile)
   do Examples.deploy_all(examples, needs_recompile)
   Server.simple_bundle([resources], urls)
-
-css = css
-  li {
-    clear: both;
-  }

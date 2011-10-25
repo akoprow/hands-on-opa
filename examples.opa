@@ -1,3 +1,5 @@
+import stdlib.system
+
 type plugin =
   { name : string
   ; files : list(string)
@@ -54,6 +56,11 @@ Examples = {{
     do rerun(e)
     void
 
-  deploy_all(ex, recompile) = List.iter(deploy(recompile, _), ex)
+  deploy_all(ex, recompile) =
+    do List.iter(deploy(recompile, _), ex)
+    if recompile then
+      System.exit(0)
+    else
+      void
 
 }}
