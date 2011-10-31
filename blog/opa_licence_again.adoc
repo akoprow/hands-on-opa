@@ -43,7 +43,7 @@ The solution
 
 We believe in the values behind our initial choice of the AGPL license for Opa. But at the same time we understand and respect your complaints about the license. We don't want to lose any valuable members of the community because of this issue so:
 
-*From today onwards we provide a https://mlstate.com/pages/buy[free proprietary Opa license] for companies with revenue not exceeding $1M*. Please note that, unlike paid license, it comes with no added services, such as training or support.
+*From today onwards we provide a http://mlstate.com/#services[free proprietary Opa license] for companies with revenue not exceeding $1M*. Please note that, unlike paid license, it comes with no added services, such as training or support.
 
 That means that in the typical scenario discussed above (I want to try to form a start-up with Opa) you can now proceed as follows:
 
