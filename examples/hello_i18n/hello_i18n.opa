@@ -5,13 +5,13 @@ import stdlib.web.client
 supported_langs = ["zh", "en", "hu", "es", "ru", "ar", "bn", "pt", "id", "fr"]
 
 hello =
-| "zh" -> "Ni hao"              // Mandarin
+| "zh" -> "你好"                 // Mandarin
 | "en" -> "Hello"               // English
-| "hu" -> "Namaste"             // Hindustani
+| "hu" -> "नमस्ते"                // Hindustani
 | "es" -> "Hola"                // Spanish
-| "ru" -> "Zdravstvuite"        // Russian
-| "ar" -> "Al salaam a’alaykum" // Arabic
-| "bn" -> "Ei Je"               // Bengali
+| "ru" -> "здравствуйте"        // Russian
+| "ar" -> "لسلام عليكم"         // Arabic
+| "bn" -> "নমস্কার"                // Bengali
 | "pt" -> "Bom dia"             // Portuguese
 | "id" -> "Selamat pagi"        // Indonesian
 | "fr" -> "Bonjour"             // French

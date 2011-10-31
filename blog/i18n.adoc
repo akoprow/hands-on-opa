@@ -37,13 +37,13 @@ and it's translated version could look some like this:
 [source, opa]
 ------------------------
 hello =
-| "zh" -> "Ni hao"              // Mandarin
+| "zh" -> "你好"                 // Mandarin
 | "en" -> "Hello"               // English
-| "hu" -> "Namaste"             // Hindustani
+| "hu" -> "नमस्ते"                // Hindustani
 | "es" -> "Hola"                // Spanish
-| "ru" -> "Zdravstvuite"        // Russian
-| "ar" -> "Al salaam a’alaykum" // Arabic
-| "bn" -> "Ei Je"               // Bengali
+| "ru" -> "здравствуйте"        // Russian
+| "ar" -> "لسلام عليكم"         // Arabic
+| "bn" -> "নমস্কার"                // Bengali
 | "pt" -> "Bom dia"             // Portuguese
 | "id" -> "Selamat pagi"        // Indonesian
 | "fr" -> "Bonjour"             // French
@@ -52,6 +52,8 @@ hello =
 page() = <h1>{@i18n(hello)}</>
 server = one_page_server("multi-language hello", page)
 ------------------------
+
+(I did have some problems reproducing the Arabic script, anyone familiar with it who can tell me whether it makes sense?)
 
 So two main changes: +hello+ used to be a string value and now it's replaced with a function from a language code (http://doc.opalang.org/api/index.html#i18n_language.opa.html/!/type_stdlib.core.i18n.I18n.language[+I18n.language+]) to a string (note that the default value needs to be provided, by means of the pattern-matching catch-all +_+). By the way this mechanism is not restricted to string values; we can as well translate +xhtml+ fragments, +image+ values etc. The second required change is to enclose the use of +hello+ with the +@i18n+ directive. The language op-codes are http://www.w3.org/International/articles/language-tags/#rfc[RFC 5646] compliant and based on the http://www.iana.org/assignments/language-subtag-registry[IANA registry] (as http://www.w3.org/International/articles/language-tags/#overview[advised by W3C]).
 
@@ -162,6 +164,24 @@ opa hello_i18n.opa --i18n-dir translations
 ------------------------
 
 (7) Whenever you recompile your application *and* the translation messages change (for instance new ones are added) the old translation file will be backed-up, a new one will be generated and the compiler will warn you that you need to merge them. For now this merging process is manual (are you friends with http://meld.sourceforge.net/[+meld+] already?).
+
+By the way the messages can be parametrized with inserts, i.e. if we started with:
+
+[source, opa]
+------------------------
+<h1>{@i18n("hello {user}!")}</>
+------------------------
+
+we'd obtain the following fragment in translation file:
+
+[source, opa]
+------------------------
+// Template for hello_i18n.opa
+// "hello {p1}!"
+// string, 67
+__i18n_e3f0aa4b055b180a817fa96ec3977f47(p1:string)= match I18n.lang()
+  _   -> "hello {p1}!"
+------------------------
 
 And that's it. This process does require a bit of a set-up but we're looking at ways to improve it -- see below.
 
