@@ -45,7 +45,7 @@ Examples = {{
     _ = pack(e)
     void
 
-  deploy(recompile, e) : void =
+  deploy(recompile, execute, e) : void =
     do Log.info("HOP", "Deploying <{e.name}>")
     do check(e)
     do
@@ -53,11 +53,15 @@ Examples = {{
         compile(e)
       else
         void
-    do rerun(e)
+    do
+      if execute then
+        rerun(e)
+      else
+        void
     void
 
-  deploy_all(ex, recompile) =
-    do List.iter(deploy(recompile, _), ex)
+  deploy_all(ex, recompile, execute) =
+    do List.iter(deploy(recompile, execute, _), ex)
     if recompile then
       System.exit(0)
     else

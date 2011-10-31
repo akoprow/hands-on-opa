@@ -55,4 +55,4 @@ reduce-binaries:
 	upx `find -name '*.exe'`
 
 .PHONY: deploy
-deploy: full-clean pack stop compile reduce-binaries clean
+deploy: full-clean pack stop compile clean reduce-binaries

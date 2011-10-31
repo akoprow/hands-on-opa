@@ -2,7 +2,7 @@ import stdlib.widgets.{core,notification}
 
 resources = @static_resource_directory("resources")
 
-main_server="94.23.204.210"
+main_server="ns221022.ovh.net"
 
 example_page(ex, url_suffix) =
   Modal = WNotification
@@ -239,6 +239,17 @@ server =
     anonymous = []
     title = "Hand-on-Opa"
   }
+  execute : CommandLine.family(bool)  = {
+    init = true
+    parsers = [{ CommandLine.default_parser with
+      names = ["--dont-execute"]
+      description = "Won't start all the examples"
+      on_encounter(_) = {no_params=false}
+    }]
+    anonymous = []
+    title = "Hand-on-Opa"
+  }
   needs_recompile = CommandLine.filter(recompile)
-  do Examples.deploy_all(examples, needs_recompile)
+  execute_examples = CommandLine.filter(execute)
+  do Examples.deploy_all(examples, needs_recompile, execute_examples)
   Server.simple_bundle([resources], urls)
