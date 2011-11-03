@@ -85,3 +85,9 @@ What you see above in the chat example written in Opa. To get it running you'll 
 Yes, not all features are there (yet): full screen mode, error highlighting, persistency, multiple files, multiple projects, online collaboration, ... But you can already start playing with Opa directly in the browser and get a feeling of what is coming. Setting-up a complete web application really can be as simple as a single click. Welcome to the programming revolution. And the best news is: it's very simple to embed this widget in your website; you can find more information about that http://opalang.org/opa_in_the_cloud.xmlt[here].
 
 //WARNING: Opa is evolving fast and the version of Opa on DotCloud will not always be the last one, hence you may have problems using Opa's latest features (as often described on this blog).
+
+[icons=None, caption="Credit"]
+[NOTE]
+=======================
+This widget was developed by Quentin Bourgerie.
+=======================

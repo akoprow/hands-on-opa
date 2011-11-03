@@ -18,6 +18,12 @@ You will learn:
 
 WARNING: This is a new feature and will require a recent version of Opa (>= 719).
 
+[icons=None, caption="Credit"]
+[NOTE]
+=======================
+This feature was developed by Rudy Sicard.
+=======================
+
 Internal approach
 ~~~~~~~~~~~~~~~~~
 
