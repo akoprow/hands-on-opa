@@ -227,12 +227,37 @@ licence_again=mk_hands_on_article(
   ; descr=<>Announcing free proprietary Opa license.</>
   ; ty={discussion}
   })
+challenge_closing=mk_hands_on_article(
+  { at="2011/10/opa-developer-challenge-closing-time.html"
+  ; title="Programming in the cloud with Opa"
+  ; descr=<>Announcing approaching deadline for Opa Developer Challenge submissions</>
+  ; ty={announcement}
+  })
+opa_cloud=mk_hands_on_article(
+  { at="2011/10/programming-in-cloud-with-opa.html"
+  ; title="Opa Developer Challenge: closing time"
+  ; descr=<>Announcing new web-based IDE for Opa that allows to compile & deploy your app with one click.</>
+  ; ty={announcement}
+  })
+bootstrap_widgets=mk_hands_on_article(
+  { at="2011/10/bootstrap-widgets.html"
+  ; title="Bootstrap widgets"
+  ; descr=<>Discussion on how to abstract away the look-and-feel of an application and how to easily create Bootstrap-compatible markup in Opa.</>
+  ; ty={discussion}
+  })
+db_future=mk_hands_on_article(
+  { at="2011/11/opas-database-and-where-its-heading.html"
+  ; title="Opa's database and where it's heading"
+  ; descr=<>Discussion of the current state of the Opa's internal database and about what the future has in store for data storage and querying in Opa.</>
+  ; ty={discussion}
+  })
 i18n=mk_hands_on_article(
-  { at=""
+  { at="2011/11/parlez-vous-opa.html"
   ; title="Parlez vous Opa?"
   ; descr=<>How to create multilingual sites with Opa. And how to do so in a translators-friendly manner.</>
   ; ty={tutorial}
   })
+
 forms=mk_hands_on_article(
   { at=""
   ; title="Handling forms in Opa"
@@ -240,7 +265,7 @@ forms=mk_hands_on_article(
   ; ty={tutorial}
   })
 
-blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions, unit_conv, unit_conv_plus, licence_again, i18n ]
+blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions, unit_conv, unit_conv_plus, licence_again, challenge_closing, opa_cloud, bootstrap_widgets, db_future, i18n ]
 
 // ===============================================================
 // manual examples

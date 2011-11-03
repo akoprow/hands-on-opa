@@ -5,7 +5,7 @@ Parlez vous Opa?
 Opa & internationalization (i18n)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-One of the good things about web services is that they give an opportunity to easily reach audiences all over the world. Marketing aside, about the only thing you will need is to translate your pages and made them accessible in other languages. This process is known as http://en.wikipedia.org/wiki/Internationalization_and_localization[internationalization], which, to save some keystrokes, is often abbreviated by i18n (18 being the number of letters in the complete word). Today I'm happy to announce that Opa provides support for this process that I will try to describe in this post.
+One of the good things about web services is that they give an opportunity to easily reach audiences all over the world. Marketing aside, about the only thing you will need is to translate your pages and made them accessible in other languages. This process is known as http://en.wikipedia.org/wiki/Internationalization_and_localization[internationalization], which, to save some keystrokes, is often abbreviated by i18n (18 being the number of letters in the complete word). Today I'm happy to announce that Opa provides support for this process and I will try to describe it in this post.
 
 [icons=None, caption="Summary"]
 [NOTE]
@@ -57,7 +57,7 @@ server = one_page_server("multi-language hello", page)
 
 So two main changes: +hello+ used to be a string value and now it's replaced with a function from a language code (http://doc.opalang.org/api/index.html#i18n_language.opa.html/!/type_stdlib.core.i18n.I18n.language[+I18n.language+]) to a string (note that the default value needs to be provided, by means of the pattern-matching catch-all +_+). By the way this mechanism is not restricted to string values; we can as well translate +xhtml+ fragments, +image+ values etc. The second required change is to enclose the use of +hello+ with the +@i18n+ directive. The language op-codes are http://www.w3.org/International/articles/language-tags/#rfc[RFC 5646] compliant and based on the http://www.iana.org/assignments/language-subtag-registry[IANA registry] (as http://www.w3.org/International/articles/language-tags/#overview[advised by W3C]).
 
-Now what happens when we execute this program? You will see one of the greetings and which one depends on your language preferences in the browser (to be more precise the +Accept-language+ field in the HTTP request is used to determine that).
+Now what happens when we execute this program? The language to be used for translations is determined depending on the context. On the server side it is that of the OS and on the client it will depend on the language settings in the browser (to be more precise the +Accept-language+ field in the HTTP request is used to determine that). So if you run this app you will see one of the greetings and which one depends on your language preferences.
 
 So far so good. Depending on the browser settings is usually a good default, but it's an equally good idea to give users control over the language of the website they are seeing. How can we do that in Opa?
 
@@ -136,13 +136,13 @@ import stdlib.core.i18n
 // "hello"
 // string, 64
 __i18n_5d41402abc4b2a76b9719d911017c592()= match I18n.lang()
-| "zh" -> "Ni hao"              // Mandarin
+| "zh" -> "你好"                 // Mandarin
 | "en" -> "Hello"               // English
-| "hu" -> "Namaste"             // Hindustani
+| "hu" -> "नमस्ते"                // Hindustani
 | "es" -> "Hola"                // Spanish
-| "ru" -> "Zdravstvuite"        // Russian
-| "ar" -> "Al salaam a’alaykum" // Arabic
-| "bn" -> "Ei Je"               // Bengali
+| "ru" -> "здравствуйте"        // Russian
+| "ar" -> "لسلام عليكم"         // Arabic
+| "bn" -> "নমস্কার"                // Bengali
 | "pt" -> "Bom dia"             // Portuguese
 | "id" -> "Selamat pagi"        // Indonesian
 | "fr" -> "Bonjour"             // French
@@ -189,6 +189,10 @@ And that's it. This process does require a bit of a set-up but we're looking at 
 
 This is a very new feature in Opa and we are looking at ways of improving it, in particular:
 
+* The external approach, especially without tooling, like (semi-)automatic merging, is rather heavy. Instead of providing Opa-specific tools for translations we eventually plan to replace the Opa custom translation code with standard http://en.wikipedia.org/wiki/GNU_gettext[PO-files]. That would allow one to use all the existing tools and the work-flow that many translators are already familiar with.
+
+* Internal approach can deal with arbitrary types. The external one for now only deal with strings (possibly parametrized by inserts as presented above), but we're going to work on extending this to xhtml as well (again, the inserts are making this non-trivial).
+
 * Better support for default translations. For now we just use Opa's pattern-matching catch-all (+_+), however in practice this default translation will be one of the languages (say, English) and we do not want to repeat its translation twice, nor to enforce the following pattern:
 
 [source, opa]
@@ -200,6 +204,5 @@ en = "Hello"               // English
 | _    -> en
 ------------------------
 
-* The external approach, especially without tooling, like (semi-)automatic merging, is rather heavy. Instead of providing Opa-specific tools for translations we eventually plan to replace the Opa custom translation code with standard http://en.wikipedia.org/wiki/GNU_gettext[PO-files]. That would allow one to use all the existing tools and the work-flow that many translators are already familiar with.
 
 Anything we should add to this list? As usual, we are looking for feedback from our users so: speak up! :).

@@ -1,5 +1,5 @@
 import stdlib.themes.bootstrap
-import stdlib.widgets.formbuilder
+import stdlib.widgets.{select, formbuilder}
 import stdlib.web.mail
 
 type gender = {male} / {female}
@@ -12,7 +12,13 @@ FB = WFormBuilder
 
 @xmlizer(gender) gender_to_xhtml(gender) = <>{"{gender}"}</>
 
-registration_form() =
+styles =
+  [ ("Empty style", FB.empty_style)
+  , ("Bootstrap (default)", FB.bootstrap_style)
+  , ("Bootstrap (auto-hiding hints)", {FB.bootstrap_style with hint_elt_type = {inline}})
+  ]
+
+registration_form(style) =
   user_name_validator(input) =
     rec name_ok = parser
     | {Rule.eos} -> true
@@ -22,7 +28,7 @@ registration_form() =
       {success=input}
     else
       {failure = <>The user-name can only contain letters, digits and [_-.].</>}
-  reg_form = FB.mk_form()
+  reg_form = FB.mk_form_with({FB.default_form_config with ~style})
   fld_username =
        FB.mk_field("Username", FB.text_field)
     |> FB.make_required(_, <>Please enter your username</>)
@@ -88,4 +94,16 @@ registration_form() =
     </>
   FB.render_form(reg_form, form_body, submit_form)
 
-server = one_page_server("Registration form", registration_form)
+page() =
+  id = Dom.fresh_id()
+  default = FB.bootstrap_style
+  change_style(style) =
+    Dom.transform([#{id} <- registration_form(style)])
+  <>
+    {SimpleSelect.xhtml(styles, change_style, some(default))}
+    <span id=#{id}>
+      {registration_form(default)}
+    </>
+  </>
+
+server = one_page_server("Registration form", page)

@@ -58,9 +58,13 @@ include::units_ctd.adoc[]
 include::opa_licence_again.adoc[]
 
 include::challenge_closing.adoc[]
-////
 
-//include::dotCloud.adoc[]
+include::dotCloud.adoc[]
+
+include::bootstrap_widgets.adoc[]
+
+include::db_roadmap.adoc[]
+////
 
 //include::image_p4_event_based_programming.adoc[]
 

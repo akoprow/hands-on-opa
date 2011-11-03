@@ -17,7 +17,9 @@ hello =
 | "fr" -> "Bonjour"             // French
 | _    -> "Eee... hello?"       // default
 
-lang_to_string =   // FIXME This should come from stdlib I18n module
+ // WIP The following function will most likely one day be available
+ //     in the stdlib I18n module
+lang_to_string =
 | "zh" -> "Mandarin"
 | "en" -> "English"
 | "hu" -> "Hindu"
@@ -84,4 +86,7 @@ server = Server.one_page_bundle("i18n test", [flags], [], page)
 css = css
   .flag {
     margin: 0px 2px;
+  }
+  .h1 {
+    font-weight: normal !important;
   }
