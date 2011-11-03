@@ -81,12 +81,5 @@ page() =
   </>
 
 flags = @static_resource_directory("resources/flags")
-server = Server.one_page_bundle("i18n test", [flags], [], page)
-
-css = css
-  .flag {
-    margin: 0px 2px;
-  }
-  .h1 {
-    font-weight: normal !important;
-  }
+style = @static_resource_directory("resources/style")
+server = Server.one_page_bundle("i18n test", [flags, style], ["resources/style/style.css"], page)
