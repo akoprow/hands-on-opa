@@ -1,0 +1,30 @@
+[[chapter_hello_bootstrap]]
+Bootstrap widgets
+-----------------
+
+In one of the <<chapter_hello_bootstrap, previous posts>> we described how to use Bootstrap with Opa. At that time the library was essentially installing Bootstrap's CSS for your application and one still had to manually write Bootstrap-compatible HTML markup. Today we are going one step further and are providing a series of Bootstrap-widgets that are abstracting away this markup and letting one easily assemble web-pages using such common elements, with nice, consistent styling applied to them.
+
+[icons=None, caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* How to abstract away the look-and-feel of components of your application.
+* How to easily create http://twitter.github.com/bootstrap/[Bootstrap]-compatible markup in Opa.
+=======================
+
+[icons=None, caption="Credit"]
+[NOTE]
+=======================
+This library was developed by Frederic Ye.
+=======================
+
+Getting familiar with this library serves two goals. Firstly, learning how to _use_ it will allow you to quickly and neatly make Bootstrap-based pages, which in turn is a great way for developers to quickly develop pages that look nice and consistent, without employing heavy guns help of web designers (perfect for prototyping!). Secondly, by learning how to _write_ such a library, you will effectively learn how to provide an abstraction over the presentation layer of your application, which in turn comes in handy in just about any project (whether using Bootstrap or not).
+
+image::opa-bootstrap.png[link="http://bootstrap.opalang.org"]
+
+This time I'm not going to go into the details and instead will point you to the special page that we set up and that will show you all Bootstrap elements available via this library, annotated with code snippets used to render them. So head on to http://bootstrap.opalang.org and start learning now!
+
+If, on the other hand, you are more interested in writing such a library yourself, then I suggest you take a look at the https://github.com/MLstate/opalang/blob/master/stdlib/widgets/bootstrap/boostrap.opa[source code] of this module. If you've been paying attention to previous posts on this blog then I think you should have no difficulty in following it. And if I'm wrong please let me know in the comments and I'll try to help.
+
+Happy Bootstrap-powered coding!
