@@ -1,0 +1,5 @@
+[[chapter_normandy_hiring]]
+A start-up is seeking Opa engineers
+-----------------------------------
+
+Opa Developer Challenge results has <<chapter_challenge_results, just been announced>>, we hope all of you had lots of fun developing and showing off your skills in Opa... and right after the contest we have good news: an ambitious start-up in Normandy, France is looking for 2 Opa engineers, so how about proving your skills in a new job? More details can be found http://opalang.org/jobs.xmlt[here].
