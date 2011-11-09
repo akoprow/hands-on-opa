@@ -257,6 +257,12 @@ i18n=mk_hands_on_article(
   ; descr=<>How to create multilingual sites with Opa. And how to do so in a translators-friendly manner.</>
   ; ty={tutorial}
   })
+contest_results=mk_hands_on_article(
+  { at="2011/11/opa-developer-challenge-results.html"
+  ; title="Opa Developer Challenge: Results"
+  ; descr=<>Announcing results of the Opa Developer Challenge 2011.</>
+  ; ty={announcement}
+  })
 
 forms=mk_hands_on_article(
   { at=""
@@ -265,7 +271,7 @@ forms=mk_hands_on_article(
   ; ty={tutorial}
   })
 
-blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions, unit_conv, unit_conv_plus, licence_again, challenge_closing, opa_cloud, bootstrap_widgets, db_future, i18n ]
+blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions, unit_conv, unit_conv_plus, licence_again, challenge_closing, opa_cloud, bootstrap_widgets, db_future, i18n, contest_results ]
 
 // ===============================================================
 // manual examples
@@ -311,7 +317,7 @@ iMage : example =      { name="iMage"               port=5003 article=some(image
 watch_fr : example =   { name="watch_fragment"      port=5016 article=some(sessions)          srcs=@static_include_directory("examples/watch_fragment")      details={descr=watch_fr_descr deps=[]}}
 units : example =      { name="unit_converter"      port=5017 article=some(unit_conv)         srcs=@static_include_directory("examples/unit_converter")      details={invisible}}
 units_plus : example = { name="unit_converter_plus" port=5018 article=some(unit_conv_plus)    srcs=@static_include_directory("examples/unit_converter_plus") details={descr=units_descr deps=[units]}}
-hello_i18n : example = { name="hello_i18n"          port=5019 article=none                    srcs=@static_include_directory("examples/hello_i18n")          details={descr=i18n_descr deps=[]}}
+hello_i18n : example = { name="hello_i18n"          port=5019 article=some(i18n)              srcs=@static_include_directory("examples/hello_i18n")          details={descr=i18n_descr deps=[]}}
 //hello_forms :example = { name="hello_forms"         port=5028 article=none                    srcs=@static_include_directory("examples/hello_forms")         details={descr=hello_forms_descr deps=[]}}
 
 blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr, units, units_plus, hello_i18n /*, hello_forms*/ ]

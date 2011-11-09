@@ -10,7 +10,7 @@ We decided to give one *honorable mention* to:
 
 And the winners of the *main prizes* are:
 
-* The *3rd prize* and the ``Nintendo 3DS'' go to _Mads Hartmann Jensen_, the author of http://ns221022.ovh.net:5023[Opa-chess], a multiplayer chess game. The jury was impressed by the overall design of the game and sees a great potential for the app once optimized.
+* The *3rd prize* and the ``Nintendo 3DS'' go to _Mads Hartmann Jensen_, the author of http://ns221022.ovh.net:5026[Opa-chess], a multiplayer chess game. The jury was impressed by the overall design of the game and sees a great potential for the app once optimized.
 
 * The *2nd prize* and the ``iPad 2'' go to  _Tristan Sloughter_ and his http://ns221022.ovh.net:5022[OpaDo] to-do application. It's a clean, simple and easy-to-use application which just works. And in addition to being a modern benchmark of the expresiveness of a programming language or a framework, the series of blogs explaning the different steps of the development was highly appreciated.
 
@@ -18,6 +18,6 @@ And the winners of the *main prizes* are:
 
 image:contest-results.jpg[]
 
-Without any doubt, these Opa applications have a bright future as open source projects and even startups. We'll have the opportunity to talk about this here soon -- we don't want to spoil the surprise so can't tell more right now :).
+Without any doubt, these Opa applications have a bright future as open source projects and even startups. We'll have the opportunity to talk about this here soon -- we don't want to spoil the surprise so can't tell more right now :). In the meantime we'd like to encourage all the participants to http://opalang.org/see.xmlt[submit] their contest entries to the Apps section on http://opalang.org[Opa's homepage].
 
 We would like to heartily thank all the participants for their submissions and once again congratulate all the winners. We were impressed by the overall quality of the challenge submissions. We hope you had fun developing in Opa and... hope you'll continue making great applications in Opa!

@@ -64,21 +64,20 @@ include::dotCloud.adoc[]
 include::bootstrap_widgets.adoc[]
 
 include::db_roadmap.adoc[]
+
+include::i18n.adoc[]
 ////
 
 //include::image_p4_event_based_programming.adoc[]
 
-include::i18n.adoc[]
+include::challenge_results.adoc[]
 
 ////
 Pending posts
 -------------
 * Opa records
 * URL dispatching
-* Embedding resources
-* Parsing
 * Interactivity
-* Internationalization
 * Sessions: the core of Opa's communication
 * Dates (+ Date printing/parsing?)
 * Opa widgets: Date printer
