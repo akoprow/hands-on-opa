@@ -54,5 +54,9 @@ blog:
 reduce-binaries:
 	upx `find -name '*.exe'`
 
+.PHONY: send-to-monster
+send-to-monster:
+	rsync -r --progress --bwlimit=256 . ns221022.ovh.net:~/hands-on-opa
+
 .PHONY: deploy
-deploy: full-clean pack stop compile clean reduce-binaries
+deploy: full-clean pack stop compile clean reduce-binaries send-to-monster
