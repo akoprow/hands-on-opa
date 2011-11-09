@@ -1,0 +1,32 @@
+[[chapter_db_roadmap]]
+Opa's database and where it's heading
+-------------------------------------
+
+[icons=None, caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* About the current state of the Opa's internal database.
+* About what the future has in store for data storage and querying in Opa.
+=======================
+
+It's been roughly 4 months since we released https://github.com/MLstate/opalang[the sources of the Opa compiler] and what an exciting 4 months they were! The user base of Opa is growing steadily and we received plenty of feedback from you guys and this seems like a good place to express our gratitude for that. *Thank you all*. We value very highly our community and user feedback and we try our best to always react to it promptly. If we did not reply to your observations, our apologies but please know that we do read and process each and every feedback email we receive. And if you sent us a question to which we did not get a chance to answer yet, don't hesitate to throw it at us again as, similarly, we try to offer support for all the requests we get, but we're only humans and something may get lost in the ocean of questions that we get.
+
+Probably the one feature that was most commonly discussed in all the feedback that we receive is the database. To sum it up: you guys love the tight integration with the language and you hate its limitations when it comes to performing (efficiently) complex queries. And we agree with you. On both counts. Let me elaborate.
+
+Now
+~~~
+
+Many of you were complaining about lack of expressivity of the DB when it comes to querying and data-modeling capabilities and were saying that it's essentially a very simple key-value store. Indeed, that's how things look from the outside. In fact, there is more than that when one peeks under the hood. On our drawing boards we did extensively talk about _support for sets_: storing records that can be efficiently queried by a subset of its fields without the need to manually maintain indexes, as is the case now (in relational DB terms: think of multiple indexes on your tables). We also extensively talked about _links_, which is a way for expressing, well, links to structures stored at other parts of the DB (again, in relational terms, that would correspond to foreign indexes).
+
+I believe those two are by far the most missing features and having them would immensely improve usability of Opa's DB in practice. We were hard at work on both those features but neither was production-ready and both still required quite a bit of effort to get there and in the meantime...
+
+The future
+~~~~~~~~~~
+
+In the meantime many of you were asking us about interoperability with existing distributed database servers. This is important for a variety of reasons. Some of you have existing data that you want to connect to. Others are used to well-known DB engines and are not quite yet ready to switch to a completely new product _both_ for their code and data. Finally modern SOAs tend to rely on distributed databases seen as a service (possibly part of the hosting cloud infrastructure). And in fact for us developing a complete, generic database was never a goal in itself -- developing and maintaining the best web language is challenging enough :). Instead, our goal was _and is_ to store and process data in a situation when we know the program that handles it (and can take advantage of that), which is quite a different goal.
+
+That means that we decided for now to pause the work on the internal database and instead focus our efforts on interoperability of Opa with existing databases (we'll start with NoSQL systems, as they are a more natural fit for a language like Opa). Of course we are fully aware that what you liked about our DB was how well it was integrated with the language and we'll do our best to keep this in place. Another important aspect was type-safety of all database operations and the fact that DB code injection was not possible in Opa. We will strive to keep both of those features, by providing an abstraction layer between the language and the database. In fact, ideally database constructs will not change much (apart from being extended with extra features) only the underlying database engine will be different.
+
+We cannot yet present a time-line for this work but we want to assure all of you that, as far as the language is concerned, this is our top priority. So if you liked Opa's strong typing, automatically generated client-side code, it's conciseness, ease of moving the code between the server and the client and other Opa features, but were less than impressed with its storage capabilities -- show us some patience and we assure you that big changes are coming in that department. We'll keep you updated.
