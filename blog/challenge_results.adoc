@@ -1,4 +1,4 @@
-[[chapter_results]]
+[[chapter_challenge_results]]
 Opa Developer Challenge: results
 --------------------------------
 

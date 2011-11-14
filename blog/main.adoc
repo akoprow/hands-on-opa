@@ -66,6 +66,10 @@ include::bootstrap_widgets.adoc[]
 include::db_roadmap.adoc[]
 
 include::i18n.adoc[]
+
+include::challenge_results.adoc[]
+
+include::normandy_hiring.adoc[]
 ////
 
 //include::image_p4_event_based_programming.adoc[]
