@@ -1,0 +1,29 @@
+[[chapter_db_mongo_couch]]
+Opa support for CouchDB & MongoDB
+---------------------------------
+
+Two weeks ago we presented the <<chapter_db_roadmap,Roadmap for Opa's database>>. This is a sensitive topic to which we get plenty of emotional responses :), but indeed database is a very important part of (almost) any serious web application and indeed this is one aspect of Opa where there is room for improvement. Therefore I'm very happy that today I can tell you a bit more about the situation (no technical content yet, but that will be coming soon!).
+
+To begin with we will be concentrating on support for two databases: http://couchdb.apache.org[CouchDB] and http://www.mongodb.org[MongoDB].
+
+image::CouchDB-logo.png[float="left"]
+image::MongoDB-logo.png[float="right"]
+
+*CouchDB* is written in Erlang. It's a document-oriented database designed for replication and scalability. It is supported by commercial enterprises http://www.couchbase.com/[Couchbase] and https://cloudant.com[Cloudant].
+
+*MongoDB* is written in C++. It's a scalable, high-performance database and its data model is based on that of BSON documents. It is developed and supported by http://10gen.com[10gen].
+
+Both are open-source and both are among the best NoSQL databases available today. Therefore we are very excited to announce their coming support in Opa.
+
+What does that mean for Opa developers? It essentially means that for your applications you can now choose between Opa's internal database (great for quick prototyping) or either CouchDB or MongoDB (for production ready, data intensive applications).
+
+Technical tutorials will follow shortly, but let me tell you just a bit more about what do we mean by ``supporting'' those DB engines. As a first step we will be releasing drivers for those databases. That means we will make available Opa modules that will allow one to interact with those engines via a fixed API allowing to query and modify the content of the database. This is how things work in most other programming languages.
+
+However, we are aware that this is not what you are used to from Opa's internal DB. From all the feedback we received we know that what you particularly liked about the database in Opa is that it:
+
+* involves no external tools; just start your application and the DB engine starts with it;
+* is nicely integrated in the language, including simple syntax for database operations;
+* is capable of transparently storing any types of values from your program, so that no data mapping between the application and the database is necessary;
+* is type-checked together with the rest of the program, so that all database operations go through the same rigorous checks as the rest of the program, hence greatly reducing mistakes with regard to data manipulation.
+
+We want to assure you that we will do our best to gradually extend those features to CouchDB and MongoDB (and later possibly other engines). However, as they say, _``The Rome was not build in a day''_ :). Next week we hope to present you with tutorials on how to use CouchDB/MongoDB in your Opa programs. Stay tuned!
