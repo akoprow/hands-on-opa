@@ -269,6 +269,12 @@ hiring=mk_hands_on_article(
   ; descr=<></>
   ; ty={announcement}
   })
+db_mongo_couch=mk_hands_on_article(
+  { at="2011/11/opa-support-for-couchdb-mongodb.html"
+  ; title="Opa support for CouchDB & MongoDB"
+  ; descr=<>An overview of the upcoming Opa support for MongoDB and CouchDB.</>
+  ; ty={announcement}
+  })
 
 forms=mk_hands_on_article(
   { at=""
@@ -277,7 +283,7 @@ forms=mk_hands_on_article(
   ; ty={tutorial}
   })
 
-blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions, unit_conv, unit_conv_plus, licence_again, challenge_closing, opa_cloud, bootstrap_widgets, db_future, i18n, contest_results, hiring ]
+blog_articles = [hello_opa, hello_web, weekend_chat_1, interactivity, questions_1, db_intro, weekend_chat_2, challenge, image_intro, image_resources, challenge_reminder, trx, unit_testing, image_structuring, image_parsing, license_contribs, bootstrap, sessions, unit_conv, unit_conv_plus, licence_again, challenge_closing, opa_cloud, bootstrap_widgets, db_future, i18n, contest_results, hiring, db_mongo_couch ]
 
 // ===============================================================
 // manual examples

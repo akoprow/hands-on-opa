@@ -7,7 +7,7 @@ ZIPPED_EXAMPLES = $(foreach ex,$(EXAMPLES),examples/$(ex)/pack.zip)
 
 all: clean pack $(EXE)
 
-pack: $(ZIPPED_EXAMPLES)
+pack: full-clean $(ZIPPED_EXAMPLES)
 
 $(MAIN).exe: $(MAIN).opa data.opa examples.opa bash.opp
 	$(OPA) $^ -o $@
@@ -51,7 +51,7 @@ blog:
 	make -C blog blogspot
 
 .PHONY: reduce-binaries
-reduce-binaries:
+reduce-binaries: clean
 	upx `find -name '*.exe'`
 
 .PHONY: send-to-monster
@@ -59,4 +59,4 @@ send-to-monster:
 	rsync -r --progress --bwlimit=256 . ns221022.ovh.net:~/hands-on-opa
 
 .PHONY: deploy
-deploy: full-clean pack stop compile clean reduce-binaries send-to-monster
+deploy: pack stop compile reduce-binaries send-to-monster

@@ -70,11 +70,13 @@ include::i18n.adoc[]
 include::challenge_results.adoc[]
 
 include::normandy_hiring.adoc[]
+
+include::db_mongo_couch.adoc[]
 ////
 
 //include::image_p4_event_based_programming.adoc[]
 
-include::db_mongo_couch.adoc[]
+include::db_wiki.adoc[]
 
 ////
 Pending posts

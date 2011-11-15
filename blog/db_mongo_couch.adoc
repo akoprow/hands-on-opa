@@ -9,9 +9,9 @@ To begin with we will be concentrating on support for two databases: http://couc
 image::CouchDB-logo.png[float="left"]
 image::MongoDB-logo.png[float="right"]
 
-*CouchDB* is written in Erlang. It's a document-oriented database designed for replication and scalability. It is supported by commercial enterprises http://www.couchbase.com/[Couchbase] and https://cloudant.com[Cloudant].
+*CouchDB* is written in Erlang. It's a document-oriented database designed for replication and scalability.
 
-*MongoDB* is written in C++. It's a scalable, high-performance database and its data model is based on that of BSON documents. It is developed and supported by http://10gen.com[10gen].
+*MongoDB* is written in C++. It's a scalable, high-performance database and its data model is based on that of BSON documents.
 
 Both are open-source and both are among the best NoSQL databases available today. Therefore we are very excited to announce their coming support in Opa.
 
@@ -26,4 +26,4 @@ However, we are aware that this is not what you are used to from Opa's internal 
 * is capable of transparently storing any types of values from your program, so that no data mapping between the application and the database is necessary;
 * is type-checked together with the rest of the program, so that all database operations go through the same rigorous checks as the rest of the program, hence greatly reducing mistakes with regard to data manipulation.
 
-We want to assure you that we will do our best to gradually extend those features to CouchDB and MongoDB (and later possibly other engines). However, as they say, _``The Rome was not build in a day''_ :). Next week we hope to present you with tutorials on how to use CouchDB/MongoDB in your Opa programs. Stay tuned!
+We want to assure you that we will do our best to gradually extend those features to CouchDB and MongoDB (and later possibly other engines). However, as they say, _``Rome was not build in a day''_ :). Next week we hope to present you with tutorials on how to use CouchDB/MongoDB in your Opa programs. Stay tuned!
