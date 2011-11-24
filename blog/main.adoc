@@ -72,7 +72,10 @@ include::challenge_results.adoc[]
 include::normandy_hiring.adoc[]
 
 include::db_mongo_couch.adoc[]
+
+include::challenge_OpaTetris.adoc[]
 ////
+
 
 //include::image_p4_event_based_programming.adoc[]
 
