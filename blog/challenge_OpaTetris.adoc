@@ -1,0 +1,42 @@
+[[chapter_OpaTetris]]
+Spotlight on Opa app: OpaTetris by Matthieu Guffroy
+---------------------------------------------------
+
+Dear readers, last week we presented the <<chapter_challenge_results, results of the Opa Developer Challenge 2011>> and promised that we will tell you more about the best submitted applications. Today it's our pleasure to begin this ``Spotlight on Opa app'' series with the honorable mention in the competition that was awarded to OpaTetris -- a http://en.wikipedia.org/wiki/Tetris[Tetris game] developed by Matthieu Guffroy.
+
+What we especially like about this app is that it's a very nice show-case of the http://en.wikipedia.org/wiki/Canvas_element[HTML5 Canvas] element for game rendering that does not depend on external plug-ins such as http://en.wikipedia.org/wiki/Adobe_Flash[Adobe Flash].
+
+As a bonus Challenge reward we helped Matthieu improve his game by refreshing its design and slightly refining the game logic to improve its responsiveness. For all you curious developers out there, later on we will try to offer a tutorial on how to develop this kind of games in Opa.
+
+Below we present the application itself and a short interview with Matthieu.
+
+Try OpaTetris!
+~~~~~~~~~~~~~~
+
+For your convenience we've embedded the game in this post, but for best results we suggest you open it by following http://ns221022.ovh.net:5023[this link].
+
+++++
+<IFRAME height="600" width="700" src="http://ns221022.ovh.net:5023/"></IFRAME>
+++++
+
+Interview with the author: Matthieu Guffroy
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:guest: Matthieu Guffroy
+:g: MG
+
+image::mattgu74.jpg[float="left", link="http://mattgu.com"]
+
+*me*: _Can you tell us a bit about yourself?_ +
+*http://mattgu.com[{guest}]*: Hello, my name is Matthieu. It's the second time I make an appearance on this blog so if you want to know a bit more about me I suggest you take a look at my <<chapter_opa_chat_mattgu, previous interview>>. Only my age has changed since I'm 20 years old now, but I'm still a student of Computer Science at the University of Technology of Compiègne in France.
+
+*me*: _Can you tell us a bit about OpaTetris, your submission for the contest?_ +
+*{g}*: At the beginning, back in the early days of Opa, OpaTetris was just a test application. I think the best way to learn is to practice, so when Opa was out I have started some projects in it and OpaTetris is one of them. I also did https://github.com/mattgu74/OpaCms[OpaCms], https://github.com/mattgu74/OpaPow4[OpaPow4] and https://github.com/mattgu74/opaCas[OpaCas] (a library to connect users with CAS -- a single sign-in platform used at my university). +
+Due to a lot of other obligations it was difficult for me to find enough time to participate in the contest, so in the end I decided to submit OpaTetris. But I do hope to one day find time to code more in Opa; one of the things on my to-do list is a web analytics app (similar to http://piwik.org/[Piwik]). +
+With this nomination of OpaTetris, I will try in a few days (after my exams) to look at it again and improve some aspects. For instance I want to add scoreboard and maybe implement a multiplayer option (say, something similar to http://en.wikipedia.org/wiki/TetriNET[TetriNET]).
+
+*me*: _How did you like programming in Opa?_ +
+*{g}*: It's so much fun coding with Opa... I'm in love ^^ +
+As an example let me tell you a bit about a university project that I did in Opa -- https://github.com/mattgu74/SkiUTC[SkiUTC]. SkiUTC is an association at my university organizing a one week ski trip every winter for approximately 300 students (310 this year). I decided to code its website in Opa. It's not just a simple website presenting our activity, but also registering students, letting them choose apartments, processing the payments etc. +
+Then one day there is the registration opening on the website. At this very moment everyone wants to be the first in order to have a place and the website have received more than 400 visitors during a single minute! All these visitors have registered an account, filled a user-profile, selected a package... In the world of PHP in such circumstances I'm used to the app being very slow or even to server crashes and yet in Opa there was no problem. I was very impressed. +
+After this experience I would also like to say a word about the DB. I have read lot of criticism from users. But in my case I have been really satisfied with it. It's sure it's not perfect and sometimes you have to be smart to make it happy. But for the most common cases of web projects I think it's largely usable.
