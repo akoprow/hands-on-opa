@@ -1,0 +1,32 @@
+[[chapter_OpaChess]]
+Spotlight on Opa app: OpaChess by Mads Hartmann Jensen
+------------------------------------------------------
+
+Try OpaChess!
+~~~~~~~~~~~~~~
+
+For your convenience we've embedded the game in this post, but for best results we suggest you open it by following http://opachess-opalang.dotcloud.com[this link].
+
+++++
+<IFRAME height="800" width="1000" src="http://opachess-opalang.dotcloud.com"></IFRAME>
+++++
+
+Interview with the author: Mads Hartmann Jensen
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:guest: Mads Hartmann Jensen
+:g: MHJ
+
+image::mads379.jpg[float="left", link="http://mads379.github.com/"]
+
+*me*: _Can you tell us a bit about yourself? What's your experience with web programming? Favorite languages? Web frameworks?_ +
+*http://mads379.github.com[{guest}]*: My name is Mads Hartmann Jensen, I'm 22 and I’m getting my masters degree in Computer Science at the University of Copenhagen. I’m fascinated by programming languages, especially statically typed functional ones. +
+I've tried a couple of different web frameworks but currently my favorite one is http://liftweb.net[Lift] (written in Scala). I like it because it allows me to solve a handful of http://seventhings.liftweb.net/[hard problems easily]. In many ways Opa and Lift solve the same problems and my bias towards Lift might very well be based on familiarity. One thing, however, that Lift currently does better than Opa is its http://www.assembla.com/spaces/liftweb/wiki/View_First[``view first'' approach] and http://seventhings.liftweb.net/templates[designer friendly templates]. +
+I think it's hard to pick a favorite programming language. I find several languages enjoyable to work with (Scala, Erlang, Opa, Ruby, Haskell) depending on the task. My first pick is usually Scala, though, as I'm very familiar with the ecosystem and know people in the community that are very helpful if I run into problems. This is not to say that the Opa community isn't helpful -- I was thrilled by how fast people helped me on the Opa mailing list when I got into problems or found bugs in the Opa compiler (that happened only once or twice).
+
+*me*: _Can you tell us a bit about your submission for the contest? What are your future plans for it?_ +
+*{g}*: I developed a Chess game. I wanted to create a multiplayer game because Opa makes it so easy to set up communication between clients and due to lack of inspiration, I picked Chess ;). +
+If I find the time to work more on the application I would have to clean up the code slightly (currently some state is kept in the markup which isn't ideal) and I would have to figure out why Firefox doesn't like it. When that is done I would optimize it for mobile device and make sure that you can leave/resume games so you could have many long-time running game with different friends.
+
+*me*: _How did you like programming in Opa? Was it different than other technologies you know?_ +
+*{g}*:  I've had some programming experience in Scala, F# and Haskell so I found Opa to be really easy to pick up. Many of the approaches used in Opa are similar to those of Lift when it comes to ajax/comet and binding event handlers so it was more a matter of figuring out how Opa does things rather then learning new concepts. Opa's database model, however, was new to me but it is so nicely integrated in the language that it just took a couple of minutes reading the documentation to get up and running.
