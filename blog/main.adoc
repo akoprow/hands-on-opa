@@ -74,12 +74,21 @@ include::normandy_hiring.adoc[]
 include::db_mongo_couch.adoc[]
 
 include::challenge_OpaTetris.adoc[]
+
+include::fooh.adoc[]
 ////
 
+include::challenge_OpaChess.adoc[]
+
+include::challenge_OpaDo.adoc[]
 
 //include::image_p4_event_based_programming.adoc[]
 
-include::db_wiki.adoc[]
+//include::new_syntax.adoc[]
+
+//include::js_crash_course.adoc[]
+
+//include::db_wiki.adoc[]
 
 ////
 Pending posts

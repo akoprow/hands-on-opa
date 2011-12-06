@@ -4,7 +4,7 @@ Spotlight on Opa app: OpaChess by Mads Hartmann Jensen
 
 Dear readers, today we continue the series of ``Spotlight on Opa app'' by continuing with the presentation of the winning applications of the Opa Developer Challenge 2011. Last week we <<chapter_OpaTetris, presented OpaTetris>> -- the honorable mention. Today it's time for the 3rd price in the Challenge that was awarded to OpaChess -- a multiplayer game of chess developed by Mads Hartmann Jensen.
 
-We really liked this app, especially it's multiplayer-aspect which nicely utilizes one of the strong aspects of Opa: ease of setting up communication between different parties. It's also a fairly complex application, with login/registration, chat and non-trivial game logic. And it has a great design! (we did not change it in any way, as we really like what Mads did). The main criticism was about some compatibility issues; in particular the game doesn't work in Firefox.
+We really liked this app, especially it's multiplayer-aspect which nicely utilizes one of the strong aspects of Opa: ease of setting up communication between different parties. It's also a fairly complex application, with login/registration, chat and non-trivial game logic. And it has a great design! (we did not change it in any way, as we really like what Mads did). The main criticism was about some compatibility issues; in particular the game didn't work in Firefox (we fixed it since).
 
 Ok, time to take a look at the application and below a short interview with Mads.
 
@@ -32,7 +32,7 @@ I think it's hard to pick a favorite programming language. I find several langua
 
 *me*: _Can you tell us a bit about your submission for the contest? What are your future plans for it?_ +
 *{g}*: I developed a Chess game. I wanted to create a multiplayer game because Opa makes it so easy to set up communication between clients and due to lack of inspiration, I picked Chess ;). +
-If I find the time to work more on the application I would have to clean up the code slightly (currently some state is kept in the markup which isn't ideal) and I would have to figure out why Firefox doesn't like it. When that is done I would optimize it for mobile device and make sure that you can leave/resume games so you could have many long-time running game with different friends.
+If I find the time to work more on the application I would have to clean up the code slightly (currently some state is kept in the markup which isn't ideal). When that is done I would optimize it for mobile device and make sure that you can leave/resume games so you could have many long-time running game with different friends.
 
 *me*: _How did you like programming in Opa? Was it different than other technologies you know?_ +
 *{g}*:  I've had some programming experience in Scala, F# and Haskell so I found Opa to be really easy to pick up. Many of the approaches used in Opa are similar to those of Lift when it comes to ajax/comet and binding event handlers so it was more a matter of figuring out how Opa does things rather then learning new concepts. Opa's database model, however, was new to me but it is so nicely integrated in the language that it just took a couple of minutes reading the documentation to get up and running.
