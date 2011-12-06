@@ -1,0 +1,57 @@
+[[chapter_box]]
+Spotlight on Opa app: box by Vimalkumar Jeyakumar
+-------------------------------------------------
+
+Try box!
+~~~~~~~~
+
+For your convenience we've embedded the game in this post, but for best results we suggest you open it by following http://box-opalang.dotcloud.com[this link].
+
+++++
+<IFRAME height="800" width="700" src="http://box-opalang.dotcloud.com"></IFRAME>
+++++
+
+Interview with the author: Vimalkumar Jeyakumar
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:guest: Vimalkumar Jeyakumar
+:g: VJ
+
+image::[float="left", link=""]
+
+*me*: _Can you tell us a bit about yourself? What's your experience with web programming?_ +
+*{guest}*: I am Vimal, and am currently a student pursuing my PhD in Computer Science at Stanford University. I started web programming since my
+undergraduate days with PHP. After that, I had a chance to maintain a high traffic website for two of our college technical festivals, which also got me interested in web designing. I really like PHP as it's very easy to begin, especially if you're coming from a world of C/C++. But the exercise of building and maintaining a large website made me realise how much the web-admin has to keep in mind! +
+
+*me*: _Favorite languages? Web frameworks?_ +
+*{g}*:  Frameworks: After PHP, I started experimenting with Ruby on Rails and Django. I found Rails confusing at the time and learnt Django, on
+which I built a website to evaluate submissions for an online programming contest (much like http://spoj.pl). I had previously hacked on a similar website using PHP, and hence the benefits of Django were very clear; the framework helped me think differently about the application than mere requests, responses and database queries. I also ended up learning Rails and it has helped me understand how modern web applications are built. +
+The above frameworks like Django, Rails and mini-frameworks like Flask, Sinatra were quite different from another contending framework: GWT. It took a while to understand, but the approach of treating a webapp as a single application which gets later split into a client+server side component interacting with RPCs was impressive. I never really used GWT, but I liked the idea. And when I saw Opa, I could relate to some of its principles. +
+As you can see, I have tried several frameworks, with some understanding of the benefits of each.  When faced with a project, I try to pick the framework that would best suited for the project at hand. But most of the time, I need something extremely simple. Hence, I really like the simplicity of frameworks like Flask/Sinatra. +
+Languages: I spend most of my time programming in C, as I do a bit of kernel programming. In userspace, it's Python.
+
+*me*: _Can you tell us a bit about your submission for the contest? How did you come up with the idea? What are your future plans with respect to the application?_ +
+*{g}*: I stumbled upon Opa as a new web-app framework on Hacker News, but didn't really find a reason to invest learning ``yet-another-framework/language'' until I came across the competition. I love competitions! Given the uniqueness of Opa, I was not looking for something totally new, but a nice application that would benefit from those unique features (so that I'll actually learn Opa). I also thought the app should be easy to relate to and be simple so that I don't get bogged down by complexity. Hence the idea of an anonymous, easy to use file sharing service, as:
+
+* it has real-time notifications (using the Network.Cloud construct)
+* it is extremely simple to understand; so I don't have to think about sessions, user auth, and all that stuff! ;)
+* it stresses the database (to store files)
+
+Currently, I have some ideas of features that I wanted to add for the contest, but couldn't due to the lack of time:
+
+* Adding drag-n-drop feature.
+* Email/SMS notifications for added files (what if you forget your random box id!).
+* Instant previews for image files, instant streaming for video files, etc!
+
+*me*: _How did you like programming in Opa? (was it different than other technologies you know? Anything that you particularly liked? Anything that could be improved?_ +
+*{g}*:  I have a soft corner for Functional Programming Languages, and it was nice to recollect my previous short stint with OCaml when I programmed in Opa. Pluses aside, here are some pain points with Opa: +
+
+* Opa takes a LONG time to compile, really long.
+* Opa takes a LOT of memory to compile, hence my old Macbook pro just trashes and becomes unusable while compiling apps.
+
+Fixing these two should make programming with Opa more fun! A few other cribs:
+
+* Access to low level functionality: I don't believe abstracting everything away is the best choice. For example, I wanted to store the uploaded files on the disk, and not the database. I couldn't find a file system API (or, maybe I didn't look properly :-))
+* Documentation is good, but would be much better with short examples for quick understanding. Thankfully, due to Opa's type system, I was able to figure out a way to compose functions.
+* A way to warn users about the ``automatic client/server separation''. Not all errors are captured by the current type system; I had a weird issue while testing, where my uploaded files would cause an XML error due to invalid characters when I loaded a page. I later realised that when I was manipulating the DOM, the function used a ``file'' object that contained the stored file data as well. So, every page load caused all the uploaded files to be transferred to the client browser!! That is no file-sharing app!! :-)  A ``lazy'' approach to transferring values would have solved the problem. Is it possible to incorporate this into Opa?
+* It would be helpful if the documentation also has details about the low level implementation details. I firmly believe that knowing what goes on underneath is really important to building a nice application.
