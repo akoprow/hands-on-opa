@@ -1,0 +1,16 @@
+Opa Hackathon is coming!
+------------------------
+
+*What*: An Opa Hackathon
+
+*When*: _Saturday, Dec 3rd, 1pm-7pm_ (reserve the date in your calendar:
++++
+<a href="http://www.google.com/calendar/event?action=TEMPLATE&text=FOOH!%3A%20First%20Official%20Opa%20Hackathon&dates=20111203T210000Z/20111204T030000Z&details=The%20First%20Official%20Opa%20Hackathon%0A%0AAddress%3A%0ASilicon%20Valley%20CloudCenter%0A222%20Caspian%20Dr.%2C%20(entrance%20on%20Borregas%20Street%0ASunnyvale%2C%20CA%2094089&location=Silicon%20Valley%20CloudCenter&trp=true&sprop=http%3A%2F%2Fopalang.org&sprop=name:Opa" target="_blank"><img style="border: none; padding: 0px; display: inline; vertical-align: middle" src="http://www.google.com/calendar/images/ext/gc_button6.gif" alt="0" border="0"></a>
++++
+)
+
+*Where*: _Sunnyvale, CA_
+
+*Why do you want to go*: Free candy, pizzzzaaaa, some unique Opa gifts ;)... and of course _tons of programming fun with Opa_.
+
+More info on the http://www.meetup.com/cloudcomputing/events/42477082/?a=wm1&rv=wm1[Meetup page] of the event!
