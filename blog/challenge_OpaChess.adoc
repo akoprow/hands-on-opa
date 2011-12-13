@@ -23,8 +23,9 @@ Interview with the author: Mads Hartmann Jensen
 :guest: Mads Hartmann Jensen
 :g: MHJ
 
-image::mads379.jpg[float="left", link="http://mads379.github.com/"]
-
+++++
+<a href="http://www.sidewayscoding.com"><img src="img/author_mads_jensen.jpg" style="float:left; margin-right: 15px" /></a>
+++++
 *me*: _Can you tell us a bit about yourself? What's your experience with web programming? Favorite languages? Web frameworks?_ +
 *http://mads379.github.com[{guest}]*: My name is Mads Hartmann Jensen, I'm 22 and I’m getting my masters degree in Computer Science at the University of Copenhagen. I’m fascinated by programming languages, especially statically typed functional ones. +
 I've tried a couple of different web frameworks but currently my favorite one is http://liftweb.net[Lift] (written in Scala). I like it because it allows me to solve a handful of http://seventhings.liftweb.net/[hard problems easily]. In many ways Opa and Lift solve the same problems and my bias towards Lift might very well be based on familiarity. One thing, however, that Lift currently does better than Opa is its http://www.assembla.com/spaces/liftweb/wiki/View_First[``view first'' approach] and http://seventhings.liftweb.net/templates[designer friendly templates]. +

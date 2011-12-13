@@ -76,15 +76,21 @@ include::db_mongo_couch.adoc[]
 include::challenge_OpaTetris.adoc[]
 
 include::fooh.adoc[]
+
+include::new_syntax.adoc[]
 ////
 
+////
 include::challenge_OpaChess.adoc[]
 
 include::challenge_OpaDo.adoc[]
 
-//include::image_p4_event_based_programming.adoc[]
+include::challenge_box.adoc[]
+////
 
-//include::new_syntax.adoc[]
+include::opa_vs_node_js.adoc[]
+
+//include::image_p4_event_based_programming.adoc[]
 
 //include::js_crash_course.adoc[]
 

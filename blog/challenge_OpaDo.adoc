@@ -17,8 +17,9 @@ Interview with the author: Tristan Sloughter
 :guest: Tristan Sloughter
 :g: TS
 
-image::[float="left", link=""]
-
+++++
+<a href="http://blog.erlware.org/author/kungfooguru"><img src="img/author_tristan_sloughter.jpg" style="float:left; margin-right: 15px" /></a>
+++++
 *me*: _Can you tell us a bit about yourself? What's your experience with web programming? Favorite languages? Web frameworks?_ +
 *{guest}*: I'm Tristan Sloughter, and I am a professional working full-time for a startup in Chicago (eCDMarket) and on the side on a startup of my own (ClaimsTrade). Both are fully implemented in Erlang, my favorite language. I've been an Erlang programmer since college and have been obsessed with it ever since. For web frameworks there are a number in Erlang, but none have suited my needs or been based on OTP standards enough, so I started Maru, which is still very much a work in progress and is developed in parallel with my development of real world sites in Erlang.
 

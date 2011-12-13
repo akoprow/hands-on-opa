@@ -17,8 +17,9 @@ Interview with the author: Vimalkumar Jeyakumar
 :guest: Vimalkumar Jeyakumar
 :g: VJ
 
-image::[float="left", link=""]
-
+++++
+<a href="http://www.stanford.edu/~jvimal/"><img src="img/author_vimal_jeyakumar.png" style="float:left; margin-right: 15px" /></a>
+++++
 *me*: _Can you tell us a bit about yourself? What's your experience with web programming?_ +
 *{guest}*: I am Vimal, and am currently a student pursuing my PhD in Computer Science at Stanford University. I started web programming since my
 undergraduate days with PHP. After that, I had a chance to maintain a high traffic website for two of our college technical festivals, which also got me interested in web designing. I really like PHP as it's very easy to begin, especially if you're coming from a world of C/C++. But the exercise of building and maintaining a large website made me realise how much the web-admin has to keep in mind! +
@@ -55,3 +56,10 @@ Fixing these two should make programming with Opa more fun! A few other cribs:
 * Documentation is good, but would be much better with short examples for quick understanding. Thankfully, due to Opa's type system, I was able to figure out a way to compose functions.
 * A way to warn users about the ``automatic client/server separation''. Not all errors are captured by the current type system; I had a weird issue while testing, where my uploaded files would cause an XML error due to invalid characters when I loaded a page. I later realised that when I was manipulating the DOM, the function used a ``file'' object that contained the stored file data as well. So, every page load caused all the uploaded files to be transferred to the client browser!! That is no file-sharing app!! :-)  A ``lazy'' approach to transferring values would have solved the problem. Is it possible to incorporate this into Opa?
 * It would be helpful if the documentation also has details about the low level implementation details. I firmly believe that knowing what goes on underneath is really important to building a nice application.
+
+Pains apart, I think some of the great pluses of Opa are:
+
+* It has great abstractions to make an impressive start.  The distributed database, not having to worry about consistency, request load balancing, etc., makes developer life easy.  If your website becomes viral, chances are less that you'd have to rewrite it if you had chosen Opa over other frameworks!
+* It's functional: Constraining a programmer to the discipline of a functional language is an investment that reaps benefits as the projects become much bigger.  What I really liked about Opa is that many popular JavaScript libraries and CSS styling have been wrapped into a nice Opa interface that lets you think in Opa style.
+* Static typing helps catch most bugs at compile time rather than a stack trace at run time.
+* The client-server split is a great boon as well, because it's hard to get RPCs right without using some reliable library.
