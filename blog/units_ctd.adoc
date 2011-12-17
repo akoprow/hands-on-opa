@@ -1,7 +1,7 @@
 Units of measurement: improving UX
 ----------------------------------
 
-After presenting the <<chapter_units, previous post>> about a simple http://tutorials.opalang.org/unit_convert[unit converter] we received some feedback saying that our interface of that example was not perfect; it seems that people don't like to http://www.google.com/instant/[press buttons] anymore :). While the focus of that example was on other things (UI design patterns and dealing with custom types) we're here to please so in this post we will improve the interface and along the way hopefully learn a thing or two.
+After presenting the <<chapter_units, previous post>> about a simple http://unit_conv.tutorials.opalang.org[unit converter] we received some feedback saying that our interface of that example was not perfect; it seems that people don't like to http://www.google.com/instant/[press buttons] anymore :). While the focus of that example was on other things (UI design patterns and dealing with custom types) we're here to please so in this post we will improve the interface and along the way hopefully learn a thing or two.
 
 [icons=None, caption="Summary"]
 [NOTE]
@@ -63,5 +63,5 @@ include::../examples/unit_converter_plus/ui.opa[]
 ++++
 </div>
 </div>
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/unit_converter_plus">Run</A></span>
+<span class="run"><A target="_blank" href="http://unit_conv_plus.tutorials.opalang.org">Run</A></span>
 ++++

@@ -2,7 +2,7 @@
 iMage: part 3, Parsing external configuration
 ---------------------------------------------
 
-Ok, as promised earlier, let's proceed with our walk-through of the http://tutorials.opalang.org/iMage[iMage] app. In this post we will use our freshly obtained skills about parsing in Opa and will extend the app with external configuration, which will contain the images to display as well as their basic info (author, title, description).
+Ok, as promised earlier, let's proceed with our walk-through of the http://iMage.tutorials.opalang.org[iMage] app. In this post we will use our freshly obtained skills about parsing in Opa and will extend the app with external configuration, which will contain the images to display as well as their basic info (author, title, description).
 
 [caption="Summary"]
 [NOTE]
@@ -231,9 +231,9 @@ server = Server.of_bundle([resources_css])
 Putting it all together
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Putting it all together we arrive at a 5-th incarnation of iMage, presented below. I did not discuss the changes in +slideshow.opa+ required after changing from a map of image resources to +WSlideshow.config+ and in the presentation of images to also show the captions (author, title, description) but both are trivial and should not be very surprising. As usual, click run to see the app in action. Or http://tutorials.opalang.org/iMage-05/?images=https://raw.github.com/gist/1085758/b2e0e9841731efb42723e967bff5cea75f023a36/img-data.txt[click here] to see it running with a custom argument in the URL (+http://tutorials.opalang.org/iMage-05/?images=https://raw.github.com/gist/1085758/b2e0e9841731efb42723e967bff5cea75f023a36/img-data.txt+, so with https://raw.github.com/gist/1085758/b2e0e9841731efb42723e967bff5cea75f023a36/img-data.txt[this] configuration file). If you feel like creating your own slideshow to watch with iMage, please give me a shout in the comments :)
+Putting it all together we arrive at a 5-th incarnation of iMage, presented below. I did not discuss the changes in +slideshow.opa+ required after changing from a map of image resources to +WSlideshow.config+ and in the presentation of images to also show the captions (author, title, description) but both are trivial and should not be very surprising. As usual, click run to see the app in action. Or http://image-05.tutorials.opalang.org/?images=https://raw.github.com/gist/1085758/b2e0e9841731efb42723e967bff5cea75f023a36/img-data.txt[click here] to see it running with a custom argument in the URL (+http://image-05.tutorials.opalang.org/?images=https://raw.github.com/gist/1085758/b2e0e9841731efb42723e967bff5cea75f023a36/img-data.txt+, so with https://raw.github.com/gist/1085758/b2e0e9841731efb42723e967bff5cea75f023a36/img-data.txt[this] configuration file). If you feel like creating your own slideshow to watch with iMage, please give me a shout in the comments :)
 
-image::iMage.png[link="http://tutorials.opalang.org/iMage-05"]
+image::iMage.png[link="http://image-05.tutorials.opalang.org"]
 
 ++++
 <div class="ftabs">
@@ -258,7 +258,7 @@ include::../examples/iMage-05/slideshow.opa[]
 ++++
 </div>
 </div>
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-05">Run</A></span>
+<span class="run"><A target="_blank" href="http://image-05.tutorials.opalang.org">Run</A></span>
 ++++
 
 We still have some ground to cover with iMage, but it's mostly eye-candy that is left. Therefore I'm starting to think about a next app for a next walk-through on the blog -- ideas/suggestions/requests very welcome!

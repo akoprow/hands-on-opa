@@ -76,7 +76,7 @@ The above explanation should be enough to write a simple widget allowing one to 
 include::../examples/hello_i18n/hello_i18n.opa[]
 ------------------------
 ++++
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/hello_i18n">Run</A></span>
+<span class="run"><A target="_blank" href="http://i18n.tutorials.opalang.org">Run</A></span>
 ++++
 
 The +@i18n+ directive is a nice, clean translation solution embedded in the language. It has the great advantage that it's not restricted to string translations and easily allows translating XHTML fragments or images (i.e. providing different images depending on user's preferred language). Another great aspect is that translation functions are just regular Opa functions and, as such, can enjoy all the power of the language to construct its output and can be passed around as (higher-order) function arguments; in fact we already took advantage of that in the +WI18n.select_lang+ function above, where both +lang_to_string+ and +lang_to_xhtml+ are translation functions and where we write: +@i18n(lang_to_xhtml)+.

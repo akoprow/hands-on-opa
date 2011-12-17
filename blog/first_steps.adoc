@@ -25,7 +25,7 @@ Here it is:
 include::../examples/hello_web/hello_web.opa[]
 ------------------------
 ++++
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/hello_web">Run</A></span>
+<span class="run"><A target="_blank" href="http://hello_web.tutorials.opalang.org">Run</A></span>
 ++++
 
 That's the web equivalent of the infamous http://en.wikipedia.org/wiki/Hello_world[``Hello world'' program], only this program instead of printing ``Hello world'' on the console

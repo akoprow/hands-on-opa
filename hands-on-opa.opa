@@ -144,7 +144,7 @@ show_example(ex : example) =
       | [] -> <>This example is explained in the {show_article(article)}</>
       | _ -> <>This example is introduced in the {show_article(article)} and then further explained in the following ones:<ol>{List.map(show_dep, dep_arts)}</></>
     xhtml =
-      run = "http://tutorials.opalang.org/{ex.name}"
+      run = "http://{ex.name}.tutorials.opalang.org"
       <article class="opalang_apps">
         <a target="_blank" href="{run}">
           <img src="{screen}" class="opalang_apps_screenshot" />

@@ -62,7 +62,7 @@ Remember the simple watch example we developer <<chapter_interactivity,a while b
 include::../examples/watch/watch.opa[]
 ------------------------
 ++++
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/watch">Run</A></span>
+<span class="run"><A target="_blank" href="http://watch.tutorials.opalang.org">Run</A></span>
 ++++
 
 It's a very simple code but it has one annoying feature: we need to repeat the id of the +<span>+ element; first we mention it when we create the element in the +page()+ function and then when we modify the time in +show_time()+. In order to avoid easy mistakes that id was factored out as a constant. That's a good practice but let's see a different approach with sessions.
@@ -153,7 +153,7 @@ include::../examples/watch_fragment/fragment.opa[]
 ++++
 </div>
 </div>
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/watch_fragment">Run</A></span>
+<span class="run"><A target="_blank" href="http://watch_fragment.tutorials.opalang.org">Run</A></span>
 ++++
 
 The +show_time+ function converts a +Date.date+ to its +xhtml+ representation. The +on_msg+ function reacts to notifications send to the timer fragment -- we don't use the state, handle only one type of messages, namely requests to update the timer +{update=date}+ and instruct the fragment to re-render itself with +show_time(date)+.

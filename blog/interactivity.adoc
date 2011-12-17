@@ -143,7 +143,7 @@ The +Id+ above is a module (indicated by double curly braces). We will learn mor
 include::../examples/watch/watch.opa[]
 ------------------------
 ++++
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/watch">Run</A></span>
+<span class="run"><A target="_blank" href="http://watch.tutorials.opalang.org">Run</A></span>
 ++++
 ////
 The code below would be nicer, but I have no clue how to make it open in a new window
@@ -179,7 +179,7 @@ One minor remark concerning our timer program. Suppose that we moved the above +
 include::../examples/watch_slow/watch_slow.opa[]
 ------------------------
 ++++
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/watch_slow">Run</A></span>
+<span class="run"><A target="_blank" href="http://watch_slow.tutorials.opalang.org">Run</A></span>
 ++++
 
 Does that change anything? Well, it's still a perfectly valid Opa program, but note what I said earlier that slicing is done on a per-function basis. Where will the +page()+ function go? It's used by the server to prepare the page to serve and hence must be on the server and therefore so will be its local +show_time()+ function. That means that this variant of our program... yes, will display server time and will call the server every single second. Try running this demo and observe the requests made to the server (you know how, right?).

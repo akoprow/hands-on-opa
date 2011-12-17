@@ -334,5 +334,5 @@ include::../examples/unit_converter/ui.opa[]
 ++++
 </div>
 </div>
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/unit_converter">Run</A></span>
+<span class="run"><A target="_blank" href="http://unit_conv.tutorials.opalang.org">Run</A></span>
 ++++

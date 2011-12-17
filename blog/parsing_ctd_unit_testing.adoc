@@ -228,7 +228,7 @@ Ok, now let's turn this parser into a small but fully functional calculator. I h
 include::../examples/calculator/calculator.opa[]
 ---------------------
 ++++
-<span class="see"><A target="_blank" href="http://tutorials.opalang.org/calculator">Run</A></span>
+<span class="see"><A target="_blank" href="http://calculator.tutorials.opalang.org">Run</A></span>
 ++++
 
-In the next post -- back to http://tutorials.opalang.org/iMage[iMage]. Btw. maybe you noticed that I improved a bit the ``hosting'' of the examples from this blog. Now you will only see one button -- ``Run'' -- which will take you to the running application with a header on top that will allow you to easily download (and soon: browse) the code of the examples etc. I'm planning to turn it, bit by bit, into a repository of examples and tutorials about Opa. Feedback, as always, welcome. (And, yes, you got it right: it is written in Opa :).
+In the next post -- back to http://image.tutorials.opalang.org[iMage]. Btw. maybe you noticed that I improved a bit the ``hosting'' of the examples from this blog. Now you will only see one button -- ``Run'' -- which will take you to the running application with a header on top that will allow you to easily download (and soon: browse) the code of the examples etc. I'm planning to turn it, bit by bit, into a repository of examples and tutorials about Opa. Feedback, as always, welcome. (And, yes, you got it right: it is written in Opa :).

@@ -4,14 +4,14 @@ iMage: part 4, Event-based programming
 
 I know, long time no post... There's a lot happening here at MLstate, some of which I hope to talk about shortly on the blog, but all that means that sometimes it's just hard to find time to get some fresh, new content ready for the blog.
 
-In a <<chapter_sessions, recent post>> I talked about the importance of sessions. To illustrate that in this post I'll show you first how to modify the http://tutorials.opalang.org/iMage[iMage application] we <<chapter_image_p3_parsing, had so far>> to use sessions as the way of invoking and handling events. Then we'll extend this application with a new feature: it will automatically accomodate to the size of the browser window. I'll also explain why it would be difficult to add this feature in the previous non-sessions-based setting. Ready?
+In a <<chapter_sessions, recent post>> I talked about the importance of sessions. To illustrate that in this post I'll show you first how to modify the http://image.tutorials.opalang.org[iMage application] we <<chapter_image_p3_parsing, had so far>> to use sessions as the way of invoking and handling events. Then we'll extend this application with a new feature: it will automatically accomodate to the size of the browser window. I'll also explain why it would be difficult to add this feature in the previous non-sessions-based setting. Ready?
 
 [caption="Summary"]
 [NOTE]
 =======================
 You will learn:
 
-* More about sessions by using them for the http://tutorials.opalang.org/iMage[iMage application].
+* More about sessions by using them for the http://image.tutorials.opalang.org[iMage application].
 * How to accomodate your layout to the size of the browser window (updating it upon window resizal).
 =======================
 
@@ -112,7 +112,7 @@ include::../examples/iMage-06/slideshow_parser.opa[]
 ++++
 </div>
 </div>
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-06">Run</A></span>
+<span class="run"><A target="_blank" href="http://image-06.tutorials.opalang.org">Run</A></span>
 ++++
 
 Layout reactive to window resizing
@@ -150,7 +150,7 @@ include::../examples/iMage-07/slideshow_parser.opa[]
 ++++
 </div>
 </div>
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-07">Run</A></span>
+<span class="run"><A target="_blank" href="http://image-07.tutorials.opalang.org">Run</A></span>
 ++++
 
 What next?

@@ -32,7 +32,7 @@ Ui = {{
       xhtml(~{onchange}) =
         xhtml = <input id={id} type="text" onkeyup={_ -> onchange()} />
         if params.readonly then
-          Xhtml.add_attribute("readonly", "readonly", xhtml)
+          Xhtml.add_attribute_unsafe("readonly", "readonly", xhtml)
         else
           xhtml
       value =

@@ -2,7 +2,7 @@
 iMage: part 2, Files, packages, modules
 ---------------------------------------
 
-Time to go back to the http://tutorials.opalang.org/iMage[iMage] app walk-through. I was planning to put into practice our knowledge about parsing and implement external configuration for our iMage app, but this will have to wait for the next post (still this week, I promise). Because before we do that I'd like to speak about ways of organizing bigger projects into several files/packages/modules -- and about what those notions mean in Opa.
+Time to go back to the http://iMage.tutorials.opalang.org[iMage] app walk-through. I was planning to put into practice our knowledge about parsing and implement external configuration for our iMage app, but this will have to wait for the next post (still this week, I promise). Because before we do that I'd like to speak about ways of organizing bigger projects into several files/packages/modules -- and about what those notions mean in Opa.
 
 [caption="Summary"]
 [NOTE]
@@ -118,7 +118,7 @@ include::../examples/iMage-04/slideshow.opa[]
 ++++
 </div>
 </div>
-<span class="run"><A target="_blank" href="http://tutorials.opalang.org/iMage-04">Run</A></span>
+<span class="run"><A target="_blank" href="http://iMage-04.tutorials.opalang.org">Run</A></span>
 ++++
 
 Ok, that was a relatively short post but an important step on the way to more complex examples, as we now know how to split them over several files and how to provide basic abstraction. In the next post we'll extend the iMage with external configuration capabilities, allowing us to configure the set of displayed images without recompiling the application, but also to show some extra information for the images (author, title, captions).
