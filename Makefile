@@ -56,7 +56,7 @@ reduce-binaries: clean
 
 .PHONY: send-to-monster
 send-to-monster:
-	rsync -r --progress --bwlimit=256 . ns221022.ovh.net:~/hands-on-opa
+	rsync -r --progress --bwlimit=256 . monster.iserver.pro:~/hands-on-opa
 
 .PHONY: deploy
 deploy: pack stop compile reduce-binaries send-to-monster
