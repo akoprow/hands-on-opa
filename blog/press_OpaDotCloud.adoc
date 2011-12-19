@@ -1,0 +1,32 @@
+Press release: partnership of Opa and DotCloud
+----------------------------------------------
+
+Some time ago we <<chapter_opa_in_the_cloud, talked a bit>> about the upcoming partnership with DotCloud that would make development and deployment of Opa applications even easier. Today it's official. Click http://www.marketwire.com/press-release/opa-and-dotcloud-partner-to-transform-web-application-development-1600148.htm[here] for the press release with more info.
+
+////
+'''''
+
+*Opa and DotCloud partner to transform web application development*
+
+SAN FRANCISCO, USA, CA and Paris, FRANCE -- (Marketwire - Dec 19, 2011) - Opa, a new generation of web development language and DotCloud, the leading Platform-as-a-Service company, announced Opa@DotCloud, a product that aims to revolutionize web programming.
+
+Opa provides a complete stack for web application development based on a new programming language integrated with its web server, database engine and distribution libraries. This unique setup allows writing concise and elegant distributed web applications. The tight coupling between all the components of the stack offers unmatched security and performance.
+
+DotCloud makes it easy for developers to run and scale applications on the web. No matter what languages or databases developers choose to use, any application can be deployed, scaled and upgraded with just a few commands.
+
+_``Existing web development tools have not evolved as fast as the applications in terms of user experience''_ , says Henri Binsztok, the Founder and CEO of MLstate, the company behind Opa. _``Instead of designing beautiful applications, developers have to worry about low-level aspects. They have to waste time managing glue code to get client-server and database communications right. They also have to figure out how to set up their applications online, worry about scaling, high availability, data replication, etc. Opa and DotCloud will change all of that. ''_
+
+_``We are delighted to partner with Opa,''_ said Solomon Hykes, the founder and CEO of DotCloud. _``DotCloud seeks to democratize web application development as opposed to forcing developers to use a particular language, framework or database in exchange for running it on our platform. What Opa is doing is really cool and we are really happy to be changing the web development world together. ''_
+
+Opa@DotCloud combines the two products, thus allowing developers to code web applications extremely fast, then deploy, scale, and run them instantly. For more information, please visit http://opalang.org/opa_in_the_cloud.xmlt.
+
+About DotCloud
+++++++++++++++
+
+DotCloud is a new kind of PaaS that lets developers build, deploy and scale applications in the cloud using virtually any combination of language and database stacks without the need for additional hardware or software. DotCloud offers a single point of management, enabling developers and IT organizations to seamlessly leverage innovations in developer tools and technologies. Based in San Francisco and funded by Benchmark Capital and Trinity Ventures, DotCloud was founded by Solomon Hykes and Sebastien Pahl in 2010. For more information on DotCloud, visit http://www.dotcloud.com.
+
+About MLstate
++++++++++++++
+
+MLstate was founded in 2007 to simplify how we develop and run cloud-based applications. The result of four years of R&D is the open source Opa programming language that was released in June 2011. Opa allows you to quickly build distributed web applications by being the first language that specifies all aspects of applications. Opa enables agile development by automatically checking the code quality with state-of-the-art static analysis. Opa considerably simplifies cloud deployment and maintenance by removing many unnecessary runtime technology layers. For more information please visit http://opalang.org and http://mlstate.com.
+////
