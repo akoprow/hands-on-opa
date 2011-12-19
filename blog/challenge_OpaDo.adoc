@@ -8,7 +8,7 @@ Try OpaDo!
 For your convenience we've embedded the game in this post, but for best results we suggest you open it by following http://opado-opalang.dotcloud.com[this link].
 
 ++++
-<IFRAME height="800" width="700" src="http://opado-opalang.dotcloud.com"></IFRAME>
+<IFRAME height="400" width="700" src="http://opado-opalang.dotcloud.com"></IFRAME>
 ++++
 
 Interview with the author: Tristan Sloughter
