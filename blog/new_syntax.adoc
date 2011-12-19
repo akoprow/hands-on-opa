@@ -1,0 +1,44 @@
+[[chapter_new_syntax]]
+Opa gets a new face: introducing new syntax
+-------------------------------------------
+
+Dear Readers, I know, I know, it's been a while since the last post. Last week we've been busy preparing the <<chapter_hackathon, Opa Hackathon>>, which by the way turned out to be a great success -- we were overbooked! Now we're full time busy preparing a new milestone release of Opa: *Opa S4*. And today I'll offer you a preview of one of the big changes in this upcoming release: new syntax.
+
+One of the complains that we were hearing a lot about Opa was about its syntax. While designed for efficiency and brevity, we admit that it came a bit short when it comes to code readability and apparently many people were perplexed by it. Therefore we are happy to announce that, based on user feedback, *we will soon release new syntax for Opa* (and you can already test-drive it today). This new syntax is heavily inspired by languages such as JavaScript and C and, therefore, we hope it will look familiar to many. Below a short FAQ on the new syntax.
+
+==== _Q: Can you give a short preview of the new syntax?_
+
+With pleasure.
+
+[source, opa]
+------------------------
+function page() {
+  <span onready={
+    function(_) {                  // anonymous handler function
+      #content = <h1>Hello web</>  // concise, readable syntax for DOM replacement
+    }
+  }>Loading...</>
+  <span id=#content />
+}
+
+ // new powerful and concise way to declare web servers
+Server.start(Server.http, {title: "Test", ~page})
+------------------------
+
+You can learn more about DOM manipulations http://opalang.org/cheat-sheet/main.html#xhtml_intro[here] and about +Server.start+ http://opalang.org/cheat-sheet/main.html#Server[here]. For a more complete example take a look at https://github.com/MLstate/hello_chat[OpaChat] or https://github.com/MLstate/hello_wiki[OpaWiki] -- our manual examples adapted to the new syntax.
+
+==== _Q: Where can I learn more about the new syntax?_
+
+We're working on preparing an http://opalang.org/cheat-sheet/main.html[Opa cheat-sheet] that will be a quick look-up reference to Opa's syntax, language features and libraries. While still very much a work-in-progress this document should give you enough information about the new syntax to get started.
+
+==== _Q: How can I use the new syntax?_
+
+First of all you'll need a version of Opa that supports it, i.e. a build >= 1024. Secondly, you need to invoke the Opa compiler with the following argument: +--parser js-like+.
+
+==== _Q: Ok, but what about my existing code?_
+
+We're working on and will soon release a tool that will convert from the old to the new syntax. We're also considering adding in-file directives indicating which syntax they're using. While we do not advice mixing two different variants of language syntax in one project, this would allow for a slow and graceful transition. Finally: we'll not be terminating support for the old syntax any time soon.
+
+''''
+
+Please keep in mind that this is still a beta feature. As usually we're very interested in your feedback so don't hesitate to let us know (on https://lists.owasp.org/mailman/listinfo/opa[our mailing list]) what you think or if you find something not working as expected.
