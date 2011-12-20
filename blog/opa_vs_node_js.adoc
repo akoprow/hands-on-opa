@@ -33,5 +33,23 @@ Below we will try to compare differences aspects of building this application wi
 Productivity
 ~~~~~~~~~~~~
 
-After the coding: debugging game
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Developer productivity is one of the very important aspects of choosing one's tools. If you can develop fast it means you can innovate, you can quickly create prototypes, you can quickly change things and react to changing market and user needs... the list goes on and on.
+
+There are many pitfalls of using http://en.wikipedia.org/wiki/Source_lines_of_code[SLOCs] (Software Lines of Code) as a metric to compare productivity, but they are a good estimate and can give an impression of the effort needed to develop something. Instead of presenting raw numbers below we show a bird's-eye-view on the source code of the two projects, after removing comments & new lines (for Node.js https://github.com/ry/node_chat[sources] we only included +client.js+ and +server.js+ as the remaining files can be considered to belong to the standard library). The Opa project is on the left & Node.js is on the right.
+
+image:img/chat_code.png[]
+
+This visual image more or less reflect comparing gzipped (standard measure to avoid identifier length impact) size of the sources, where the Node project is roughly twice longer (1.95x to be exact). So Opa seems to be significantly more concise, the effect of which is probably strenghtened by the fact that the Opa chat additionaly features the list of people currently present in the chat-room and GitHub's ``Watch'' and ``Fork'' buttons (with a somewhat verbose HTML).
+
+////
+++++
+<div style="font-size:5px">
+++++
+[source,opa]
+---------------------
+include::chat.js[]
+---------------------
+++++
+</div>
+++++
+////
