@@ -6,6 +6,12 @@ In today's article we will try to see how two uprising programming languages for
 
 On first sight they have quite a bit in common: both are targeting development of web applications; both have the huge benefit of a single language for both client and server-side coding. However, there are also many important differences: Node.js is based on the well-known Javascript, whereas Opa introduces a completely new language; Node.js (as Javascript) is untyped whereas Opa is strongly typed _etc. etc._. We'll try to look more closely at those differences, and their implications, in the remainder of this article.
 
+[icons=None, caption="Disclaimer"]
+[NOTE]
+=======================
+Even though this blog is endorsed by Opa, I really strived for an unbiased presentation here. However, knowing Opa inside out and Node.js substantially less so, there's a chance some ommisions slipped in. In that case I'd be obliged if you could point that out in the comments so I could fix it. Thanks.
+=======================
+
 The contenders
 ~~~~~~~~~~~~~~
 
@@ -53,3 +59,16 @@ include::chat.js[]
 </div>
 ++++
 ////
+
+Server/client side separation & communication
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+The final strike: debugging
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+Conclusions
+~~~~~~~~~~~
+
+Growing popularity of projects such as Node.js or Opa, but also GWT, Ruby on Rails and others, which unify client and server-side coding, is a clear indication that the web of today is too complex and the programming model needs to be simplified. I hope this article I managed to indicate that Opa is not just ``yet another framework'' and that it really has something to offer in this programming landscape. For instance it's worth noting that none of the mentioned solutions features static, strong typing and hopefully I made a case above that this is a very important feature that you won't be able to live without, once you get to know it. So, indeed, why not get to know it? :). This blog and the friendly Opa community will help you make your first steps in the Opa world.
