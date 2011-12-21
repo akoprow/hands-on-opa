@@ -5,10 +5,10 @@ Spotlight on Opa app: OpaDo by Tristan Sloughter
 Try OpaDo!
 ~~~~~~~~~~
 
-For your convenience we've embedded the game in this post, but for best results we suggest you open it by following http://opado-opalang.dotcloud.com[this link].
+For your convenience we've embedded the game in this post, but for best results we suggest you open it by following http://monster.iserver.pro:5022[this link].
 
 ++++
-<IFRAME height="400" width="700" src="http://opado-opalang.dotcloud.com"></IFRAME>
+<IFRAME height="400" width="700" src="http://monster.iserver.pro:5022"></IFRAME>
 ++++
 
 Interview with the author: Tristan Sloughter
