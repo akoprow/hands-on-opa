@@ -9,7 +9,7 @@ On first sight they have quite a bit in common: both are targeting development o
 [icons=None, caption="Disclaimer"]
 [NOTE]
 =======================
-Even though this blog is endorsed by Opa, I really strived for an unbiased presentation here. However, knowing Opa inside out and Node.js substantially less so, there's a chance some ommisions slipped in. In that case I'd be obliged if you could point that out in the comments so I could fix it. Thanks.
+Even though this blog is endorsed by Opa, I really strived for an unbiased presentation here. However, knowing Opa inside out and Node.js substantially less so, there's a chance some omissions slipped in. In that case I'd be obliged if you could point that out in the comments so I could fix it. Thanks.
 =======================
 
 The contenders
@@ -26,9 +26,9 @@ Opa is an open source platform for developing web applications. It consists of a
 The arena
 ~~~~~~~~~
 
-To illustrate and compare those two langauges we will use the example that is slowly becoming a standard benchmark for web frameworks/languages: a web chat. It's not a bad benchmark as it involves extensive client-server communication.
+To illustrate and compare those two languages we will use the example that is slowly becoming a standard benchmark for web frameworks/languages: a web chat. It's not a bad benchmark as it involves extensive client-server communication.
 
-Below we present screenshots of chats developed, respectively, in Node.js (by Ryan Dahl, the author of Node.js himself) and in Opa (by https://github.com/Aqua-Ye[Frederic] from the Opa team). We encourage you to click on the images to play with the live application. Both applications are equivallent feature-wise (though not visually).
+Below we present screenshots of chats developed, respectively, in Node.js (by Ryan Dahl, the author of Node.js himself) and in Opa (by https://github.com/Aqua-Ye[Frederic] from the Opa team). We encourage you to click on the images to play with the live application. Both applications are equivalent feature-wise (though not visually).
 
 |====
 | image:img/chat_node.png[link="http://chat.nodejs.org/"] | image:img/chat_opa.png[link="http://opa_chat.tutorials.opalang.org"]
@@ -45,7 +45,11 @@ There are many pitfalls of using http://en.wikipedia.org/wiki/Source_lines_of_co
 
 image:img/chat_code.png[]
 
-This visual image more or less reflect comparing gzipped (standard measure to avoid identifier length impact) size of the sources, where the Node project is roughly twice longer (1.95x to be exact). So Opa seems to be significantly more concise, the effect of which is probably strenghtened by the fact that the Opa chat additionaly features the list of people currently present in the chat-room and GitHub's ``Watch'' and ``Fork'' buttons (with a somewhat verbose HTML).
+[icons=None, caption="Remove?"]
+[NOTE]
+=================
+This visual image more or less reflect comparing gzipped (standard measure to avoid identifier length impact) size of the sources, where the Node project is roughly twice longer (1.95x to be exact). So Opa seems to be significantly more concise, the effect of which is probably strengthened by the fact that the Opa chat additionally features the list of people currently present in the chat-room and GitHub's ``Watch'' and ``Fork'' buttons (with a somewhat verbose HTML).
+=================
 
 ////
 ++++
@@ -67,6 +71,26 @@ Server/client side separation & communication
 The final strike: debugging
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+We all know that writing the code ain't the last step -- often the ``fun'' begins only then with testing & debugging. Therefore it is only fair to see how the languages compare in that respect.
+
+In Node.js we're dealing, both on client and on the server, with our own code. One can choose between the V8 debugger, part of http://code.google.com/p/chromedevtools/[Google Chrome Developer Tools] to debug https://github.com/joyent/node/wiki/using-eclipse-as-node-applications-debugger[node code]. Crystal clear.
+
+With Opa the situation is a bit more complicated. As of today there's no dedicated debugger. Moreover the client code is a Javascript that was automatically generated from the Opa code and, hence, as auto-generated code goes, is much less readable (although running your program with +-d+ debugging option will improve the situation somewhat).
+
+However, there is one aspect that should not be missed here: building Opa from ground up as a new language allowed its authors to use best principles from functional programming and software verification, such as static analysis and type checking, to detect a majority of typical programming errors already at compilation time. The major criticism of type checking is the added effort required to write type annotations. This is not an issue in Opa, which features full type inference and where type annotations are almost never needed.
+
+Unfortunately, most people do not appreciate the advantages of type-checking as:
+
+* they're thinking of languages such as Java or C#, which don't come even close to type safety offered by languages such as Haskell or Ocaml (and Opa),
+* to appreciate benefits of type-checking one really needs to experience it in practice -- the experience of satisfying all the complains of the type checker and then running the program for the first time and seeing that it works, is truly mind-blowing.
+
+To conclude let me just say that I had the pleasure lately to interview the authors of the winner apps of the Opa Developer Challenge and I think it's no coincidence that two top placed developers mentioned type checking as one of the ``killer'' features of Opa:
+
+_``Opa's type checking that covers both the client and server code is simply amazing and a great time saver. Like those who have worked with OCaml, Haskell or another strongly typed language know, if it compiles there is a good chance it works as well :).''_ +
+ -- Tristan Sloughter, author of OpaDo, 2nd place winner of the Opa Developer Challenge
+
+_``Static typing helps catch most bugs at compile time rather than a stack trace at run time.''_ +
+ -- Vimalkumar Jeyakumar, author of box, the winner of the Opa Developer Challenge
 
 Conclusions
 ~~~~~~~~~~~
