@@ -64,6 +64,62 @@ include::chat.js[]
 ++++
 ////
 
+Building user interfaces
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Both Node.js and Opa use (X)HTML and CSS for building user interfaces. Of course, in both cases, it's possible to build libraries and abstractions on top of that layer but neither language enforces that and both allow direct, full control over the markup.
+
+Node.js does not have any special support for HTML and the markdown is simply built as a string, with string concatenation, as https://github.com/ry/node_chat/blob/master/client.js#L227[here]. There are several problems with this approach. To begin with, no validation of the correctness of the markdown can be performed; unclosed tags, typos and the likes will have to be noticed & corrected when testing the application. But, possibly even more importantly, this poses a very serious security threat. Since HTML is treated just as a string it takes a _very_ careful development, not to allow the possibility of XSS injection slip in (where the attacker can inject and execute client-side script in the app).
+
+On the other hand, in Opa HTML is a data type (interestingly enough it's not a primitive type but is developed as part of the language standard library), with special support in the syntax to easily write it, as https://github.com/Aqua-Ye/OpaChat/blob/master/src/main.opa#L118[here]. While on the face of it, it may look only slightly better, esthetically, the implications are far-fetching. Essentially all the aforementioned problems are solved: ill-formed markdown will be rejected by the compiler and the language offers built-in protection against XSS injections by properly escaping any values inserted in the constructed HTML.
+
+Below we show equivalent snippet (taken from Node.js' chat) in both languages.
+
+++++
+<table><tr><td>
+++++
+==== Node.js
+[source,js]
+---------------------
+var content =
+  '<tr>' +
+    '<td class="date">' +
+      util.timeString(time) +
+    '</td>' +
+    '<td class="nick">' +
+      util.toStaticHTML(from) +
+    '</td>' +
+    '<td class="msg-text">' +
+      text +
+    '</td>' +
+  '</tr>'
+;
+$("#log").append(content);
+---------------------
+++++
+</td><td>
+++++
+==== Opa
+[source,opa]
+---------------------
+var content =
+  <tr>
+    <td class="date">
+      {util.timeString(time)}
+    </td>
+    <td class="nick">
+      {util.toStaticHTML(from)}
+    </td>
+    <td class="msg-text">
+      {text}
+    </td>
+  </tr>;
+#log += content;
+---------------------
+++++
+</td></tr></table>
+++++
+
 Server/client side separation & communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
