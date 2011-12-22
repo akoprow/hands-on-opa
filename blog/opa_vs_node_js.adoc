@@ -15,11 +15,15 @@ Even though this blog is endorsed by Opa, I really strived for an unbiased prese
 The contenders
 ~~~~~~~~~~~~~~
 
-image::img/logo_nodejs.png[float="left", link="http://nodejs.org"]
+++++
+<a href="http://nodejs.org"><img src="img/logo_nodejs.png" style="float:left; margin-right: 15px" /></a>
+++++
 
 Node.js is a framework for writing web servers, built on top of http://en.wikipedia.org/wiki/V8_(JavaScript_engine)[Google's V8 JavaScript engine]. It's event-driven and uses asynchronous I/O to minimize overhead and maximize scalability. It was started in 2009 by Ryan Dahl. Node.js allows to write server-side code in Javascript, hence making it possible to use the same language for both client- and server-side coding.
 
-image::img/logo_opa.png[float="left", link="http://opalang.org"]
+++++
+<a href="http://opalang.org"><img src="img/logo_opa.png" style="float:left; margin-right: 15px" /></a>
+++++
 
 Opa is an open source platform for developing web applications. It consists of a new programming language, a new web server, a new database and a new distributed execution engine, all of them tightly integrated to provide a great experience for web developers. It uses a similar asynchronous model to that of Node.js, but goes even further by supporting (out of the box) distribution of the application across multiple machines (or in the cloud). It's development was started before 2008 by Henri Binsztok and subsequently was continued by http://mlstate.com[MLstate], a company he founded.
 
@@ -30,9 +34,13 @@ To illustrate and compare those two languages we will use the example that is sl
 
 Below we present screenshots of chats developed, respectively, in Node.js (by Ryan Dahl, the author of Node.js himself) and in Opa (by https://github.com/Aqua-Ye[Frederic] from the Opa team). We encourage you to click on the images to play with the live application. Both applications are equivalent feature-wise (though not visually).
 
-|====
-| image:img/chat_node.png[link="http://chat.nodejs.org/"] | image:img/chat_opa.png[link="http://opa_chat.tutorials.opalang.org"]
-|====
+++++
+<table><tr><td>
+  <a href="http://chat.nodejs.org"><img src="img/chat_node.png" class="nopad" /></a>
+</td><td>
+  <a href="http://opa_chat.tutorials.opalang.org"><img src="img/chat_opa.png" class="nopad" /></a>
+</td></tr></table>
+++++
 
 Below we will try to compare differences aspects of building this application with Node.js and in Opa.
 
@@ -122,6 +130,65 @@ var content =
 
 Server/client side separation & communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Since both Node.js and Opa are meant for both client and server-side coding it's interesting to see how they both address the issue of communication between the client and the server.
+
+Node.js provides a very explicit approach. The server and client separation is enforced on the level of the source code, as some files will be included in the web-page served to the users and other will be interpreted by Node on the server. Hence the chat example contains, aptly named, https://github.com/ry/node_chat/blob/master/server.js[+server.js+] and https://github.com/ry/node_chat/blob/master/client.js[+client.js+].
+
+For the communication one directly uses the AJAX primitives of jQuery.
+
+In Opa, there is no explicit separation between the client and the server part of the code. One just writes the application code and then the Opa compiler figures out which part of the code should be sent to the client and which should be executed on the server. Of course the developer can influence those decisions by prefixing functions with +client+ or +server+ directives, or one of the safety directives, such as +protected+ (meaning the function is security sensitive and should not be trusted to the client). As a result moving code between the client and the server is as easy as adding/changing few directives. That's why Opa's chat consists of just one file: https://github.com/Aqua-Ye/OpaChat/blob/master/src/main.opa[+main.opa+] (in this example, for clarity, all the functions were explicitly annotated).
+
+Since Opa provides this location transparency, also it's communication is on a higher level of abstraction. All one does is use simple function calls and Opa's compiler, depending on the location of the caller and the callee, implements those as either local function calls or remote (Ajax/Comet) procedure calls.
+
+Below we present a snippet of the Node.js chat and it's rough equivalent in Opa.
+
+++++
+<table><tr><td>
+++++
+==== Node.js
+[source,js]
+---------------------
+function register_in_the_room() {
+  $.ajax({ cache: false
+         , type: "POST"
+         , dataType: "json"
+         , url: "/join"
+         , data: { nick: nick }
+         , error: function () {
+             alert("error connecting to server");
+             showConnect();
+           }
+         , success: onConnect
+         });
+}
+
+function get_list_of_users() {
+  jQuery.get("/who", {}, function (data, status) {
+    if (status != "success") return;
+    showUsers(data.nicks);
+  }, "json");
+}
+---------------------
+++++
+</td><td>
+++++
+==== Opa
+[source,opa]
+---------------------
+function register_in_the_room() {
+  join(nick);
+  onConnect();
+}
+
+function get_list_of_users() {
+  users = get_user_list();
+  showUsers(users);
+}
+---------------------
+++++
+</td></tr></table>
+++++
 
 
 The final strike: debugging
