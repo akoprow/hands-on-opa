@@ -9,7 +9,7 @@ FBG = FbGraph
 
 function main() {
   login_url = FBA.user_login_url([], redirect)
-  <a href="{login_url}">Just connect</a>
+  <a href="{login_url}"><img src="resources/fb_connect.png" /></a>
 }
 
 function show_box(t, title, description) {
@@ -79,4 +79,8 @@ dispatcher = parser
 | "/connect?" data=(.*) -> connect(Text.to_string(data)) |> page
 | .* -> main() |> page
 
-Server.start(Server.http, { custom: dispatcher })
+Server.start(Server.http,
+  [ { resources: @static_resource_directory("resources") }
+  , { custom: dispatcher }
+  ]
+)
