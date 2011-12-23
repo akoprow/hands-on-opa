@@ -338,9 +338,10 @@ units_plus : example = { name="unit_conv_plus"      port=5018 article=some(unit_
 hello_i18n : example = { name="i18n"                port=5019 article=some(i18n)              srcs=@static_include_directory("examples/hello_i18n")          details={descr=i18n_descr deps=[]}}
 // challenge apps: 5020, 5021, 5022, 5023, 5024, 5025, 5026, 5027
 opa_chat : example =   { name="opa_chat"            port=5028 article=none                    srcs=@static_include_directory("examples/opa_chat")            details={invisible}}
-//hello_forms :example = { name="hello_forms"         port=5028 article=none                    srcs=@static_include_directory("examples/hello_forms")         details={descr=hello_forms_descr deps=[]}}
+fb1 : example      =   { name="facebook-01"         port=5029 article=none                    srcs=@static_include_directory("examples/facebook-01")            details={invisible}}
+//hello_forms :example = { name="hello_forms"         port=xxxx article=none                    srcs=@static_include_directory("examples/hello_forms")         details={descr=hello_forms_descr deps=[]}}
 
-blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr, units, units_plus, hello_i18n, opa_chat /*, hello_forms*/ ]
+blog_examples = [ hello, watch, watch_slow, counter, iMage, iMage_01, iMage_02, iMage_03, calculator, iMage_04, iMage_05, watch_fr, units, units_plus, hello_i18n, opa_chat, fb1 /*, hello_forms*/ ]
 
 // ===============================================================
 // all examples
