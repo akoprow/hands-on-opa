@@ -12,14 +12,12 @@ function main() {
   <a href="{login_url}">Just connect</a>
 }
 
-function show_error(err) {
+function show_box(t, title, description) {
   WBootstrap.Message.make(
-    { alert: { title: err.error
-             , description: <>err.error_description</>
-             }
+    { alert: ~{ title, description }
     , closable: false
     },
-    {warning}
+    t
   )
 }
 
@@ -38,25 +36,42 @@ function get_name(token) {
   }
 }
 
+function get_friends_no(token) {
+  opts = FBG.default_paging
+  match (FBG.Read.connection("me", "friends", token.token, opts)) {
+    case {success: c}: some(c.data)
+    default: none
+  }
+}
+
 function connect(data) {
   match (FBA.get_token_raw(data, redirect)) {
     case {~token}:
       match (get_name(token)) {
         case {some: name}:
-          <h1>Hello, {name}!</>
+          match (get_friends_no(token)) {
+            case {some: friends}:
+              show_box({success}, "Hello, {name}!",
+                <>You have {List.length(friends)} friends.</>)
+            default:
+              show_box({error}, "Error getting your friends list", <></>)
+          }
         default:
-          show_error({ error: "Problem getting user data"
-                     , error_description: ""
-                     })
+          show_box({error}, "Error getting your name", <></>)
       }
-    case {~error}:
-      show_error(error)
+    case ~{error}:
+      show_box({error}, error.error, <>{error.error_description}</>)
   }
 }
 
 function page(body) {
   Resource.html("Facebook connect tutorial",
-    WBootstrap.Layout.fixed(body)
+    WBootstrap.Layout.fixed(
+      <>
+        <h1>Facebook connect tutorial</>
+        {body}
+      </>
+    )
   )
 }
 
