@@ -1,0 +1,12 @@
+LiveRoom: new Opa forum
+-----------------------
+
+Happy New Year everyone! We will have many exciting news for you in this new year, but I decided to start off with announcing new Opa forums; Ladies and Gentelmen, let me present to you: _LiveRoom_.
+
+image::img/live_room_png[link="http://forum.opalang.org"]
+
+LiveRoom is a dedicated forum for discussions about Opa. It supports markup in the popular http://en.wikipedia.org/wiki/Markdown[Markdown] flavor (also used by http://stackoverflow.com[StackOverflow]) and real-time updates, so if two people happen to be posting to the same topic at the same time, the conversation can become chat-like.
+
+For now, on top of LiveRoom, we will keep on offering support on the mailing list and on StackOverflow, but with time we may replace the former with LiveRoom. So we encourage you to try it out today and are looking forward to hear what you think.
+
+P.S. Yes, LiveRoom was developed in Opa :).

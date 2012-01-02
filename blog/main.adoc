@@ -80,6 +80,8 @@ include::fooh.adoc[]
 include::new_syntax.adoc[]
 
 include::press_OpaDotCloud.adoc[]
+
+include::opa_vs_node_js.adoc[]
 ////
 
 ////
@@ -88,9 +90,11 @@ include::challenge_OpaChess.adoc[]
 include::challenge_OpaDo.adoc[]
 
 include::challenge_box.adoc[]
+
+include::live_room.adoc[]
 ////
 
-include::opa_vs_node_js.adoc[]
+include::facebook_01.adoc[]
 
 //include::image_p4_event_based_programming.adoc[]
 
