@@ -20,7 +20,7 @@ bash.opp: bash.ml
 	opa-plugin-builder $^ -o $@
 
 examples/%/pack.zip: examples/%
-	cd examples && zip -r ../$@ $*
+	cd examples && zip -r ../$@ $* -x $*/_*
 
 .PHONY: compile
 compile: $(EXE)

@@ -21,17 +21,14 @@ function show_box(t, title, description) {
   )
 }
 
-function get_fb_data(id, object) {
-  match (List.assoc(id, object.data)) {
-    case {some: {String: v}}: some(v)
-    default: none
-  }
-}
-
 function get_name(token) {
   opts = { FBG.Read.default_object with token:token.token }
   match (FBG.Read.object("me", opts)) {
-    case {~object}: get_fb_data("name", object)
+    case {~object}:
+      match (List.assoc("name", object.data)) {
+        case {some: {String: v}}: some(v)
+        default: none
+      }
     default: none
   }
 }
@@ -39,9 +36,17 @@ function get_name(token) {
 function get_friends_no(token) {
   opts = FBG.default_paging
   match (FBG.Read.connection("me", "friends", token.token, opts)) {
-    case {success: c}: some(c.data)
+    case {success: c}: some(List.length(c.data))
     default: none
   }
+}
+
+function main_msg(friends_no) {
+  function friend_img(_no) {
+    <img style="margin-right: -22px" src="resources/opa_oni.png" />
+  }
+  <p>You have {friends_no} friends.</>
+  <p>{List.init(friend_img, friends_no)}</>
 }
 
 function connect(data) {
@@ -50,14 +55,8 @@ function connect(data) {
       match (get_name(token)) {
         case {some: name}:
           match (get_friends_no(token)) {
-            case {some: friends}:
-              friends_no = List.length(friends)
-              function friend_img(_no) {
-                <img style="margin-right: -22px" src="resources/opa_oni.png" />
-              }
-              show_box({success}, "Hello, {name}!",
-                <p>You have {friends_no} friends.</>
-                <p>{List.init(friend_img, friends_no)}</>)
+            case {some: friends_no}:
+              show_box({success}, "Hello, {name}!", main_msg(friends_no))
             default:
               show_box({error}, "Error getting your friends list", <></>)
           }
