@@ -100,8 +100,7 @@ var content =
     '<td class="msg-text">' +
       text +
     '</td>' +
-  '</tr>'
-;
+  '</tr>';
 $("#log").append(content);
 ---------------------
 ++++
@@ -196,7 +195,7 @@ The final strike: debugging
 
 We all know that writing the code ain't the last step -- often the ``fun'' begins only then with testing & debugging. Therefore it is only fair to see how the languages compare in that respect.
 
-In Node.js we're dealing, both on client and on the server, with our own code. One can choose between the V8 debugger, part of http://code.google.com/p/chromedevtools/[Google Chrome Developer Tools] to debug https://github.com/joyent/node/wiki/using-eclipse-as-node-applications-debugger[node code]. Crystal clear.
+In Node.js we're dealing, both on client and on the server, with our own code. One can choose between https://github.com/dannycoates/node-inspector[node-inspector] or V8 debugger, part of http://code.google.com/p/chromedevtools/[Google Chrome Developer Tools], in https://github.com/joyent/node/wiki/using-eclipse-as-node-applications-debugger[Eclipse] Eclipse to debug Node apps. Crystal clear.
 
 With Opa the situation is a bit more complicated. As of today there's no dedicated debugger. Moreover the client code is a Javascript that was automatically generated from the Opa code and, hence, as auto-generated code goes, is much less readable (although running your program with +-d+ debugging option will improve the situation somewhat).
 
