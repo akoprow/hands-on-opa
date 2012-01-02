@@ -51,8 +51,13 @@ function connect(data) {
         case {some: name}:
           match (get_friends_no(token)) {
             case {some: friends}:
+              friends_no = List.length(friends)
+              function friend_img(_no) {
+                <img style="margin-right: -22px" src="resources/opa_oni.png" />
+              }
               show_box({success}, "Hello, {name}!",
-                <>You have {List.length(friends)} friends.</>)
+                <p>You have {friends_no} friends.</>
+                <p>{List.init(friend_img, friends_no)}</>)
             default:
               show_box({error}, "Error getting your friends list", <></>)
           }
