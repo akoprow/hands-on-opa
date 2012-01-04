@@ -92,9 +92,11 @@ include::challenge_OpaDo.adoc[]
 include::challenge_box.adoc[]
 
 include::live_room.adoc[]
-////
 
 include::facebook_01.adoc[]
+////
+
+include::talking_about_us.adoc[]
 
 //include::image_p4_event_based_programming.adoc[]
 
