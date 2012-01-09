@@ -9,7 +9,7 @@ Lots of announcements lately, but not many tutorials; time to change it. Hopeful
 You will learn:
 
 * How to use Opa's Facebook API to connect with user's Facebook account.
-* How to write a simple Opa app that will show given user's name and the number of her friends (both data obtained from Facebook).
+* How to write a simple Opa app that will show given user's name and thumbnails of her friends (both data obtained from Facebook).
 =======================
 
 Setting up a Facebook app
@@ -113,7 +113,9 @@ FBG.Read.connection(id, connection, token, paging)
 
 For instance reading object +"me"+ (try +https://graph.facebook.com/me+ in the Facebook API explorer) will give basic information about the logged-in user (we will extract name from there), whereas reading connection +"friends"+ of object +"me"+ (try +https://graph.facebook.com/me/friends+) will give the list of user's friends.
 
-The returned data is in http://doc.opalang.org/#!/type/stdlib.core.rpc.core/RPC/Json/json[JSON] format, so we have to do a bit of processing to extract the data we need -- see functions +get_name+ and +get_friends_no+ in the complete listing below for details. Ideally, the API should be extended with more high level functions that would provide a nice mapping from the JSON Facebook API to a type-safe world of Opa (essentially doing what we did in those functions but for all possible objects/connections). This can be done of course (volunteers?) but is a bit complicated by the fact that the shape of the information for different queries depends on application permissions.
+The returned data is in http://doc.opalang.org/#!/type/stdlib.core.rpc.core/RPC/Json/json[JSON] format, so we have to do a bit of processing to extract the data we need. See function +get_name+ in the complete listing below for details on how to get logged-in user's name. Similarly consult +get_friends_ids+ to see how to obtain ids of given user's friends, which then is used in the +main_msg+ function where we get a thumbnail of user with given +id+ using the +FBG.Read.picture_url+ function.
+
+Ideally, the API should be extended with more high level functions that would provide a nice mapping from the JSON Facebook API to a type-safe world of Opa (essentially doing what we did in those functions but for all possible objects/connections). This can be done of course (volunteers?) but is a bit complicated by the fact that the shape of the information for different queries depends on application permissions.
 
 So, let us present our first Facebook app in Opa. The complete listing & a link to the running version of the application below.
 
@@ -123,6 +125,7 @@ include::../examples/facebook-01/main.opa[]
 ------------------------
 ++++
 <span class="run"><A target="_blank" href="http://facebook-01.tutorials.opalang.org">Run</A></span>
+<span class="see"><A target="_blank" href="http://github.com/akoprow/facebook-01">See</A></span>
 ++++
 
 Later we will continue this series of tutorials with examples of some more advanced interactions with the Facebook platform. I'm not sure yet what it will involve so requests and good ideas are welcome -- just drop a comment!
