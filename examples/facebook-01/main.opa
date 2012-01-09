@@ -33,20 +33,26 @@ function get_name(token) {
   }
 }
 
-function get_friends_no(token) {
+function get_friends_ids(token) {
   opts = FBG.default_paging
   match (FBG.Read.connection("me", "friends", token.token, opts)) {
-    case {success: c}: some(List.length(c.data))
+    case {success: c}:
+       some(List.map(function (friend) { friend.id }, c.data))
     default: none
   }
 }
 
-function main_msg(friends_no) {
-  function friend_img(_no) {
-    <img style="margin-right: -22px" src="resources/opa_oni.png" />
+function main_msg(friends) {
+  function friend_img(id) {
+    { href: none
+    , onclick: ignore
+    , content: <img src={FBG.Read.picture_url(id, {square})} />
+    }
   }
-  <p>You have {friends_no} friends.</>
-  <p>{List.init(friend_img, friends_no)}</>
+  <>
+    <h4>Your friends:</>
+    {WBootstrap.Media.grid(List.map(friend_img, friends))}
+  </>
 }
 
 function connect(data) {
@@ -54,9 +60,9 @@ function connect(data) {
     case {~token}:
       match (get_name(token)) {
         case {some: name}:
-          match (get_friends_no(token)) {
-            case {some: friends_no}:
-              show_box({success}, "Hello, {name}!", main_msg(friends_no))
+          match (get_friends_ids(token)) {
+            case {some: friends}:
+              show_box({success}, "Hello, {name}!", main_msg(friends))
             default:
               show_box({error}, "Error getting your friends list", <></>)
           }
