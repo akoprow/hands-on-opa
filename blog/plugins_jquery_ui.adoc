@@ -21,11 +21,13 @@ Getting started with jQuery UI
 We want to user jQuery UI in Opa. If you look at the http://jqueryui.com/docs/Getting_Started[Getting started] section of jQuery UI documentation it essentially says to follow those steps:
 
 . Download a custom jQuery UI bundle.
-. Link to jQuery UI CSS.
 . Link jQuery code.
 . Link jQuery UI code.
+. Link to jQuery UI CSS.
 
-jQuery is bundled with Opa by default so we can skip that step. So first let's head to the http://jqueryui.com/download[download page] and build our bundle. In this tutorial we only want to use the Resizable Interaction of jQuery so deselect all and only select +Resizable+ (which will automatically select all dependencies as well) and then click +Download+ to get the bundle. In the next step we'll see how to instruct Opa to use this custom JavaScript.
+First let's head to the http://jqueryui.com/download[download page] and build our bundle. In this tutorial we only want to use the Resizable Interaction of jQuery so deselect all and only select +Resizable+ (which will automatically select all dependencies as well) and then click +Download+ to get the bundle. In the next step we'll see how to instruct Opa to use this custom JavaScript.
+
+jQuery is bundled with Opa by default so we can skip step 2. We will learn how to address step 3 in the following section and step 4 in the ``Putting it all together'' section at the end of this tutorial.
 
 Building jQuery UI plugin
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -104,4 +106,64 @@ module Resizable {
 
 The first line just indicates that this file is part of the +jquery.resizable+ package. Then we have a module +Resizable+ with single function +mk_resizable(dom)+. This function essentially calls JavaScript's +mk_resizable+ that we define above. Note the notation between +%%+, which is used to access such foreign functions; the naming convention is +<file_name>.<function_name>+.
 
-We compile this package (from project's root) with:
+The only other thing to notice is that we want these function to operate on Opa's type of DOM elements (http://doc.opalang.org/#!/type/stdlib.core.xhtml/dom[+dom+]), which is the default type obtained when using syntax such as +#id+ in Opa, whereas our JavaScript +mk_resizable+ function operates on http://doc.opalang.org/#!/type/stdlib.core.xhtml/dom_element[+dom_element+], the low-level JavaScript equivalent of that type, so first we need to perform the conversion using the http://doc.opalang.org/#!/value/stdlib.core.xhtml/Dom/of_selection[+Dom.of_selection+] function.
+
+We compile this package (from project's root) with (note the inclusion of the +resizable.opp+ plugin):
+
+[source, bash]
+------------------------
+opa --parser js-like jQuery-UI/resizable.opa resizable.opp
+------------------------
+
+Putting it all together:
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+If you look at 4-point roadmap at the beginning of this article you'll realize that we still need to take care of point 4, that is including jQuery UI's CSS. This is very simple, we just create a +resources+ directory where we put the relevant CSS file (+jquery-ui-1.8.16.custom.css+ in our case) and then register it with the server.
+
+Finally let's make a very simple demo of all of this.
+
+[source, opa]
+------------------------
+<div id=#msg class="alert-message warning"
+     onready={function (_) { Resizable.mk_resizable(#msg) }}>
+  <p><strong>Notice:</> this box is resizable; try dragging at its edges.</>
+</>
+------------------------
+
+We use Bootstrap to create an alert message with id +msg+. Then on its +onready+ event we invoke our function to make this element resizable. And that's it! Of course in a more serious application we could think of a better interface for this functionality so that creating resizable elements would be easier and would not require directly dealing with the +onready+ handler. But that's outside the scope of this article. Besides, if you were reading carefully all the article on this blog, I hope you have a pretty good idea on how to approach that.
+
+Below is the complete code of this application (excluding jQuery-UI of course). Make sure to click the ``Run'' button to see it in action!
+
+++++
+<div class="ftabs">
+++++
+* <<demo-resizable, demo_resizable.opa>>
+* <<resizable-opa, resizable.opa>>
+* <<resizable-js, resizable.js>>
+++++
+<div id="demo-resizable">
+++++
+[source,opa]
+---------------------
+include::../examples/resizable/demo_resizable.opa[]
+---------------------
+++++
+</div>
+<div id="resizable-opa">
+++++
+[source,opa]
+---------------------
+include::../examples/resizable/jQuery-UI/resizable.opa[]
+---------------------
+++++
+</div>
+<div id="resizable-js">
+++++
+[source,js]
+---------------------
+include::../examples/resizable/jQuery-UI/plugin/resizable.js[]
+---------------------
+++++
+</div>
+<span class="run"><A target="_blank" href="http://resizable.tutorials.opalang.org">Run</A></span>
+++++
