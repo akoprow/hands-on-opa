@@ -1,0 +1,107 @@
+Reusing JavaScript libraries: JQuery UI
+---------------------------------------
+
+Opa is great for new developments, but it's a fact that there are numerous great JavaScript libraries out there and one does not want to code them again in Opa. Gladly, that's not necessary. Opa can easily communicate with existing JavaScript code and in this tutorial we will see how.
+
+As an illustrating example I will follow http://lists.owasp.org/pipermail/opa/2012-January/000556.html[user's suggestion] and will show how to use http://jqueryui.com[jQuery UI] and its capabilities to obtain a re-sizable container.
+
+[icons=None, caption="Summary"]
+[NOTE]
+=======================
+You will learn:
+
+* How to write Opa plug-ins: packaging libraries in other languages (like JavaScript) for re-use in Opa.
+* How to build an Opa package on top of such a plug-in: exposing foreign libraries to Opa programs.
+* How to create a re-sizable container using jQuery UI.
+=======================
+
+Getting started with jQuery UI
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We want to user jQuery UI in Opa. If you look at the http://jqueryui.com/docs/Getting_Started[Getting started] section of jQuery UI documentation it essentially says to follow those steps:
+
+. Download a custom jQuery UI bundle.
+. Link to jQuery UI CSS.
+. Link jQuery code.
+. Link jQuery UI code.
+
+jQuery is bundled with Opa by default so we can skip that step. So first let's head to the http://jqueryui.com/download[download page] and build our bundle. In this tutorial we only want to use the Resizable Interaction of jQuery so deselect all and only select +Resizable+ (which will automatically select all dependencies as well) and then click +Download+ to get the bundle. In the next step we'll see how to instruct Opa to use this custom JavaScript.
+
+Building jQuery UI plugin
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We'll first build a jQuery UI _plugin_ and then a jQuery UI _package_. What's the difference? A plugin is essentially a bundle of foreign code (JavaScript, Ocaml or C) that is made available for Opa. A package is just a compilation unit of Opa: when building bigger projects it's good to separate them into packages. Usually one will also build a package to safely expose selected functionality of a plugin to Opa programs; we will also do it in a minute. But let's start with the plugin.
+
+In our project folder let's create a +jQuery-UI+ directory (for all jQuery UI related stuff) and in it a +plugin+ directory (for the plugin). Let's put the +jquery-ui-1.8.16.custom.js+ file (the precise name may vary depending on the version of jQuery UI you'll be using) in the +plugin+ directory. Then let's create a +resizable.js+ with the following content:
+
+[source, javascript]
+------------------------
+##extern-type dom_element
+
+##register mk_resizable: dom_element -> void
+##args(dom)
+{
+    dom.resizable({animate: true});
+}
+------------------------
+
+Ok, some explanation is in order. What you can see above is a JavaScript code with some annotations (starting with +##+). Why do we need that? Well, JavaScript is very loosely typed and since we want to interact with the strongly typed world of Opa, how do we do that? The solution used in Opa is to introduce typing for JavaScript functions (only those that we want to directly use from Opa programs) and this is done using those annotations. Let's look at them in turn.
+
+First we have:
+
+[source, javascript]
+------------------------
+##extern-type dom_element
+------------------------
+
+This essentially indicates that there exists (defined somewhere else) a type +dom_element+. Indeed, this type is define in the standard library in the module https://github.com/MLstate/opalang/blob/master/stdlib/core/xhtml/dom.opa#L2136[+Dom+] and represents a DOM element (basically, part of the content of the page).
+
+Then in the following function definition
+
+[source, javascript]
+------------------------
+##register mk_resizable: dom_element -> void
+##args(dom)
+------------------------
+
+essentially replaces the traditional function definition
+
+[source, javascript]
+------------------------
+function mk_resizable(dom)
+------------------------
+
+by extending it with typing information: it's a function from +dom_element+ to +void+, so the function argument +dom+ is of type +dom_element+ and the function does not return any result (i.e. returns +void+). The body of the function is just a regular JavaScript, in this case using jQuery UI methods.
+
+Of course we didn't have to put those annotations in a separate file, we could just annotated the original functions, but in case of re-using existing external libraries it's usually a better approach not to modify the original code and to put annotations in such a separate interface file.
+
+So, that's it! How do we compile our plugin? Using +opa-plugin-builder+ (from the root of the project) as follows:
+
+[source, bash]
+------------------------
+opa-plugin-builder --js-validator-off jQuery-UI/plugin/jquery-ui-1.8.16.custom.js jQuery-UI/plugin/resizable.js -o resizable.opp
+------------------------
+
+As arguments we provide the files that constitue the plugin and with the +-o+ option we inform the tool that the name of the plugin should be +resizable.opp+ (+.opp+ being the standard extension for plugins in Opa). The +--js-validator-off+ option is neccessary here, as by default the plugin builder tries to validate the JavaScript and detect potential problems. Of course turning off validation is *not recommended*, but for this tutorial it will do, as we don't want to fix all the potential problems in the jQuery UI code.
+
+Building jQuery UI package
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The next step is to build an Opa package exposing the functionality from the plugin. Note that for such a simple example as this one we didn't need to create a dedicated package and module for this code, but the idea is to illustrate how one would proceed when building a more serious library (say, exposing full jQuery). This is the complete code of +resizable.opa+ that we put in the +jQuery-UI+ directory:
+
+[source, opa]
+------------------------
+package jquery.resizable
+
+module Resizable {
+
+  function mk_resizable(dom) {
+    %%Resizable.mk_resizable%%(Dom.of_selection(dom))
+  }
+
+}
+------------------------
+
+The first line just indicates that this file is part of the +jquery.resizable+ package. Then we have a module +Resizable+ with single function +mk_resizable(dom)+. This function essentially calls JavaScript's +mk_resizable+ that we define above. Note the notation between +%%+, which is used to access such foreign functions; the naming convention is +<file_name>.<function_name>+.
+
+We compile this package (from project's root) with:

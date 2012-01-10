@@ -1,6 +1,6 @@
-##extern-type Dom.private.element
+##extern-type dom_element
 
-##register mk_resizable: Dom.private.element -> void
+##register mk_resizable: dom_element -> void
 ##args(dom)
 {
     dom.resizable({animate: true});
