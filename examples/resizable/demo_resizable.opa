@@ -14,10 +14,7 @@ function page() {
 
 Server.start(Server.http,
   [ { resources: @static_resource_directory("resources") }
-  , { register: [ "resources/jquery.ui.all.css"
-                , "resources/jquery.ui.base.css"
-                , "resources/jquery.ui.core.css"
-                , "resources/jquery.ui.resizable.css"
+  , { register: [ "resources/jquery-ui-1.8.16.custom.css"
                 , "resources/style.css"
                 ]
     }

@@ -1,3 +1,3 @@
-opa-plugin-builder jQuery-UI/plugin/jquery-ui-1.8.16.custom.js jQuery-UI/plugin/resizable.js -o resizable.opp
+opa-plugin-builder --js-validator-off jQuery-UI/plugin/jquery-ui-1.8.16.custom.js jQuery-UI/plugin/resizable.js -o resizable.opp
 opa --parser js-like jQuery-UI/resizable.opa resizable.opp
 opa --parser js-like demo_resizable.opa -o resizable.exe
