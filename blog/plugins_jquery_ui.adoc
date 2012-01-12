@@ -18,7 +18,7 @@ You will learn:
 Getting started with jQuery UI
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-We want to user jQuery UI in Opa. If you look at the http://jqueryui.com/docs/Getting_Started[Getting started] section of jQuery UI documentation it essentially says to follow those steps:
+We want to use jQuery UI in Opa. If you look at the http://jqueryui.com/docs/Getting_Started[Getting started] section of jQuery UI documentation it essentially says to follow those steps:
 
 . Download a custom jQuery UI bundle.
 . Link jQuery code.
@@ -34,16 +34,27 @@ Building jQuery UI plugin
 
 We'll first build a jQuery UI _plugin_ and then a jQuery UI _package_. What's the difference? A plugin is essentially a bundle of foreign code (JavaScript, Ocaml or C) that is made available for Opa. A package is just a compilation unit of Opa: when building bigger projects it's good to separate them into packages. Usually one will also build a package to safely expose selected functionality of a plugin to Opa programs; we will also do it in a minute. But let's start with the plugin.
 
-In our project folder let's create a +jQuery-UI+ directory (for all jQuery UI related stuff) and in it a +plugin+ directory (for the plugin). Let's put the +jquery-ui-1.8.16.custom.js+ file (the precise name may vary depending on the version of jQuery UI you'll be using) in the +plugin+ directory. Then let's create a +resizable.js+ with the following content:
+In our project folder let's create a +jQuery-UI+ directory (for all jQuery UI related stuff) and in it a +plugin+ directory (for the plugin). Let's put the +jquery-ui-1.8.16.custom.js+ file (the precise name may vary depending on the version of jQuery UI you'll be using) in the +plugin+ directory. Then let's create a +resizable.js+ so that the content of our project is as follows:
+
+[source,log]
+------------------------
++- resizable
+  +- jQuery-UI
+     +- plugin
+       +- jquery-ui-1.8.16.custom.js
+       +- resizable.js
+------------------------
+
+Now let's put the following content in +resizable.js+
 
 [source, javascript]
 ------------------------
 ##extern-type dom_element
 
-##register mk_resizable: dom_element -> void
+##register mk_resizable: dom_element -> dom_element
 ##args(dom)
 {
-    dom.resizable({animate: true});
+    return dom.resizable({animate: true});
 }
 ------------------------
 
@@ -62,7 +73,7 @@ Then in the following function definition
 
 [source, javascript]
 ------------------------
-##register mk_resizable: dom_element -> void
+##register mk_resizable: dom_element -> dom_element
 ##args(dom)
 ------------------------
 
@@ -73,18 +84,18 @@ essentially replaces the traditional function definition
 function mk_resizable(dom)
 ------------------------
 
-by extending it with typing information: it's a function from +dom_element+ to +void+, so the function argument +dom+ is of type +dom_element+ and the function does not return any result (i.e. returns +void+). The body of the function is just a regular JavaScript, in this case using jQuery UI methods.
+by extending it with typing information: it's a function from +dom_element+ to +dom_element+ (the +resizable+ of jQuery UI does return the object that we manipulate). So the function argument +dom+ is of type +dom_element+ and in the body of the function we call jQuery's +resizable+ method and return the result.
 
 Of course we didn't have to put those annotations in a separate file, we could just annotated the original functions, but in case of re-using existing external libraries it's usually a better approach not to modify the original code and to put annotations in such a separate interface file.
 
-So, that's it! How do we compile our plugin? Using +opa-plugin-builder+ (from the root of the project) as follows:
+So, that's it! How do we compile our plugin? Using +opa-plugin-builder+ (from the root of the project, i.e. the +resizable+ directory) as follows:
 
 [source, bash]
 ------------------------
 opa-plugin-builder --js-validator-off jQuery-UI/plugin/jquery-ui-1.8.16.custom.js jQuery-UI/plugin/resizable.js -o resizable.opp
 ------------------------
 
-As arguments we provide the files that constitue the plugin and with the +-o+ option we inform the tool that the name of the plugin should be +resizable.opp+ (+.opp+ being the standard extension for plugins in Opa). The +--js-validator-off+ option is neccessary here, as by default the plugin builder tries to validate the JavaScript and detect potential problems. Of course turning off validation is *not recommended*, but for this tutorial it will do, as we don't want to fix all the potential problems in the jQuery UI code.
+As arguments we provide the files that constitue the plugin and with the +-o+ option we inform the tool that the name of the plugin should be +resizable.opp+ (+.opp+ being the standard extension for plugins in Opa). The +--js-validator-off+ option is neccessary here, as by default the plugin builder tries to validate the JavaScript and detect potential problems. Of course turning off validation is *not recommended*, but for this tutorial it will do, as we don't want to address all the potential problems detected in the jQuery UI code.
 
 Building jQuery UI package
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -118,21 +129,61 @@ opa --parser js-like jQuery-UI/resizable.opa resizable.opp
 Putting it all together:
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-If you look at 4-point roadmap at the beginning of this article you'll realize that we still need to take care of point 4, that is including jQuery UI's CSS. This is very simple, we just create a +resources+ directory where we put the relevant CSS file (+jquery-ui-1.8.16.custom.css+ in our case) and then register it with the server.
+If you look at 4-point roadmap at the beginning of this article you'll realize that we still need to take care of point 4, that is including jQuery UI's CSS. This is very simple; first we create a +resources+ directory where we put the relevant CSS file (+jquery-ui-1.8.16.custom.css+ in our case). Now we'll develop a very simple demo, in +demo_resizable.opa+ so that the final tree of the project looks as follows:
 
-Finally let's make a very simple demo of all of this.
+[source,log]
+------------------------
++- resizable
+  +- jQuery-UI
+  |  +- plugin
+  |  | +- jquery-ui-1.8.16.custom.js
+  |  | +- resizable.js
+  |  +- resizable.opa
+  +- resources
+  |  +- jquery-ui-1.8.16.custom.css
+  |  +- style.css
+  +- demo_resizable.opa
+------------------------
+
+We begin by registering jQuery-UI's CSS and using resources from the +resources+ directory with the following server construction:
 
 [source, opa]
 ------------------------
-<div id=#msg class="alert-message warning"
-     onready={function (_) { Resizable.mk_resizable(#msg) }}>
-  <p><strong>Notice:</> this box is resizable; try dragging at its edges.</>
-</>
+Server.start(Server.http,
+  [ { resources: @static_resource_directory("resources") }
+  , { register: [ "resources/jquery-ui-1.8.16.custom.css"
+                , "resources/style.css"
+                ]
+    }
+  , {title: "jQuery-UI demo", ~page}
+  ]
+)
 ------------------------
 
-We use Bootstrap to create an alert message with id +msg+. Then on its +onready+ event we invoke our function to make this element resizable. And that's it! Of course in a more serious application we could think of a better interface for this functionality so that creating resizable elements would be easier and would not require directly dealing with the +onready+ handler. But that's outside the scope of this article. Besides, if you were reading carefully all the article on this blog, I hope you have a pretty good idea on how to approach that.
+Now the main +page+ function looks as follows:
 
-Below is the complete code of this application (excluding jQuery-UI of course). Make sure to click the ``Run'' button to see it in action!
+[source, opa]
+------------------------
+function page() {
+  msg =
+    <div id=#msg class="alert-message warning"
+         onready={function (_) { Resizable.mk_resizable(#msg) }}>
+      <p><strong>Notice:</> this box is resizable; try dragging at its edges.</>
+    </>
+  WBootstrap.Layout.fixed(msg)
+}
+------------------------
+
+We use Bootstrap to create a fixed layout and to create an alert message with id +msg+. Then on its +onready+ event we invoke our function to make this element resizable. And that's it! Of course in a more serious application we could think of a better interface for this functionality so that creating resizable elements would be easier and would not require directly dealing with the +onready+ handler. But that's outside the scope of this article. Besides, if you were reading carefully all the articles on this blog, I hope you have a pretty good idea on how to approach that.
+
+We finish off by compiling this demo with (the +resizable+ package will be found automatically as it was compiled in the same directory):
+
+[source, bash]
+------------------------
+opa --parser js-like demo_resizable.opa -o resizable.exe
+------------------------
+
+Below is the complete code of this application (excluding jQuery-UI of course). Make sure to click the ``Run'' button to see it in action! Or try ``See'' to check/download the complete sources of this demo.
 
 ++++
 <div class="ftabs">
@@ -165,5 +216,10 @@ include::../examples/resizable/jQuery-UI/plugin/resizable.js[]
 ---------------------
 ++++
 </div>
+<span class="see"><A target="_blank" href="http://github.com/akoprow/resizable">See</A></span>
 <span class="run"><A target="_blank" href="http://resizable.tutorials.opalang.org">Run</A></span>
 ++++
+
+If you're feeling adventerous then I stroungly encourage you to browse through the plugins that are shipped together with the Opa compiler (see https://github.com/MLstate/opalang/tree/master/plugins[here] or check the plugin sub-directory in your local sources of the compiler) -- that can be a great way to learn more about plugins.
+
+Ok, that turned out to be a pretty long tutorial. Hope you enjoyed it. More to come!
