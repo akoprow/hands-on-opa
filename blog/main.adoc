@@ -82,13 +82,14 @@ include::new_syntax.adoc[]
 include::press_OpaDotCloud.adoc[]
 
 include::live_room.adoc[]
+
+include::plugins_jquery_ui.adoc[]
 ////
 
+include::challenge_OpaChess.adoc[]
 
 ////
 include::opa_vs_node_js.adoc[]
-
-include::challenge_OpaChess.adoc[]
 
 include::challenge_OpaDo.adoc[]
 
@@ -98,8 +99,6 @@ include::talking_about_us.adoc[]
 
 include::facebook_01.adoc[]
 ////
-
-include::plugins_jquery_ui.adoc[]
 
 //include::image_p4_event_based_programming.adoc[]
 
