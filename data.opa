@@ -299,12 +299,14 @@ wiki_descr = <p>A simple wiki application</><p>Learn how to safely use user-defi
 wiki_r_descr = <p>A variant of the wiki application, accessible via a REST API.</><p>Learn how to design REST web services and manage URI queries.</>
 wiki_rc_descr = <p>A variant of the wiki application, using the REST wiki as its back-end.</><p>Learn how to access distant REST services and how to handle command-line arguments to programs.</>
 recaptcha_descr = <p>A simple app show-casing use of Google's <a target="_blank" href="http://recaptcha.net">reCaptcha API</></><p>Learn how to plug-in external APIs to Opa via its Binding System Library (BSL).</>
+hello_opa_descr = <p>A very simple app saying "Hello, world" and a counter of how many times the page has been shown</p>
 
 chat : example =             { details={descr=chat_descr deps=[]}      name="chat"             port=5010 article=some(hello_chat)             srcs=@static_include_directory("examples/hello_chat")}
 wiki : example =             { details={descr=wiki_descr deps=[]}      name="wiki"             port=5011 article=some(hello_wiki)             srcs=@static_include_directory("examples/hello_wiki")}
 wiki_rest : example =        { details={descr=wiki_r_descr deps=[]}    name="wiki_rest"        port=5012 article=some(hello_wiki_rest)        srcs=@static_include_directory("examples/hello_wiki_rest")}
 wiki_rest_client : example = { details={descr=wiki_rc_descr deps=[]}   name="wiki_rest_client" port=5013 article=some(hello_wiki_rest_client) srcs=@static_include_directory("examples/hello_wiki_rest_client")}
 recaptcha : example =        { details={descr=recaptcha_descr deps=[]} name="recaptcha"        port=5014 article=some(hello_recaptcha)        srcs=@static_include_directory("examples/hello_recaptcha")}
+hello_opa : example =        { details={descr=hello_opa_descr deps=[]} name="hello-opa"        port=5031 article=none                         srcs=@static_include_directory("examples/hello-opa")}
 
 manual_examples = [ chat, wiki, wiki_rest, wiki_rest_client, recaptcha ]
 

@@ -4,7 +4,7 @@ Sessions: handling state, communication and concurrency in Opa
 
 As François-Régis mentioned in the previous post (hey, thanks for taking over and making the show go on :) I'm on holidays now. I rarely have access to the internet so this is the main reason why I don't answer comments and won't post much. Please bare with me; I'll be back on 13th of September and then it will again be business as usual. But since I got a chance I decided to make this one sun-charged post while still on holidays :). Ok, let's get started.
 
-http://opalang.org/resources/doc/index.html#session.opa.html/!/[Sessions] are a very central concept in Opa. And as things stand I don't think enough attention is devoted to them in the manual (we received a lot of compliments about the state of the docs and we're happy to hear you like them, but I think there are still things that can be improved). I've been meaning to write about sessions for a longer while and I think it's high time to do that.
+http://doc.opalang.org/#!/module/stdlib.core.rpc.core/Session[Sessions] are a very central concept in Opa. And as things stand I don't think enough attention is devoted to them in the manual (we received a lot of compliments about the state of the docs and we're happy to hear you like them, but I think there are still things that can be improved). I've been meaning to write about sessions for a longer while and I think it's high time to do that.
 
 [icons=None, caption="Summary"]
 [NOTE]
@@ -48,7 +48,7 @@ A +Session.instruction+ can either change the state of the session (+set+), leav
 send : channel('message), 'message -> void
 ------------------------
 
-...and that's mostly it. There are more things that sessions can do and I encourage you to browse the http://opalang.org/resources/doc/index.html#session.opa.html/!/[Session API] but those two functions are the backbone of Opa sessions.
+...and that's mostly it. There are more things that sessions can do and I encourage you to browse the http://doc.opalang.org/#!/module/stdlib.core.rpc.core/Session[Session API] but those two functions are the backbone of Opa sessions.
 
 Simple? Quite so, yes. But don't be fooled by the simplicity (actually something being simple is often an indication of a good design, not of lack of versatility) -- sessions are mighty animals. They're powerful. They're very important. You better learn them if you want to become an Opa-ninja.
 
@@ -176,7 +176,7 @@ Now we replaced that with an event-based update system. To update a fragment we 
 
 _Open a mental parenthesis for a side note_. By the way, we received some complaints that in spite of all the fancy features, Opa is in some sense quite low-level because it work on the level of HTML. I'll be the first to agree with some criticism of Opa (it's a very new language after all), but I cannot agree with this one. To begin whatever framework/language you believe in ultimately pages *are* just HTML (unless what you believe in is Flash, but in that case I'd suggest you consider learning HTML, and fast). Abstracting it away, building something on top of HTML and exposing only this more high-level language to the developer is of course possible. But is that a good thing? I think at one time or another it'll come back biting your head; for instance when one wants to do something more fancy which is possible in HTML but was lost in the abstraction (and preserving all the features while simplifying the formalism is not an easy task).
 
-But even more importantly: you can do that in Opa. No one stops you from building some higher-level abstraction over HTML -- in fact Opa is quite well equipped to do so! In a sense, this is already slowly happening with extensions to our library of widgets and components which are higher-level elements to build pages with. Another interesting development in this direction is the http://opalang.org/resources/doc/index.html#template.opa.html/!/[Templating machinery], which allows, err, templating. Finally there is no reason not to develop a domain-specific language in Opa that could be used to replace (or complement) HTML markup, although I'm not aware of any efforts in that direction (and frankly personally I don't see a need for that).
+But even more importantly: you can do that in Opa. No one stops you from building some higher-level abstraction over HTML -- in fact Opa is quite well equipped to do so! In a sense, this is already slowly happening with extensions to our library of widgets and components which are higher-level elements to build pages with. Another interesting development in this direction is the http://doc.opalang.org/#!/module/stdlib.web.template/Template[Templating machinery], which allows, err, templating. Finally there is no reason not to develop a domain-specific language in Opa that could be used to replace (or complement) HTML markup, although I'm not aware of any efforts in that direction (and frankly personally I don't see a need for that).
 
 Long story short: Opa maps to HTML in a very truthful manner. And that's good. If you want some higher-level framework on top, Opa is well equipped to handle that too. _End of the side note._
 
