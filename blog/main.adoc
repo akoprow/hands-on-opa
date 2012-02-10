@@ -84,9 +84,11 @@ include::press_OpaDotCloud.adoc[]
 include::live_room.adoc[]
 
 include::plugins_jquery_ui.adoc[]
-////
 
 include::challenge_OpaChess.adoc[]
+////
+
+include::gamesjs.adoc[]
 
 ////
 include::opa_vs_node_js.adoc[]

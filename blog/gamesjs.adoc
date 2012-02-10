@@ -1,0 +1,35 @@
+Opa presentation at a game development meetup, GameJS
+-----------------------------------------------------
+
+Our founder, Henri, presented Opa recently at a http://www.meetup.com/gamesjs[Game meetup in San Francisco]. This was a great opportunity for Opa to be presented to a new audience. The on-line gaming world is faced with the challenge of the demise of Flash and there is a need to find a new programming language and platform to deliver the best on-line gaming experience in HTML5.
+
+++++
+<img src="img/gamesjs1.jpg" style="float:right; margin-left: 15px" />
+++++
+
+Why would you want to use Opa for writing games? Well, for a number of reasons:
+
+- Opa is high-level and very concise. That means that, once you're fluent in it, you can make things happen _real_ fast. This increased productivity is very important for games, where you often need to experiment, prototype and evaluate many different approaches.
+- Real-time communication with the server and between the players is a must in interactive, multi-player games. Opa's sessions make it as easy as it gets to set-up this kind of communication (I'll try to talk more about that in one of the upcoming technical posts).
+- Games are not the easiest type of software to write: highly interactive, distributed among multiple-players, often involving intricate logic... Things are complex enough as it is, so why not get a boost of a strongly-typed language that will detect big part of programming mistakes already at compilation time?
+
+++++
+<img src="img/gamesjs2.jpg" style="float:left; margin-right: 25px" />
+++++
+
+There are already a number of great HTML5 games written in Opa and available open source: (entries below link to the sources on GitHub)
+
+- https://github.com/mattgu74/OpaTetris[Tetris], roughly 600 lines of code.
+- https://github.com/HenJi/OPAcman[Pac Man], roughly 1,100 lines of code.
+- https://github.com/mads379/opa-chess[Chess], roughly 1,100 lines of code.
+- http://poker.mlstate.com/[Opa poker] (not open-source).
+
+Do you want to add yours to the list? :)
+
+Below you can see the meetup video (Henri's presentation starts at minute 56).
+
+++++
+<div style="text-align: center">
+  <iframe src="http://www.ustream.tv/embed/recorded/20318025" width="608" height="368" scrolling="no" frameborder="0" style="border: 0px none transparent;"></iframe>
+</div>
+++++
