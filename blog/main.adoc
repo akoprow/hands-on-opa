@@ -86,13 +86,13 @@ include::live_room.adoc[]
 include::plugins_jquery_ui.adoc[]
 
 include::challenge_OpaChess.adoc[]
-////
 
 include::gamesjs.adoc[]
+////
+
+include::opa_s4.adoc[]
 
 ////
-include::opa_vs_node_js.adoc[]
-
 include::challenge_OpaDo.adoc[]
 
 include::challenge_box.adoc[]

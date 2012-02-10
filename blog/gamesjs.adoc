@@ -24,7 +24,7 @@ There are already a number of great HTML5 games written in Opa and available ope
 - https://github.com/mads379/opa-chess[Chess], roughly 1,100 lines of code.
 - http://poker.mlstate.com/[Opa poker] (not open-source).
 
-Do you want to add yours to the list? :)
+Do you want to add yours to http://opalang.org/see.xmlt[the list]? :)
 
 Below you can see the meetup video (Henri's presentation starts at minute 56).
 
