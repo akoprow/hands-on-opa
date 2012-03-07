@@ -2,13 +2,15 @@
 Spotlight on Opa app: OpaDo by Tristan Sloughter
 ------------------------------------------------
 
+We <<chapter_OpaChess, continue>> our presentation of the winning apps of the <<chapter_challenge_results, Opa Developer Challenge>>. Today is time for OpaDo, the 2nd place winning entry by Tristan Sloughter. OpaDo is a TODO list, that started as a clone of http://addyosmani.github.com/todomvc[TodoMVC], but then Tristan added some cool features, such as user accounts and even Facebook authentication. We really liked this app as it does what it's supposed to do and does it well. We also appreciated the fact that Tristan wrote a http://blog.erlware.org/author/kungfooguru[series of blog posts] on developing OpaDo - be sure to check it out. We're also, together with the author, working on some extensions -- stay tuned for details!
+
 Try OpaDo!
 ~~~~~~~~~~
 
-For your convenience we've embedded the game in this post, but for best results we suggest you open it by following http://monster.iserver.pro:5022[this link].
+For your convenience we've embedded the game in this post, but for best results we suggest you go to http://opado.org.
 
 ++++
-<IFRAME height="400" width="700" src="http://monster.iserver.pro:5022"></IFRAME>
+<IFRAME height="480" width="700" src="http://opado.org"></IFRAME>
 ++++
 
 Interview with the author: Tristan Sloughter
