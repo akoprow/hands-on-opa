@@ -88,19 +88,23 @@ include::plugins_jquery_ui.adoc[]
 include::challenge_OpaChess.adoc[]
 
 include::gamesjs.adoc[]
-////
 
 include::opa_s4.adoc[]
 
-////
 include::challenge_OpaDo.adoc[]
 
+include::opa_s4_syntax.adoc[]
+
+include::node_vs_opa.adoc[]
+////
+
+////
 include::challenge_box.adoc[]
 
 include::talking_about_us.adoc[]
+////
 
 include::facebook_01.adoc[]
-////
 
 //include::image_p4_event_based_programming.adoc[]
 
