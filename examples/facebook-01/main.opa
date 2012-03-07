@@ -43,7 +43,7 @@ server config =
   case {some: config}: config
   default:
      // In case we fail, we display an error message
-    Log.error("webshell[config]", "Cannot read Facebook configuration (application id and/or secret key)
+    Log.error("Facebook[config]", "Cannot read Facebook configuration (application id and/or secret key)
 Please re-run your application with: --fb-config option")
      // ... and quite
     System.exit(1)

@@ -11,7 +11,8 @@ You will learn how to:
 * use Opa's Facebook API to connect with user's Facebook account.
 * write a simple Opa app that will show given user's name and thumbnails of her friends (both data obtained from Facebook).
 * use Bootstrap to get a nice UI easily.
-* use database to store Facebook app configuration (which should not be visible in the source code) and how to use application's command line arguments to initialize it.
+* use database to store Facebook app configuration, which should not be visible in the source code...
+* and how to use application's command line arguments to initialize it.
 =======================
 
 Setting up a Facebook app
@@ -33,7 +34,7 @@ Then (possibly after answering a Captcha) you will be presented with the followi
 
 image::img/fb_app_settings.png[]
 
-Firstly note on the top of the screen the ``App ID'' and ``App Secret'' (they're blurred in the screenshot as the secret *should not be shared* with anyone) -- we will need those values in a minute. Then in the ``Select how your app integrates with Facebook'' section (bottom of the screen; note that we cut out the ``Basic info'' and ``Cloud services'' sections of the settings in the screenshot) select the ``Website'' mark, put the URL at which your application will be hosted -- it's important to get that right as the Facebook login will only redirect to this site's URL -- and click ``Save changes''.
+Firstly note on the top of the screen the ``App ID'' and ``App Secret'' (they're blurred in the screenshot as the secret *should not be shared* with anyone) -- we will need those values in a minute. Then in the ``Select how your app integrates with Facebook'' section (bottom of the screen; note that we cut out the ``Basic info'' and ``Cloud services'' sections of the settings in the screenshot) select the ``Website'' mark, put the URL at which your application will be hosted -- it's important to get that right as the Facebook login will only redirect to this site's URL -- and click ``Save changes''. If you will be testing your application locally, on the default port of Opa (+8080+) then you should put as an URL: +http://localhost:8080+
 
 Ok, we're all set on the Facebook side; now let's do some Opa coding!
 
@@ -75,6 +76,8 @@ FBG = FbGraph
 redirect = "http://facebook-01.tutorials.opalang.org/connect"
 ------------------------
 
+This tutorial will end up being hosted at the domain name indicated in the +redirect+ address above; again if you're just playing with it locally then you should rather use +http://localhost:8080/connect+ as a redirect URL.
+
 We will have two pages in our application: the initial screen and the page where Facebook will redirect to upon completing authentication. Let's write a URL dispatcher for our app.
 
 [source, opa]
@@ -85,9 +88,9 @@ case .* -> main() |> page
 }
 ------------------------
 
-The +/connect+ page is where we are redirected upon completing authentication (see the +redirect+ variable before); it will have an extra parameter after the question mark, which is the Facebook authentication token that we will use for all functionality requiring Facebook login (in our app: to get some data about the logged-in user). Any other URL in our sample app is handled with the welcome screen that we created above. The +page+ function is just a simple wrapper to create an HTML-page resource (we skip it here but we encourage curious readers to consult the complete listing at the end of the article).
+The +/connect+ page is where we are redirected upon completing authentication (see the +redirect+ variable before); it will have an extra parameter after the question mark, which is the Facebook authentication token that we will use for all functionality requiring Facebook login (in our app: to get some data about the logged-in user). Any other URL in our sample app is handled with the welcome screen that we will create in a minute. The +page+ function is just a simple wrapper to create an HTML-page resource (we skip it here but we encourage curious readers to consult the complete listing at the end of the article).
 
-Finally the +connect+ function that takes as an argument the part of the URL after the question mark. First we need to extract a token from this string with
+The +connect+ function takes as an argument the part of the URL after the question mark. First we need to extract a token from this string with
 
 [source, opa]
 ------------------------
@@ -139,7 +142,7 @@ First the database declaration; easy enough:
 database Facebook.config /facebook_config
 ------------------------
 
-Now we want read this configuration upon starting the program and if it's missing complain and stop the application.
+Now we want to read this configuration upon starting the program and if it's missing complain and stop the application.
 
 [source, opa]
 ------------------------
@@ -150,16 +153,16 @@ server config =
   case {some: config}: config
   default:
      // In case we fail, we display an error message
-    Log.error("webshell[config]", "Cannot read Facebook configuration (application id and/or secret key)
+    Log.error("Facebook[config]", "Cannot read Facebook configuration (application id and/or secret key)
 Please re-run your application with: --fb-config option")
      // ... and quite
     System.exit(1)
   }
 ------------------------
 
-We declare a global value +config+, so it will be initialized before server execution. Instead of a regular DB read +/facebook_config+ we prefix it with question mark (+?+), which results in returning an option type, with +none+ given if the value of the given database path has not been intialized (regular read, would just return default value here). Finally we use the +Log+ to display the error message and quit the program with +System.exit+ (that's what we needed the +stdlib.system+ import for).
+We declare a global value +config+, so it will be initialized before server execution. Instead of a regular DB read +/facebook_config+ we prefix it with question mark (+?+), which results in returning an option type, with +none+ given if the value of the given database path has not been initialized (regular read, would just return default value here). Finally we use the +Log+ to display the error message and quit the program with +System.exit+ (that's what we needed the +stdlib.system+ import for).
 
-Ok, now it's time to actually handle the +--fb-config+ command line argument that we mentioned in the error message. Command line arguments in Opa application are grouped into families (each family grouping arguments for a certain type of app functionality). We will now defibe such a family:
+Ok, now it's time to actually handle the +--fb-config+ command line argument that we mentioned in the error message. Command line arguments in Opa applications are grouped into families (each family grouping arguments for a certain type of app functionality). We will now describe such a family:
 
 [source, opa]
 ------------------------
@@ -182,11 +185,11 @@ fb_cmd_args =
   }
 ------------------------
 
-A family consists of its name (+title+), a list of parsers for anonymous arguments (+anonymous+), a list of parsers for non-anonymous arguments (+parsers+) and the initial state of the family (+init+). Command line parsing is based on the notion of a state. The family starts with the initial state, which then can be modified by the encountered arguments. Since we want to react to arguments by storing them in the database, in our example use empty state (+void+) that will never be modified.
+A family consists of its name (+title+), a list of parsers for anonymous arguments (+anonymous+), a list of parsers for non-anonymous arguments (+parsers+) and the initial state of the family (+init+). Command line parsing is based on the notion of a state. The family starts with the initial state, which then can be modified by the encountered arguments. Since we want to react to arguments by storing them in the database, in our example we will use empty state (+void+) and will never modify it.
 
 Few words on the +parsers+ field. It contains a list of parsers that can usually be defined by extending +CommandLine.default_parser+. The fields contain: synonymous names of the argument this parser handles (+names+), description of the argument (+description+) and its parameters (+param_doc+), both to be used in the documentation and +on_param+ which is a parser for the argument, parametrized by the current state (+state+). In our case we just parse parameters of the shape +APP_ID,APP_SECRET+, store the results in the database and indicate that there will be no more parameters following.
 
-If you want to learn more about command line parsing in Opa then http://doc.opalang.org/#!/module/stdlib.core.args/CommandLine[CommandLine module] is a grea place to start.
+If you want to learn more about command line parsing in Opa then http://doc.opalang.org/#!/module/stdlib.core.args/CommandLine[CommandLine module] is a great place to start.
 
 Putting it all together
 ~~~~~~~~~~~~~~~~~~~~~~~
