@@ -1,1 +1,1 @@
-opa --parser js-like _config.opa main.opa -o facebook-01.exe
+opa --parser js-like main.opa -o facebook-01.exe
