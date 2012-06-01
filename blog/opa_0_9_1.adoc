@@ -1,0 +1,18 @@
+[[chapter_opa_0_9_1]]
+New release: Opa 0.9.1
+----------------------
+
+_(New to Opa? Read <<chapter_hello_opa, this>> to learn what it's all about_)
+
+Today we just published a new release: Opa 0.9.1. You're welcome to consult the http://opalang.org/resources/changelog.xmlt[CHANGELOG] for a complete list of changes but the highlights include:
+
+* Improved +opa-translate+ tool for conversion between old & new syntax.
+* Ability to mix db3 and mongo backends in a single Opa program.
+* Feature to automatically download, install and launch a MongoDB instance (+--db-local+).
+* Experimental feature: remote logging (logs send to a remote server).
+* Unification of runtime types (and fixed 'magic' functions).
+* Better handling of Twitter's Bootstrap CSS (included in the app instead of referencing external resource) and updating it to 2.0.
+* Added hooks to register favicons (much the same as custom CSS and JS).
+* Numerous bug fixes.
+
+As usual you can http://opalang.org/get.xmlt[download it], http://forum.opalang.org/[discuss with us], https://github.com/MLstate/opalang/issues[report problems] and https://github.com/MLstate/opalang/pulls[provide contributions]. Happy Opa hacking!

@@ -1,0 +1,22 @@
+[[chapter_opa_0_9_23]]
+New release: Opa 0.9.3
+----------------------
+
+_(New to Opa? Read <<chapter_hello_opa, this>> to learn what it's all about_)
+
+A new version of Opa has just been released, Opa 0.9.3. Since in the rush we missed the announcement for Opa 0.9.2 let me summarize major changes since 0.9.1:
+
+* *New platforms: Windows* (thanks https://github.com/shadinger[shadinger]) and FreeBSD (thanks Jeremy Messenger),
+* *MongoDB* officially becomes the *default database* backend in Opa,
+* Lots of improvements to *HTML5-compliance*,
+* Initial Opa plugin for https://github.com/OpaOnWindowsNow/OpaSublimeText/downloads[Sublime Text 2],
+* Sub-paths, projections, +ifexists+, +exists+ and more extensions in database queries,
+* Bootstrap and http://doc.opalang.org/package/stdlib.widgets.bootstrap[Bootstrap widgets] updated to 2.0.3,
+* 4 first chapters of the manual translated to Chinese (thanks Li Wenbo),
+* PUT/DELETE methods handled by the HTTP server,
+* IMAP/SMTP clients,
+* New package http://doc.opalang.org/package/stdlib.core.concurrency[stdlib.core.concurrency] providing server-side concurrency primitives,
+* Scheduling policy updated to improve level of concurrency,
+* and numerous bug fixes.
+
+Lots of stuff happening! And that was just a rough summary; you're welcome to consult the http://opalang.org/resources/changelog.xmlt[CHANGELOG] for a more complete list of changes. Also, as usual, you can http://opalang.org/get.xmlt[download Opa], http://forum.opalang.org/[discuss it with us], https://github.com/MLstate/opalang/issues[report problems] and https://github.com/MLstate/opalang/pulls[provide contributions].
