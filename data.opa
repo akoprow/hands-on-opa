@@ -339,6 +339,7 @@ units : example =      { name="unit_conv"           port=5017 article=some(unit_
 units_plus : example = { name="unit_conv_plus"      port=5018 article=some(unit_conv_plus)    srcs=@static_include_directory("examples/unit_converter_plus") details={descr=units_descr deps=[units]}}
 hello_i18n : example = { name="i18n"                port=5019 article=some(i18n)              srcs=@static_include_directory("examples/hello_i18n")          details={descr=i18n_descr deps=[]}}
 // challenge apps: 5020, 5021, 5022, 5023, 5024, 5025, 5026, 5027
+// HOWTOs: 5050
 opa_chat : example =   { name="opa_chat"            port=5028 article=none                    srcs=@static_include_directory("examples/opa_chat")            details={invisible}}
 fb1 : example      =   { name="facebook-01"         port=5029 article=none                    srcs=@static_include_directory("examples/facebook-01")         details={invisible}}
 resizable : example=   { name="resizable"           port=5030 article=none                    srcs=@static_include_directory("examples/resizable")           details={invisible}}

@@ -95,22 +95,37 @@ include::challenge_OpaDo.adoc[]
 
 include::opa_s4_syntax.adoc[]
 
-include::node_vs_opa.adoc[]
+include::opa_0_9_1.adoc[]
+
+include::howtos.adoc[]
+
+include::ux_experience.adoc[]
 ////
 
-////
-include::challenge_box.adoc[]
+include::opa_0_9_23.adoc[]
 
-include::talking_about_us.adoc[]
-////
+//include::challenge_box.adoc[]
 
-include::facebook_01.adoc[]
+//include::facebook_01.adoc[]
 
 //include::image_p4_event_based_programming.adoc[]
 
 //include::js_crash_course.adoc[]
 
 //include::db_wiki.adoc[]
+
+//include::mojito_meteor.adoc[]
+
+////
+*** Not published on the blog:
+
+include::node_vs_opa.adoc[]
+////
+
+////
+*** Not published at all:
+include::talking_about_us.adoc[]
+////
 
 ////
 Pending posts

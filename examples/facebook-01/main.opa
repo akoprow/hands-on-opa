@@ -38,7 +38,7 @@ fb_cmd_args =
 CommandLine.filter(fb_cmd_args)
 
  // We try to read Facebook configuration from the database
-server config =
+server protected config =
   match (?/facebook_config) {
   case {some: config}: config
   default:

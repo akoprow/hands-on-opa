@@ -1,14 +1,20 @@
 [[chapter_box]]
-Spotlight on Opa app: box by Vimalkumar Jeyakumar
--------------------------------------------------
+Spotlight on Opa app: boxopa by Vimalkumar Jeyakumar
+----------------------------------------------------
+
+Recently we presented <<chapter_OpaDo, OpaDo>>, the second place winner in the Opa Developer Challenge. Today is time for the winner.
+
+The jury had a hard task of choosing the winner but in the end it settled for boxopa by Vimalkumar Jeyakumar. This is a file-sharing app, which upon opening gives you a ``box'' to which you can put any files you like and which you can subsequently share with anyone you like via its designated URL. The app was not only well thought but also very practical -- web file sharing made easy.
+
+Below we present the application followed by interview with its author.
 
 Try box!
 ~~~~~~~~
 
-For your convenience we've embedded the game in this post, but for best results we suggest you open it by following http://monster.iserver.pro:5024[this link].
+For your convenience we've embedded the app in this post, but for best results we suggest you open it by following http://boxopa.challenge.opalang.org[this link].
 
 ++++
-<IFRAME height="400" width="700" src="http://monster.iserver.pro:5024"></IFRAME>
+<IFRAME height="500" width="700" src="http://boxopa.challenge.opalang.org"></IFRAME>
 ++++
 
 Interview with the author: Vimalkumar Jeyakumar
