@@ -100,9 +100,11 @@ include::opa_0_9_1.adoc[]
 include::howtos.adoc[]
 
 include::ux_experience.adoc[]
-////
 
 include::opa_0_9_23.adoc[]
+////
+
+include::opa-create.adoc[]
 
 //include::challenge_box.adoc[]
 

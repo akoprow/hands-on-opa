@@ -1,26 +1,29 @@
 [[chapter_opa_create]]
-= The creation of a new Opa project is now even easier
+== Creation of Opa projects is now easier than ever
 
-= Introduction
+=== Introduction
 
-To compile and run a single file you just need to type:
+To compile and run a single file all you just need to type is:
+
 ----
 $ opa hello_world.opa --
 ----
 
-But when your application becomes bigger you will probably need to:
+But when your application becomes bigger you will probably additionally  need to:
 
-- add a resources directory with pictures and css files
-- split your project into several files
-- group those files into different packages
-- create a Makefile
+- add a `resources` directory with images and css files,
+- split your project into several files,
+- group those files into different packages,
+- and create a Makefile.
 
-= Generate a full Opa project
+=== Generate a full Opa project
 
 Now Opa is able to generate all the required architecture from a single command line:
+
 ----
 $ opa create myapp
 ----
+
 It will create a new `myapp` directory and generate all those files:
 
 ----
@@ -33,16 +36,16 @@ src/model.opa
 src/view.opa
 ----
 
-The source code comes by default with everything to get started, in particularly:
+The source code comes charged with everything you need to get started, in particular:
 
-- a database declaration
-- a static include of the `resources` directory
-- the appropriate URL parser
-- two bootstraped pages as an example: a wiki and a statistics panel
+- a database declaration,
+- a static include of the `resources` directory,
+- the appropriate URL parsers,
+- two bootstraped pages as an example: a wiki and a statistics panel.
 
-== Configuration file
+=== Configuration file
 
-The generated application follows a MVC design.
+The generated application follows the MVC design.
 Let's take the opportunity to have a closer look at the generated configuration file:
 
 ----
@@ -59,25 +62,24 @@ myapp.model:
         src/model.opa
 ----
 
-When you use such a configuration file, you don't need to write "package myapp.controller" and "import myapp.view" at the beginning your .opa files.
-Everything is centralized into a single file. Just use the --conf option to use it.
+When you use such a configuration file, you don't need to write package declarations (such as `package myapp.controller` and `import myapp.view`) at the beginning of your `.opa` files.
+Everything is centralized into a single configure file; just add the `--conf` option when invoking `opa` compiler to use it.
 
-= Compile and run
+=== Compile and run
 
-If you generated the application with `opa create`, it can already be compiled and runned:
+If you generated the application with `opa create`, it can be compiled and executed very easily:
 
 ----
 $ cd myapp
 $ make run
 ----
 
-The generated Makefile contains the `--db-local db` runtime option. It will automatically download and start mongoDB on first startup. If you already have mongoDB installed and running, edit the Makefile and use `--db-remote host:port` option, or no option to use the defaut mongoDB port on localhost.
+The generated Makefile contains the `--db-local db` runtime option, which means it will automatically download and start mongoDB on first startup. If you already have mongoDB installed and running, edit the Makefile and use `--db-remote host:port` option, or no option to use the defaut mongoDB port on localhost.
 
-= Try and contribute!
+=== Try and contribute!
 
-The tool should reach github within too days in the opalang repository, in the tools folder.
-And you can already try the preview installing a nightly, starting from build 1885.
+You can find the sources of the tool should in the https://github.com/MLstate/opalang[opalang reposity] on github, more specifically in the https://github.com/MLstate/opalang/tree/master/tools/opa-create[`tools/opa-create`] folder.
+You can already try the preview installing a nightly (build 1885 or later).
 
-In the future we can imagine adding new templates and new options like `--author myname`, `--no-mvc`, `--example chat`, etc
-
-All suggestions and contributions are welcomed! The tool itself is written in Opa, so you can even brush up your Opa skills while doing so!
+In the future we can imagine adding new templates and new options like `--author myname`, `--no-mvc`, `--example chat`, etc.
+All suggestions and contributions are welcome! The tool itself is written in Opa, so you can even brush up your Opa skills while contributing!
