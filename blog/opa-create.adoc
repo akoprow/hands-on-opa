@@ -1,0 +1,83 @@
+[[chapter_opa_create]]
+= The creation of a new Opa project is now even easier
+
+= Introduction
+
+To compile and run a single file you just need to type:
+----
+$ opa hello_world.opa --
+----
+
+But when your application becomes bigger you will probably need to:
+
+- add a resources directory with pictures and css files
+- split your project into several files
+- group those files into different packages
+- create a Makefile
+
+= Generate a full Opa project
+
+Now Opa is able to generate all the required architecture from a single command line:
+----
+$ opa create myapp
+----
+It will create a new `myapp` directory and generate all those files:
+
+----
+Makefile
+Makefile.common
+configuration
+resources/css/style.css
+src/controller.opa
+src/model.opa
+src/view.opa
+----
+
+The source code comes by default with everything to get started, in particularly:
+
+- a database declaration
+- a static include of the `resources` directory
+- the appropriate URL parser
+- two bootstraped pages as an example: a wiki and a statistics panel
+
+== Configuration file
+
+The generated application follows a MVC design.
+Let's take the opportunity to have a closer look at the generated configuration file:
+
+----
+myapp.controller:
+        import myapp.view
+        src/controller.opa
+
+myapp.view:
+        import myapp.model
+        import stdlib.themes.bootstrap
+        src/view.opa
+
+myapp.model:
+        src/model.opa
+----
+
+When you use such a configuration file, you don't need to write "package myapp.controller" and "import myapp.view" at the beginning your .opa files.
+Everything is centralized into a single file. Just use the --conf option to use it.
+
+= Compile and run
+
+If you generated the application with `opa create`, it can already be compiled and runned:
+
+----
+$ cd myapp
+$ make run
+----
+
+The generated Makefile contains the `--db-local db` runtime option. It will automatically download and start mongoDB on first startup. If you already have mongoDB installed and running, edit the Makefile and use `--db-remote host:port` option, or no option to use the defaut mongoDB port on localhost.
+
+= Try and contribute!
+
+The tool should reach github within too days in the opalang repository, in the tools folder.
+And you can already try the preview installing a nightly, starting from build 1885.
+
+In the future we can imagine adding new templates and new options like `--author myname`, `--no-mvc`, `--example chat`, etc
+
+All suggestions and contributions are welcomed! The tool itself is written in Opa, so you can even brush up your Opa skills while doing so!
